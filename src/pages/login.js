@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
+import axios from '@/custom/axios'
 
 const login = () => {
 
@@ -18,8 +19,13 @@ const login = () => {
         })
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
+
+        await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
+        .then(res => console.log(res))
+
+        setUser(initialUser)
     }
 
   return (
