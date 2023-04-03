@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
+import Home from './home'
 
 const login = () => {
 
@@ -49,6 +50,12 @@ const login = () => {
 
   return (
     <div className='h-screen w-full flex flex-col items-center justify-center'>
+        { auth.token ? 
+        <>
+        <Home />
+        </>
+        :
+        <>
         <p className='text-5xl font-extrabold mb-2'>Log In</p>
         <form className='form' onSubmit={handleLogin}>
             <label>Email:</label>
@@ -59,6 +66,8 @@ const login = () => {
         </form>
             <p className='text-red-600'>{errorMessage}</p>
             <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Don't have an account? Register here</Link>
+        </>
+        }
     </div>
   )
 }
