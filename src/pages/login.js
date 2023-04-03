@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
 import Home from './home'
+import { getCookie } from 'cookies-next'
 
 const login = () => {
 
@@ -13,11 +14,13 @@ const login = () => {
         password: ''
     }
 
+    const tokenCookie = Cookies.get('token')
     const router = useRouter()
     const { setAuth, auth } = useContext(AuthContext)
     const [user, setUser] = useState(initialUser)
     const [errorMessage, setErrorMessage] = useState('')
 
+    // CHANGE HANDLER FOR INPUT BOXES
     const handleChange = (e) => {
         const { name, value } = e.target
         setUser({
@@ -26,6 +29,12 @@ const login = () => {
         })
     }
 
+    //CHECKS FOR TOKEN, IF TOKEN EXITS REDIRECTS TO HOME
+    useEffect(() => {
+        if (tokenCookie) router.push('/home')
+    }, [])
+
+    //LOGS USER IN
     const handleLogin = async (e) => {
         e.preventDefault()
         setErrorMessage('')
@@ -44,18 +53,11 @@ const login = () => {
                 setErrorMessage('Wrong password or email')
             }
         })
-
         setUser(initialUser)
     }
 
   return (
     <div className='h-screen w-full flex flex-col items-center justify-center'>
-        { auth.token ? 
-        <>
-        <Home />
-        </>
-        :
-        <>
         <p className='text-5xl font-extrabold mb-2'>Log In</p>
         <form className='form' onSubmit={handleLogin}>
             <label>Email:</label>
@@ -66,8 +68,6 @@ const login = () => {
         </form>
             <p className='text-red-600'>{errorMessage}</p>
             <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Don't have an account? Register here</Link>
-        </>
-        }
     </div>
   )
 }

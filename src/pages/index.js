@@ -1,9 +1,40 @@
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
+import { useEffect, useContext } from 'react'
+import Cookies from 'js-cookie'
+import axios from '@/custom/axios'
+import AuthContext from '@/custom/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
+
+
 export default function Home() {
+
+  const { setAuth, auth } = useContext(AuthContext)
+  
+  useEffect(() => {
+  
+    const tokenCookie = Cookies.get('token')
+    const emailCookie = Cookies.get('email')
+    console.log(tokenCookie)
+  
+      axios.get(`/api/user/${emailCookie}`)
+      .then(res => {
+  
+        const { name, email, isAdmin } = res?.data
+  
+        setAuth({
+          name: name,
+          email: email,
+          isAdmin: isAdmin,
+          token: tokenCookie
+        })
+        console.log(auth)
+      })
+  }, [])
+
+  
   return (
     <div className='bg-white'>
       <div className='h-screen relative'> 

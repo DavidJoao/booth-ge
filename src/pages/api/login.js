@@ -1,6 +1,8 @@
 const User = require('../../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+import Cookies from 'js-cookie';
+import { setCookie } from 'cookies-next'
 
 export default async function(req, res, next) {
     const { email, password } = req.body;
@@ -20,6 +22,7 @@ export default async function(req, res, next) {
             isAdmin: foundUser.isAdmin
         }
 
+        res.setHeader('Set-Cookie', `token=${token}; Max-Age=1h; Path=/`)
         res.json(userObject)
 
     } catch (error) {
