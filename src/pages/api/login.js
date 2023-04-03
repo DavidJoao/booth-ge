@@ -24,5 +24,6 @@ export default async function(req, res, next) {
 
     } catch (error) {
         console.log(error)
+        res.status(400).json({ error: 'Wrong password or email' })
     }
 }

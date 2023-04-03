@@ -1,6 +1,9 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
+import Cookies from 'js-cookie'
+import { AuthContext } from '@/custom/AuthProvider'
 
 const login = () => {
 
@@ -9,7 +12,10 @@ const login = () => {
         password: ''
     }
 
+    const router = useRouter()
+    const { setAuth, auth } = useContext(AuthContext)
     const [user, setUser] = useState(initialUser)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -21,9 +27,22 @@ const login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-
+        setErrorMessage('')
         await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res)
+            const { email, token, isAdmin, name } = res?.data
+            if (token) {
+                setAuth({ email, token, name, isAdmin })
+                Cookies.set('email', email)
+                router.push('/home')
+            }
+        })
+        .catch(err => {
+            if (err.response.status == 400) {
+                setErrorMessage('Wrong password or email')
+            }
+        })
 
         setUser(initialUser)
     }
@@ -38,6 +57,7 @@ const login = () => {
             <input name='password' value={user.password} type={'password'} className="input" onChange={handleChange}/>
             <button className='buttons mx-auto mt-3'>Login</button>
         </form>
+            <p className='text-red-600'>{errorMessage}</p>
             <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Don't have an account? Register here</Link>
     </div>
   )
