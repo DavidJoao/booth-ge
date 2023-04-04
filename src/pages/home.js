@@ -1,8 +1,7 @@
 import AuthContext from '@/custom/AuthProvider'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import Cookies from 'js-cookie'
 import CheckSession from '@/custom/CheckSession'
 
 const Home = () => {
@@ -12,6 +11,7 @@ const Home = () => {
 
     useEffect(() => {
       CheckSession(AuthContext, setAuth)
+      if (!auth.token) router.push('/login')
     }, [])
 
   return (

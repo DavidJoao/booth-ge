@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
-import Home from './home'
-import { getCookie } from 'cookies-next'
 
 const login = () => {
 
@@ -40,7 +38,6 @@ const login = () => {
         setErrorMessage('')
         await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
-            console.log(res)
             const { email, token, isAdmin, name } = res?.data
             if (token) {
                 setAuth({ email, token, name, isAdmin })
