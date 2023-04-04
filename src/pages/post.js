@@ -36,7 +36,11 @@ const post = () => {
         e.preventDefault()
 
         try {
+            axios.post('/api/jobsite/post', JSON.stringify(jobPost), { headers: { 'Content-Type': 'application/json' } })
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
 
+            setJobPost(initialPost)
         } catch (error) {
             console.log(error)
         }
