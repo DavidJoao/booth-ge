@@ -20,7 +20,7 @@ export default function Home() {
                 <Link href={'/register'} className='buttons'>Register</Link>
             </div>
         </div>
-        <div className='w-full h-auto sm:h-[40vh] flex flex-col justify-center sm:justify-start items-center p-4 text-white' style={{ background:"url('https://w0.peakpx.com/wallpaper/591/641/HD-wallpaper-light-glare-brown-wavy-lines-in-dark-brown-background-brown-aesthetic.jpg')", backgroundPosition:'center' }}>
+        <div className='w-full h-auto sm:h-[40vh] flex flex-col justify-center sm:justify-start items-center p-4 text-white bg-[url("https://w0.peakpx.com/wallpaper/591/641/HD-wallpaper-light-glare-brown-wavy-lines-in-dark-brown-background-brown-aesthetic.jpg")] bg-center' >
             <h1 className='text-5xl font-extrabold'>Contact Us</h1>
             <p>Want to learn more about our services or have a question about your project? Contact us using the information below:</p>
             <p>Phone: xxx-xxx-xxx</p>

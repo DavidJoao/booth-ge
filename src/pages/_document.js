@@ -1,9 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { AuthProvider } from '@/custom/AuthProvider'
 
 export default function Document() {
   return (
-    <AuthProvider>
       <Html lang="en">
         <Head />
         <body>
@@ -11,6 +9,5 @@ export default function Document() {
           <NextScript />
         </body>
       </Html>
-    </AuthProvider>
   )
 }
