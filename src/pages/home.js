@@ -1,7 +1,6 @@
 import AuthContext from '@/custom/AuthProvider'
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import CheckSession from '@/custom/CheckSession'
 
 const Home = () => {
@@ -16,12 +15,7 @@ const Home = () => {
 
   return (
     <div>
-        {auth.token ? 
-        <>
         <h1>Welcome {auth.name}</h1>
-        </>
-        :
-        <Link href={'/login'}>Please, log in</Link>}
     </div>
   )
 }

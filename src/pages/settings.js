@@ -1,28 +1,24 @@
-import Navbar from '@/components/Navbar'
 import { useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
-import Link from 'next/link'
 import CheckSession from '@/custom/CheckSession'
+import { useRouter } from 'next/router'
 
 const settings = () => {
 
-  const { auth, setAuth } = useContext(AuthContext)
+  	const { auth, setAuth } = useContext(AuthContext)
+  	const router = useRouter()
 
-  useEffect(() => {
-    CheckSession(AuthContext, setAuth)
-  })
+  	useEffect(() => {
+    	CheckSession(AuthContext, setAuth)
+    	if (!auth.token) router.push('/login')
+  	})
 
 
-  return (
-    <div>
-        {auth.token ? 
-        <>
-        <h1>Settings</h1>
-        </>
-        :
-        <Link href={'/login'}>Please, log in</Link>}
-    </div>
-  )
+  	return (
+    	<div>
+      	<h1>Settings</h1>
+    	</div>
+  	)
 }
 
 export default settings
