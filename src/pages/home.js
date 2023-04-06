@@ -9,13 +9,13 @@ const Home = () => {
     const router = useRouter()
 
     useEffect(() => {
-      CheckSession(AuthContext, setAuth)
       if (!auth.token) router.push('/login')
+      CheckSession(AuthContext, setAuth)
     }, [])
 
   return (
     <div>
-        <h1>Welcome {auth.name}</h1>
+        <h1>Welcome {auth && auth.name}</h1>
     </div>
   )
 }

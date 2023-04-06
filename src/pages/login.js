@@ -14,7 +14,7 @@ const login = () => {
 
     const tokenCookie = Cookies.get('token')
     const router = useRouter()
-    const { setAuth, auth } = useContext(AuthContext)
+    const { setAuth, setTokenCookie } = useContext(AuthContext)
     const [user, setUser] = useState(initialUser)
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -41,6 +41,7 @@ const login = () => {
             const { email, token, isAdmin, name } = res?.data
             if (token) {
                 setAuth({ email, token, name, isAdmin })
+                setTokenCookie(token)
                 Cookies.set('email', email)
                 router.push('/home')
             }

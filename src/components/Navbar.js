@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import AuthContext from '@/custom/AuthProvider'
 import Cookies from 'js-cookie'
@@ -7,11 +7,11 @@ import CheckSession from '@/custom/CheckSession'
 
 const Navbar = () => {
 
-  const { auth, setAuth } = useContext(AuthContext)
+  const { auth, setAuth, setTokenCookie, tokenCookie } = useContext(AuthContext)
   const router = useRouter()
-  const tokenCookie = Cookies.get('token')
 
   useEffect(() => {
+	setTokenCookie(Cookies.get('token'))
 	CheckSession(AuthContext, setAuth)
   }, [])
 
@@ -19,6 +19,7 @@ const Navbar = () => {
 	Cookies.remove('token')
 	Cookies.remove('email')
 	router.push('/')
+	setTokenCookie(null)
   }
   
   return (
