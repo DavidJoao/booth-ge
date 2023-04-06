@@ -12,6 +12,9 @@
   .input{
     @apply p-1 rounded-lg mt-2 text-black
   }
+  .basic-container{
+    @apply flex flex-col bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] p-4 text-white rounded-lg shadow-xl
+  }
 }
 * {
   box-sizing: border-box;
