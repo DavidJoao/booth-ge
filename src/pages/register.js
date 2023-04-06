@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import axios from '@/custom/axios'
+import { useRouter } from 'next/router'
 
 const register = () => {
 
@@ -12,6 +13,7 @@ const register = () => {
     }
 
     const [user, setUser] = useState(initialUser)
+    const router = useRouter()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -28,6 +30,7 @@ const register = () => {
         .then(res => console.log(res))
 
         setUser(initialUser)
+        router.push('/login')
     }
 
   return (
