@@ -9,7 +9,9 @@ const settings = () => {
 
   const { auth, setAuth } = useContext(AuthContext)
   const [users, setUsers] = useState([])
+  const [jobsites, setJobsites] = useState([])
   const router = useRouter()
+  const [showJobsList, setShowJobsList] = useState(false)
 
   useEffect(() => {
     CheckSession(AuthContext, setAuth)
@@ -21,6 +23,11 @@ const settings = () => {
       .then(res => setUsers(res.data))
   }, [])
 
+  useEffect(() => {
+    axios.get('/api/jobsite/all')
+      .then(res => setJobsites(res.data))
+  }, [])
+
 
   return (
     <div className='h-[700px] flex flex-col items-center p-5 basic-container'>
@@ -28,7 +35,9 @@ const settings = () => {
         <div className='w-full h-full grid grid-rows-6 grid-flow-col gap-3 justify-items-center md:justify-items-start shadow-xl'>
         { users && users.map(user => {
             return(
-                <UserCard user={user}/>
+              <div>
+                <UserCard user={user} setShowJobsList={setShowJobsList} showJobsList={showJobsList}/>
+              </div>
             )
             })}
         </div>
