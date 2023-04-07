@@ -3,6 +3,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
+import UserCard from '@/components/UserCard'
 
 const settings = () => {
 
@@ -22,18 +23,14 @@ const settings = () => {
 
 
   return (
-    <div className='border-[1px] border-black h-[700px] flex flex-col'>
-        <div className='h-1/2 flex flex-row items-center p-4 overflow-auto'>
-          { users && users.map(user => {
+    <div className='h-[700px] flex flex-col items-center p-5 basic-container'>
+        <h1 className='font-bold text-2xl border-b-[3px] border-white w-[300px] text-center'>Add people to jobsites</h1>
+        <div className='w-full h-full grid grid-rows-6 grid-flow-col gap-3 justify-items-center md:justify-items-start shadow-xl'>
+        { users && users.map(user => {
             return(
-              <p className='form m-2 w-[200px]'>{user.name}</p>
+                <UserCard user={user}/>
             )
-          })}
-        </div>
-        <div className='h-1/2 flex flex-row items-center p-4 overflow-auto'>
-          <p>one</p>
-          <p>one</p>
-          <p>one</p>
+            })}
         </div>
     </div>
   )

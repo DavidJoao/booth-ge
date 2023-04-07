@@ -2,7 +2,7 @@ import React from 'react'
 
 const JobsiteCard = ( { jobsite } ) => {
   return (
-    <div className='border-[1px] border-black w-[350px] md:w-[500px] h-[650px] basic-container mx-auto'>
+    <div className='border-[1px] border-black w-full md:w-[500px] h-[650px] basic-container m-2'>
         <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl'>{jobsite.name}</h1>
         <div className='border-[1px] border-white p-2 mt-2 rounded-lg h-[70%]'>
             <p>Address: {jobsite.address}</p>
