@@ -24,7 +24,7 @@ const settings = () => {
 	useEffect(() => {
 		axios.get('/api/user/all')
 			.then(res => setUsers(res.data))
-	}, [])
+	}, [router])
 
 	useEffect(() => {
 		axios.get('/api/jobsite/all')
@@ -37,7 +37,7 @@ const settings = () => {
 				<h1 className='font-bold text-2xl border-b-[3px] border-white w-[300px] text-center'>Add people to jobsites</h1>
 				<div className='w-full h-full grid grid-rows-6 grid-flow-col gap-3 justify-items-center md:justify-items-start shadow-xl'>
 				{ users && users.map(user => 
-						<div onClick={() => {
+						<div key={user._id} onClick={() => {
 							setShowJobsList(true)
 							setSelectedUser(user)
 							}}>
@@ -49,8 +49,8 @@ const settings = () => {
 					<Modal.Header>Choose Jobsite for {selectedUser.name}</Modal.Header>
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
-							<div>
-								<JobsiteMiniCard jobsite={jobsite}/>
+							<div key={jobsite._id}>
+								<JobsiteMiniCard selectedUser={selectedUser} jobsite={jobsite}/>
 							</div>
 							) }
 					</Modal.Body>

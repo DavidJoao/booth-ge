@@ -12,14 +12,15 @@ const Home = () => {
     const router = useRouter()
 
     useEffect(() => {
+      axios.get('/api/jobsite/all')
+        .then(res => setJobsites(res.data))
+    }, [])
+
+    useEffect(() => {
       if (!auth.token) router.push('/login')
       CheckSession(AuthContext, setAuth)
     }, [])
 
-    useEffect(() => {
-      axios.get('/api/jobsite/all')
-        .then(res => setJobsites(res.data))
-    }, [])
 
   return (
     <div className='flex flex-col items-center'>
