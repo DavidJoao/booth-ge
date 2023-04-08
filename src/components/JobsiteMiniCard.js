@@ -7,13 +7,14 @@ const JobsiteMiniCard = ( { jobsite, selectedUser, setErrorMessage } ) => {
     const router = useRouter()
 
     const handleUpdate = () => {
+        setErrorMessage('')
         try {
             axios.patch(`/api/jobsite/add/${selectedUser._id}/${jobsite._id}`)
                 .then(res => {
                     router.push('/home')
                 })
                 .catch(err => {
-                    setErrorMessage('User already in jobsite')
+                    setErrorMessage(`${selectedUser.name} already in ${jobsite.name}`)
                 })
         } catch (error) {
             console.log(error)

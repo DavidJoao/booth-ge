@@ -46,7 +46,10 @@ const settings = () => {
 						</div>
 						)}
 				</div>
-				<Modal show={showJobsList} onHide={() => setShowJobsList(false)}>
+				<Modal show={showJobsList} onHide={() => {
+					setShowJobsList(false)
+					setErrorMessage('')
+					}}>
 					<Modal.Header>Choose Jobsite for {selectedUser.name}</Modal.Header>
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
