@@ -59,6 +59,22 @@ const settings = () => {
 							) }
 							<p className='font-bold text-red-600'>{errorMessage}</p>
 					</Modal.Body>
+
+					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
+					{ selectedUser.name === auth.name ? 
+						<></>
+						:
+						<>
+						<Modal.Header>Or</Modal.Header>
+						<Modal.Body>
+							{ selectedUser.isAdmin ? 
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold'>Remove Admin</button>
+							:
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold'>Make Admin</button> 
+							}
+						</Modal.Body>
+						</>
+					}
 				</Modal>
 		</div>
 	)
