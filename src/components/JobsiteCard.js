@@ -1,6 +1,11 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import axios from '@/custom/axios'
 
 const JobsiteCard = ( { jobsite } ) => {
+
+  const router = useRouter()
+
   return (
     <div className='border-[1px] border-black w-full md:w-[500px] h-[650px] basic-container m-2'>
         <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl'>{jobsite.name}</h1>
@@ -12,7 +17,10 @@ const JobsiteCard = ( { jobsite } ) => {
                 return(
                   <div className='flex flex-row items-center justify-between'>
                     <p>{employee}</p>
-                    <button className='bg-red-700 rounded w-[70px]'>remove</button>
+                    <button className='bg-red-700 rounded w-[70px]' onClick={() => {
+                      axios.patch(`/api/jobsite/remove/${employee}/${jobsite._id}`)
+                      
+                    }}>remove</button>
                   </div>
                 )
             })
