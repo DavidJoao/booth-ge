@@ -41,6 +41,7 @@ const post = () => {
                 .catch(err => console.log(err))
 
             setJobPost(initialPost)
+            router.push('/home')
         } catch (error) {
             console.log(error)
         }
