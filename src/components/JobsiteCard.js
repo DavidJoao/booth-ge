@@ -10,7 +10,10 @@ const JobsiteCard = ( { jobsite } ) => {
             <p>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
                 return(
+                  <div className='flex flex-row items-center justify-between'>
                     <p>{employee}</p>
+                    <button className='bg-red-700 rounded w-[70px]'>remove</button>
+                  </div>
                 )
             })
             :
