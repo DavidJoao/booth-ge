@@ -25,7 +25,7 @@ const Home = () => {
         <div className='border-[4px] border-[#3b2c19] w-[350px] md:w-full p-4 flex flex-col items-center md:flex-row overflow-auto rounded mx-auto mt-2'>
           { jobsites && jobsites.map(jobsite => {
             return(
-              <JobsiteCard jobsite={jobsite}/>
+              <JobsiteCard jobsite={jobsite} auth={auth}/>
             )
           }) }
         </div>
