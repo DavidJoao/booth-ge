@@ -2,16 +2,19 @@ import axios from '@/custom/axios'
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const JobsiteMiniCard = ( { jobsite, selectedUser } ) => {
+const JobsiteMiniCard = ( { jobsite, selectedUser, setErrorMessage } ) => {
 
     const router = useRouter()
 
     const handleUpdate = () => {
         try {
             axios.patch(`/api/jobsite/add/${selectedUser._id}/${jobsite._id}`)
-                .then(res => console.log(res))
-
-            router.push('/home')
+                .then(res => {
+                    router.push('/home')
+                })
+                .catch(err => {
+                    setErrorMessage('User already in jobsite')
+                })
         } catch (error) {
             console.log(error)
         }

@@ -21,7 +21,6 @@ const Home = () => {
       CheckSession(AuthContext, setAuth)
     }, [])
 
-
   return (
     <div className='flex flex-col items-center'>
         <h1 className='font-bold text-2xl'>Welcome {auth && auth.name}</h1>

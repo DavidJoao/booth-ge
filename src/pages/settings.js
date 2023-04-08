@@ -11,10 +11,11 @@ const settings = () => {
 
 	const { auth, setAuth } = useContext(AuthContext)
 	const [users, setUsers] = useState([])
+	const [showJobsList, setShowJobsList] = useState(false)
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
+	const [errorMessage, setErrorMessage] = useState('')
 	const router = useRouter()
-	const [showJobsList, setShowJobsList] = useState(false)
 
 	useEffect(() => {
 		CheckSession(AuthContext, setAuth)
@@ -50,9 +51,10 @@ const settings = () => {
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard selectedUser={selectedUser} jobsite={jobsite}/>
+								<JobsiteMiniCard selectedUser={selectedUser} jobsite={jobsite} setErrorMessage={setErrorMessage}/>
 							</div>
 							) }
+							<p className='font-bold text-red-600'>{errorMessage}</p>
 					</Modal.Body>
 				</Modal>
 		</div>
