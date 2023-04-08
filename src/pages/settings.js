@@ -25,7 +25,7 @@ const settings = () => {
 	useEffect(() => {
 		axios.get('/api/user/all')
 			.then(res => setUsers(res.data))
-	}, [router])
+	}, [])
 
 	useEffect(() => {
 		axios.get('/api/jobsite/all')

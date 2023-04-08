@@ -14,7 +14,7 @@ const Home = () => {
     useEffect(() => {
       axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
-    }, [])
+    }, [router])
 
     useEffect(() => {
       if (!auth.token) router.push('/login')
