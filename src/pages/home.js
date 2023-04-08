@@ -2,18 +2,15 @@ import AuthContext from '@/custom/AuthProvider'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
-import axios from '@/custom/axios'
 import JobsiteCard from '@/components/JobsiteCard'
 
 const Home = () => {
 
-    const { auth, setAuth } = useContext(AuthContext)
-    const [jobsites, setJobsites] = useState([])
+    const { auth, setAuth, jobsites, loadAll } = useContext(AuthContext)
     const router = useRouter()
 
     useEffect(() => {
-      axios.get('/api/jobsite/all')
-        .then(res => setJobsites(res.data))
+      loadAll()
     }, [router])
 
     useEffect(() => {

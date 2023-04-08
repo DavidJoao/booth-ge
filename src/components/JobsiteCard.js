@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
+import AuthContext from '@/custom/AuthProvider'
 
 const JobsiteCard = ( { jobsite } ) => {
 
   const router = useRouter()
+  const { loadAll } = useContext(AuthContext)
 
   return (
     <div className='border-[1px] border-black w-full md:w-[500px] h-[650px] basic-container m-2'>
@@ -19,7 +21,7 @@ const JobsiteCard = ( { jobsite } ) => {
                     <p>{employee}</p>
                     <button className='bg-red-700 rounded w-[70px]' onClick={() => {
                       axios.patch(`/api/jobsite/remove/${employee}/${jobsite._id}`)
-                      
+                        .then(res => loadAll())
                     }}>remove</button>
                   </div>
                 )
