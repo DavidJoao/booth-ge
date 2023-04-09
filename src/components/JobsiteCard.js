@@ -11,7 +11,6 @@ const JobsiteCard = ( { jobsite, auth } ) => {
 
   const router = useRouter()
   const { loadAll } = useContext(AuthContext)
-  console.log(jobsite.startTime)
   
   const handleDelete = () => {
     axios.delete(`/api/jobsite/delete/${jobsite._id}`)
@@ -36,17 +35,21 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                 return(
                   <div className='flex flex-row items-center justify-between'>
                     <p>{employee}</p>
-                    <button className='bg-red-700 rounded w-[70px]' onClick={() => {
-                      axios.patch(`/api/jobsite/remove/${employee}/${jobsite._id}`)
-                        .then(res => loadAll())
-                    }}>remove</button>
+                    { auth.isAdmin ? 
+                      <button className='bg-red-700 rounded w-[70px]' onClick={() => {
+                        axios.patch(`/api/jobsite/remove/${employee}/${jobsite._id}`)
+                          .then(res => loadAll())
+                      }}>remove</button>
+                    :
+                      <></>
+                     }
                   </div>
                 )
             })
             :
             <p>No employees yet</p>
             }
-            <p>Start Time: {jobsite.startTime}</p>
+            <p>Start Time: {jobsite.startTime} A.M.</p>
         </div>
     </div>
   )
