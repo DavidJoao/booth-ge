@@ -9,8 +9,7 @@ import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 
 const settings = () => {
 
-	const { auth, setAuth } = useContext(AuthContext)
-	const [users, setUsers] = useState([])
+	const { auth, setAuth, users, loadUsers } = useContext(AuthContext)
 	const [showJobsList, setShowJobsList] = useState(false)
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
@@ -23,14 +22,31 @@ const settings = () => {
 	}, [])
 
 	useEffect(() => {
-		axios.get('/api/user/all')
-			.then(res => setUsers(res.data))
+		loadUsers()
 	}, [])
 
 	useEffect(() => {
 		axios.get('/api/jobsite/all')
 			.then(res => setJobsites(res.data))
 	}, [])
+
+	const removeAdmin = () => {
+		axios.patch(`/api/user/admin/remove/${selectedUser._id}`)
+			.then(res => {
+				console.log(res.data)
+				setShowJobsList(false)
+				loadUsers()
+			})
+	}
+	
+	const addAdmin = () => {
+		axios.patch(`/api/user/admin/add/${selectedUser._id}`)
+			.then(res => {
+				console.log(res)
+				setShowJobsList(false)
+				loadUsers()
+			})
+	}
 
 
 	return (
@@ -68,9 +84,9 @@ const settings = () => {
 						<Modal.Header>Or</Modal.Header>
 						<Modal.Body>
 							{ selectedUser.isAdmin ? 
-							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold'>Remove Admin</button>
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold' onClick={removeAdmin}>Remove Admin</button>
 							:
-							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold'>Make Admin</button> 
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold' onClick={addAdmin}>Make Admin</button> 
 							}
 						</Modal.Body>
 						</>
