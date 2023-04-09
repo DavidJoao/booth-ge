@@ -49,14 +49,6 @@ const post = () => {
         }
     }
 
-    const handleDateChange = (e) => {
-        e.preventDefault()
-        const { name, value } = e.target
-        setJobPost({
-            [name]: value
-        })
-    }
-
   return (
     <div className='flex flex-col items-center h-[600px] p-2'>
         <h1>Post Job</h1>
