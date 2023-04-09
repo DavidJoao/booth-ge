@@ -11,6 +11,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
 
   const router = useRouter()
   const { loadAll } = useContext(AuthContext)
+  console.log(jobsite.startTime)
   
   const handleDelete = () => {
     axios.delete(`/api/jobsite/delete/${jobsite._id}`)
@@ -45,6 +46,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             :
             <p>No employees yet</p>
             }
+            <p>Start Time: {jobsite.startTime}</p>
         </div>
     </div>
   )

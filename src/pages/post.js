@@ -12,7 +12,8 @@ const post = () => {
         address: '',
         name: '',
         superintendent: '',
-        employees: []
+        employees: [],
+        startTime: ''
     }
     
     const [jobPost, setJobPost] = useState(initialPost)
@@ -30,6 +31,7 @@ const post = () => {
             ...jobPost,
             [name]: value
         })
+        console.log(jobPost)
     }
 
     const handleSubmit = (e) => {
@@ -47,6 +49,13 @@ const post = () => {
         }
     }
 
+    const handleDateChange = (e) => {
+        e.preventDefault()
+        const { name, value } = e.target
+        setJobPost({
+            [name]: value
+        })
+    }
 
   return (
     <div className='flex flex-col items-center h-[600px] p-2'>
@@ -58,6 +67,8 @@ const post = () => {
             <input name='address' value={jobPost.address} className='input' onChange={handleChange}/>
             <label>Super Intendent:</label>
             <input name='superintendent' value={jobPost.superintendent} className='input' onChange={handleChange}/>
+            <label>Start Time:</label>
+            <input name='startTime' type='time' className='input' onChange={handleChange}/>
             <button type='submit' className='buttons mx-auto mt-2'>Post</button>
         </form>
     </div>

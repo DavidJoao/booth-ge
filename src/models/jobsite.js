@@ -5,6 +5,7 @@ const jobsiteSchema = new mongoose.Schema({
     address: String,
     employees: Array,
     superintendent: String,
+    startTime: String
 })
 
 module.exports = mongoose.models.Jobsite || mongoose.model('Jobsite', jobsiteSchema);

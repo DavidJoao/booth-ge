@@ -33,7 +33,6 @@ const settings = () => {
 	const removeAdmin = () => {
 		axios.patch(`/api/user/admin/remove/${selectedUser._id}`)
 			.then(res => {
-				console.log(res.data)
 				setShowJobsList(false)
 				loadUsers()
 			})
@@ -42,7 +41,6 @@ const settings = () => {
 	const addAdmin = () => {
 		axios.patch(`/api/user/admin/add/${selectedUser._id}`)
 			.then(res => {
-				console.log(res)
 				setShowJobsList(false)
 				loadUsers()
 			})
