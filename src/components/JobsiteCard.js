@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
 import AuthContext from '@/custom/AuthProvider'
+import { Modal } from 'react-bootstrap'
 
 const JobsiteCard = ( { jobsite, auth } ) => {
 
@@ -11,6 +12,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
 
   const router = useRouter()
   const { loadAll } = useContext(AuthContext)
+  const [showDelete, setShowDelete] = useState(false)
   
   const handleDelete = () => {
     axios.delete(`/api/jobsite/delete/${jobsite._id}`)
@@ -22,11 +24,21 @@ const JobsiteCard = ( { jobsite, auth } ) => {
           <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin ? 
-            <button className='bg-red-700 p-1 border rounded' onClick={handleDelete}>{trashLogo}</button>
+            <button className='bg-red-700 p-1 border rounded' onClick={() => setShowDelete(true)}>{trashLogo}</button>
             :
             ''
              }
           </h1>
+          <Modal show={showDelete} onHide={() => setShowDelete(false)}>
+            <Modal.Header className='text-2xl font-bold'>Are you sure you want to delete {jobsite.name}?</Modal.Header>
+            <Modal.Body className='flex items-center justify-between'>
+              <button className='buttons' onClick={() => setShowDelete(false)}>Cancel</button>
+              <button className='red-buttons' onClick={() => {
+                handleDelete()
+                setShowDelete(false)
+              }}>Delete</button>
+            </Modal.Body>
+          </Modal>
         <div className='border-[1px] border-white p-2 mt-2 rounded-lg h-[70%]'>
             <p>Address: {jobsite.address}</p>
             <p>Superintendent: {jobsite.superintendent}</p>

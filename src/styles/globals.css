@@ -6,6 +6,9 @@
   .buttons{
     @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
   }
+  .red-buttons{
+    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#990202] to-[#ad5858] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
+  }
   .form{
     @apply flex flex-col justify-center w-[350px] lg:w-1/2 bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] p-4 text-white rounded-lg shadow-xl
   }
