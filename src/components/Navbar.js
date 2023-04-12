@@ -25,16 +25,16 @@ const Navbar = () => {
   return (
     <>
     { tokenCookie ? 
-      	<div className='border-[3px] border-black flex flex-row items-center justify-between w-full h-[70px] p-5 bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] shadow-lg mb-3'>
-          	<Link className='buttons' href={'/home'}>Home</Link>
+      	<div className='border-[1px] border-black flex bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27]'>
+          	<Link className='nav-buttons' href={'/home'}>Home</Link>
 			{ auth && auth.isAdmin ? 
 			<>
-				<Link className='buttons' href={'/settings'}>Settings</Link>
-				<Link className='buttons' href={'/post'}>Post</Link>
+				<Link className='nav-buttons' href={'/settings'}>Settings</Link>
+				<Link className='nav-buttons' href={'/post'}>Post</Link>
 			</>
 			:
 			<></>}
-          	<button className='buttons' onClick={handleLogout}>Log Out</button>
+          	<button className='nav-buttons' onClick={handleLogout}>Log Out</button>
       	</div>
       	:
       	<></>
