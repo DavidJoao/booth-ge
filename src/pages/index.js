@@ -1,9 +1,19 @@
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
+import { useContext, useEffect } from 'react'
+import AuthContext from '@/custom/AuthProvider'
+import { useRouter } from 'next/router'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const { auth } = useContext(AuthContext)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!auth.token) router.push('/home')
+  })
 
   return (
     <div className='bg-white'>
