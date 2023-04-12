@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
     { tokenCookie ? 
-      	<div className='border-[1px] border-black flex bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27]'>
+      	<div className='flex bg-slate-200'>
           	<Link className='nav-buttons' href={'/home'}>Home</Link>
 			{ auth && auth.isAdmin ? 
 			<>

@@ -20,7 +20,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   }
 
   return (
-    <div className='border-[1px] border-black w-full md:w-[500px] h-[650px] basic-container m-2'>
+    <div className='border-[1px] border-black w-full lg:w-[500px] h-[650px] basic-container m-2'>
           <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin ? 
