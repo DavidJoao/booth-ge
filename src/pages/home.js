@@ -26,7 +26,7 @@ const Home = () => {
         <h1 className='font-bold text-2xl m-2 text-white rounded p-1 bg-[#3b2c19]'>Welcome {auth && auth.name}</h1>
         <div className='home-container'>
             <div className='notifications-container'>
-                <h1 className='text-[25px] border-[1px] border-black w-full h-[7%] flex items-center justify-center rounded-lg'>Administration Notifications</h1>
+                <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg'>Administration Notifications</h1>
             </div>
             <div className='jobsite-container'>
                 { auth.isAdmin ? 
