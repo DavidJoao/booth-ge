@@ -8,6 +8,9 @@ import { useRouter } from 'next/router'
 
 const post = () => {
     
+    const { auth, setAuth } = useContext(AuthContext)
+    const date = new Date()
+    
     const initialPost = {
         address: '',
         name: '',
@@ -17,13 +20,12 @@ const post = () => {
     }
 
     const initialNotification = {
-        author: '',
-        date: '',
+        author: auth.name,
+        date: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
         message: '',
         title: '',
     }
     
-    const { auth, setAuth } = useContext(AuthContext)
     const router = useRouter()
     const [jobPost, setJobPost] = useState(initialPost)
     const [notification, setNotification] = useState(initialNotification)
@@ -39,7 +41,15 @@ const post = () => {
             ...jobPost,
             [name]: value
         })
-        console.log(jobPost)
+    }
+
+    const handleNotificationChange = (e) => {
+        const { name, value } = e.target;
+        setNotification({
+            ...notification,
+            [name]: value
+        })
+        console.log(notification)
     }
 
     const handlePostSubmit = (e) => {
@@ -57,29 +67,44 @@ const post = () => {
         }
     }
 
+    const handleNotificationSubmit = (e) => {
+        e.preventDefault()
+
+        try {
+            axios.post('/api/notification/post', JSON.stringify(notification), { header: { 'Content-Type': 'application/json' } })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+
+        setNotification(initialNotification)
+        router.push('/home')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
     <div className='w-full flex flex-col items-center justify-center h-[680px] xl:h-[820px] bg-slate-200'>
         <div className='w-full flex flex-col items-center'>
             <h1>Post Job</h1>
             <form onSubmit={handlePostSubmit} className='form'>
                 <label>Jobsite Name:</label>
-                <input name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
+                <input required name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
                 <label>Address:</label>
-                <input name='address' value={jobPost.address} className='input' onChange={handlePostChange}/>
+                <input required name='address' value={jobPost.address} className='input' onChange={handlePostChange}/>
                 <label>Super Intendent:</label>
-                <input name='superintendent' value={jobPost.superintendent} className='input' onChange={handlePostChange}/>
+                <input required name='superintendent' value={jobPost.superintendent} className='input' onChange={handlePostChange}/>
                 <label>Start Time:</label>
-                <input name='startTime' type='time' className='input' onChange={handlePostChange}/>
+                <input required name='startTime' type='time' className='input' onChange={handlePostChange}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>
         <div className='w-full flex flex-col items-center mt-3'>
             <h1>Post Notification</h1>
-            <form className='form'>
+            <form className='form' onSubmit={handleNotificationSubmit}>
                 <label>Title:</label>
-                <input name='title' className='input' value={notification.title}/>
+                <input required name='title' className='input' value={notification.title} onChange={handleNotificationChange}/>
                 <label>Message:</label>
-                <textarea name='message' className='input' value={notification.message}/>
+                <textarea required name='message' className='input' value={notification.message} onChange={handleNotificationChange}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>
