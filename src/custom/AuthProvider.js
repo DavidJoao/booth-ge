@@ -9,6 +9,7 @@ export const AuthProvider = ( { children } ) => {
     const [tokenCookie, setTokenCookie] = useState(null)
     const [jobsites, setJobsites] = useState([])
     const [users, setUsers] = useState([])
+    const [notifications, setNotifications] = useState([])
     const loadAll = () => {
         axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
@@ -17,9 +18,15 @@ export const AuthProvider = ( { children } ) => {
         axios.get('/api/user/all')
         .then(res => setUsers(res.data))
     }
+    const loadNotifications = () => {
+        axios.get('/api/notification/all')
+        .then(res => {
+            setNotifications(res.data)
+        })
+    }
 
     return(
-        <AuthContext.Provider value={{ auth, setAuth, current, setCurrent, tokenCookie, setTokenCookie, loadAll, setJobsites, jobsites, loadUsers, users }}>
+        <AuthContext.Provider value={{ auth, setAuth, current, setCurrent, tokenCookie, setTokenCookie, loadAll, setJobsites, jobsites, loadUsers, users, loadNotifications, notifications }}>
             {children}
         </AuthContext.Provider>
     )

@@ -4,13 +4,13 @@ import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
 import JobsiteCard from '@/components/JobsiteCard'
 import axios from '@/custom/axios'
+import NotificationCard from '@/components/NotificationCard'
 
 const Home = () => {
 
-    const { auth, setAuth, jobsites, loadAll } = useContext(AuthContext)
+    const { auth, setAuth, jobsites, loadAll, loadNotifications, notifications } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([])
-    const [notifications, setNotifications] = useState([])
 
     const handleSingleJobsite = (e) => {
         jobsites.map(jobsite => {
@@ -24,10 +24,7 @@ const Home = () => {
     }, [router])
 
     useEffect(() => {
-        axios.get('/api/notification/all')
-            .then(res => {
-                setNotifications(res.data)
-            })
+        loadNotifications()
     }, [router])
     
     useEffect(() => {
@@ -39,10 +36,10 @@ const Home = () => {
     <div className='flex flex-col items-start bg-slate-200'>
         <h1 className='font-bold text-2xl m-2 text-white rounded p-1 bg-[#3b2c19]'>Welcome {auth && auth.name}</h1>
         <div className='home-container'>
-            <div className='notifications-container'>
-                <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg'>Administration Notifications</h1>
+            <div className='notifications-container bg-white'>
+                <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg form'>Administration Notifications</h1>
                 { notifications && notifications.map(notification => {
-                    return ( <h1>Hello</h1> )
+                    return ( <NotificationCard notification={notification} auth={auth} loadNotifications={loadNotifications} /> )
                 }) }
             </div>
             <div className='jobsite-container'>
