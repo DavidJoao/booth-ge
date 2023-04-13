@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,9 +11,10 @@ export default function Home() {
 
   const { auth } = useContext(AuthContext)
   const router = useRouter()
+  const tokenCookie = Cookies.get('token')
 
   useEffect(() => {
-    if (!auth.token) router.push('/home')
+    if (tokenCookie) router.push('/home')
   })
 
   return (
