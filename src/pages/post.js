@@ -49,7 +49,6 @@ const post = () => {
             ...notification,
             [name]: value
         })
-        console.log(notification)
     }
 
     const handlePostSubmit = (e) => {
@@ -71,7 +70,7 @@ const post = () => {
         e.preventDefault()
 
         try {
-            axios.post('/api/notification/post', JSON.stringify(notification), { header: { 'Content-Type': 'application/json' } })
+            axios.post('/api/notification/post', JSON.stringify(notification), { headers: { 'Content-Type': 'application/json' } })
             .then(res => console.log(res))
             .catch(err => console.log(err))
 

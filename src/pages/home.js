@@ -3,16 +3,31 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
 import JobsiteCard from '@/components/JobsiteCard'
+import axios from '@/custom/axios'
 
 const Home = () => {
 
     const { auth, setAuth, jobsites, loadAll } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([])
+    const [notifications, setNotifications] = useState([])
+
+    const handleSingleJobsite = (e) => {
+        jobsites.map(jobsite => {
+            if (jobsite.employees.includes(auth.name) == true ) setSingleJobsite([jobsite])
+        })
+    }
     
     useEffect(() => {
-      loadAll()
-      setSingleJobsite(jobsites.filter(jobsite => jobsite.employees == auth.name))
+        loadAll()
+        handleSingleJobsite()
+    }, [router])
+
+    useEffect(() => {
+        axios.get('/api/notification/all')
+            .then(res => {
+                setNotifications(res.data)
+            })
     }, [router])
     
     useEffect(() => {
@@ -26,6 +41,9 @@ const Home = () => {
         <div className='home-container'>
             <div className='notifications-container'>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg'>Administration Notifications</h1>
+                { notifications && notifications.map(notification => {
+                    return ( <h1>Hello</h1> )
+                }) }
             </div>
             <div className='jobsite-container'>
                 { auth.isAdmin ? 
