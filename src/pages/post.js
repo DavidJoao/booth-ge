@@ -15,17 +15,25 @@ const post = () => {
         employees: [],
         startTime: ''
     }
+
+    const initialNotification = {
+        author: '',
+        date: '',
+        message: '',
+        title: '',
+    }
     
     const { auth, setAuth } = useContext(AuthContext)
     const router = useRouter()
     const [jobPost, setJobPost] = useState(initialPost)
+    const [notification, setNotification] = useState(initialNotification)
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)
         if (!auth.isAdmin) router.push('/home')
     }, [])
 
-    const handleChange = (e) => {
+    const handlePostChange = (e) => {
         const { name, value } = e.target;
         setJobPost({
             ...jobPost,
@@ -34,7 +42,7 @@ const post = () => {
         console.log(jobPost)
     }
 
-    const handleSubmit = (e) => {
+    const handlePostSubmit = (e) => {
         e.preventDefault()
 
         try {
@@ -50,19 +58,31 @@ const post = () => {
     }
 
   return (
-    <div className='flex flex-col items-center h-[600px] p-2'>
-        <h1>Post Job</h1>
-        <form onSubmit={handleSubmit} className='form'>
-            <label>Jobsite Name:</label>
-            <input name='name' value={jobPost.name} className='input' onChange={handleChange}/>
-            <label>Address:</label>
-            <input name='address' value={jobPost.address} className='input' onChange={handleChange}/>
-            <label>Super Intendent:</label>
-            <input name='superintendent' value={jobPost.superintendent} className='input' onChange={handleChange}/>
-            <label>Start Time:</label>
-            <input name='startTime' type='time' className='input' onChange={handleChange}/>
-            <button type='submit' className='buttons mx-auto mt-2'>Post</button>
-        </form>
+    <div className='w-full flex flex-col items-center justify-center h-[680px] xl:h-[820px] bg-slate-200'>
+        <div className='w-full flex flex-col items-center'>
+            <h1>Post Job</h1>
+            <form onSubmit={handlePostSubmit} className='form'>
+                <label>Jobsite Name:</label>
+                <input name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
+                <label>Address:</label>
+                <input name='address' value={jobPost.address} className='input' onChange={handlePostChange}/>
+                <label>Super Intendent:</label>
+                <input name='superintendent' value={jobPost.superintendent} className='input' onChange={handlePostChange}/>
+                <label>Start Time:</label>
+                <input name='startTime' type='time' className='input' onChange={handlePostChange}/>
+                <button type='submit' className='buttons mx-auto mt-2'>Post</button>
+            </form>
+        </div>
+        <div className='w-full flex flex-col items-center mt-3'>
+            <h1>Post Notification</h1>
+            <form className='form'>
+                <label>Title:</label>
+                <input name='title' className='input' value={notification.title}/>
+                <label>Message:</label>
+                <textarea name='message' className='input' value={notification.message}/>
+                <button type='submit' className='buttons mx-auto mt-2'>Post</button>
+            </form>
+        </div>
     </div>
   )
 }
