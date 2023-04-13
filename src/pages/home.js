@@ -3,13 +3,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
 import JobsiteCard from '@/components/JobsiteCard'
-import axios from '@/custom/axios'
 
 const Home = () => {
 
     const { auth, setAuth, jobsites, loadAll } = useContext(AuthContext)
-    const [singleJobsite, setSingleJobsite] = useState([])
     const router = useRouter()
+    const [singleJobsite, setSingleJobsite] = useState([])
     
     useEffect(() => {
       loadAll()
@@ -36,7 +35,7 @@ const Home = () => {
                     singleJobsite && singleJobsite.map(jobsite => {
                         return( <JobsiteCard jobsite={jobsite} auth={auth}/> )})
             }
-          </div>
+            </div>
         </div>
     </div>
   )

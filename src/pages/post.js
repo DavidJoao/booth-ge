@@ -16,9 +16,9 @@ const post = () => {
         startTime: ''
     }
     
-    const [jobPost, setJobPost] = useState(initialPost)
     const { auth, setAuth } = useContext(AuthContext)
     const router = useRouter()
+    const [jobPost, setJobPost] = useState(initialPost)
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)

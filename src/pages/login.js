@@ -12,9 +12,9 @@ const login = () => {
         password: ''
     }
 
-    const tokenCookie = Cookies.get('token')
-    const router = useRouter()
     const { setAuth, setTokenCookie } = useContext(AuthContext)
+    const router = useRouter()
+    const tokenCookie = Cookies.get('token')
     const [user, setUser] = useState(initialUser)
     const [errorMessage, setErrorMessage] = useState('')
 

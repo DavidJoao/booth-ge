@@ -10,11 +10,11 @@ import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 const settings = () => {
 
 	const { auth, setAuth, users, loadUsers } = useContext(AuthContext)
+	const router = useRouter()
 	const [showJobsList, setShowJobsList] = useState(false)
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
-	const router = useRouter()
 
 	useEffect(() => {
 		CheckSession(AuthContext, setAuth)
