@@ -16,6 +16,9 @@ const JobsiteMiniCard = ( { jobsite, selectedUser, setErrorMessage } ) => {
                 .catch(err => {
                     setErrorMessage(`${selectedUser.name} already in ${jobsite.name}`)
                 })
+            axios.get(`/api/jobsite/find/${selectedUser.name}`)
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
         } catch (error) {
             console.log(error)
         }
