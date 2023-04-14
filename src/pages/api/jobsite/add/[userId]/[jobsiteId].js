@@ -15,11 +15,11 @@ export default async function (req, res, next) {
             return
         }
         if (existingUser !== undefined) {
-            res.status(401).json( {message:`${foundUser.name} already this jobsite`})
+            res.status(401).json( {message:`${foundUser.name} already at this jobsite`})
             return
         }
         if (occupiedJob) {
-            res.status(401).json( {message:`${foundUser.name} already in ${occupiedJob.name}`})
+            res.status(401).json( {message:`${foundUser.name} already at ${occupiedJob.name}`})
             return
         }
         
