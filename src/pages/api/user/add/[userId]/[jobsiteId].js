@@ -7,8 +7,8 @@ export default async function (req, res, next) {
 
         const foundUser = await User.findOne({ _id: req.query.userId })
         const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
-        const existingUser = await foundJobsite.employees.find(name => name === foundUser.name)
-        const occupiedJob = await Jobsite.findOne({ employees: foundUser.name })
+        const existingUser = await foundJobsite.employees.find(_id => _id === foundUser._id)
+        const occupiedJob = await Jobsite.findOne({ "employees._id": foundUser._id })
 
         if (!foundUser && !foundJobsite) {
             res.status(401).json( {message: 'User or Jobsite not found'})
@@ -23,7 +23,7 @@ export default async function (req, res, next) {
             return
         }
         
-        foundJobsite.employees.push(foundUser.name);
+        foundJobsite.employees.push(foundUser);
         await foundJobsite.save()
         res.json(foundJobsite)
     } catch {

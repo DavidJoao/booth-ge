@@ -49,10 +49,10 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
                 return(
                   <div className='flex flex-row items-center justify-between'>
-                    <p>{employee}</p>
+                    <p>{employee.name}</p>
                     { auth.isAdmin ? 
                       <button className='bg-red-700 rounded w-[70px]' onClick={() => {
-                        axios.patch(`/api/user/remove/${employee}/${jobsite._id}`)
+                        axios.patch(`/api/user/remove/${employee._id}/${jobsite._id}`)
                           .then(res => loadAll())
                       }}>remove</button>
                     :
@@ -65,10 +65,10 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
               return(
                 <div className='flex flex-row items-center justify-between'>
-                  <p>{equipment}</p>
+                  <p>{equipment.number} {equipment.name}</p>
                   { auth.isAdmin ? 
                     <button className='bg-red-700 rounded w-[70px]' onClick={() => {
-                      axios.patch(`/api/equipment/remove/${equipment}/${jobsite._id}`)
+                      axios.patch(`/api/equipment/remove/${equipment._id}/${jobsite._id}`)
                         .then(res => loadAll())
                     }}>remove</button>
                   :

@@ -7,8 +7,8 @@ export default async function (req, res, next) {
 
         const foundEquipment = await Equipment.findOne({ _id: req.query.equipmentId })
         const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
-        const existingEquipment = await foundJobsite.employees.find(name => name === `${foundEquipment.number} ${foundEquipment.name}`)
-        const occupiedJob = await Jobsite.findOne({ equipment: `${foundEquipment.number} ${foundEquipment.name}` })
+        const existingEquipment = await foundJobsite.equipment.find(_id => _id === foundEquipment._id)
+        const occupiedJob = await Jobsite.findOne({ "equipment._id": foundEquipment._id })
 
         if (!foundEquipment && !foundJobsite) {
             res.status(401).json( {message: 'Equipment not found'})
@@ -23,7 +23,7 @@ export default async function (req, res, next) {
             return
         }
         
-        foundJobsite.equipment.push(`${foundEquipment.number} ${foundEquipment.name}`);
+        foundJobsite.equipment.push(foundEquipment);
         await foundJobsite.save()
         res.json(foundJobsite)
     } catch {
