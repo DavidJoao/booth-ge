@@ -117,7 +117,7 @@ const settings = () => {
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`jobsite/equipment/${selectedEquipment._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}
