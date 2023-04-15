@@ -9,12 +9,15 @@ import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 
 const settings = () => {
 
-	const { auth, setAuth, users, loadAll } = useContext(AuthContext)
+	const { auth, setAuth, users, loadAll, equipment } = useContext(AuthContext)
 	const router = useRouter()
-	const [showJobsList, setShowJobsList] = useState(false)
+	const [userConfiguration, setUserConfiguration] = useState(false)
+	const [equipmentConfiguration, setEquipmentConfiguration] = useState(false)
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
+	const [selectedEquipment, setSelectedEquipment] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
+
 
 	useEffect(() => {
 		CheckSession(AuthContext, setAuth)
@@ -33,7 +36,7 @@ const settings = () => {
 	const removeAdmin = () => {
 		axios.patch(`/api/user/admin/remove/${selectedUser._id}`)
 			.then(res => {
-				setShowJobsList(false)
+				setUserConfiguration(false)
 				loadAll()
 			})
 	}
@@ -41,43 +44,58 @@ const settings = () => {
 	const addAdmin = () => {
 		axios.patch(`/api/user/admin/add/${selectedUser._id}`)
 			.then(res => {
-				setShowJobsList(false)
+				setUserConfiguration(false)
 				loadAll()
 			})
 	}
 
 
 	return (
-		<div className='h-[700px] flex flex-col items-center p-5 basic-container'>
-				<h1 className='font-bold text-2xl border-b-[3px] border-white w-[300px] text-center'>Add people to jobsites</h1>
-				<div className='w-full h-full grid grid-rows-6 grid-flow-col gap-3 justify-items-center md:justify-items-start shadow-xl'>
-				{ users && users.map(user => 
-						<div key={user._id} onClick={() => {
-							setShowJobsList(true)
-							setSelectedUser(user)
-							}}>
-							<UserCard user={user} setShowJobsList={setShowJobsList} showJobsList={showJobsList}/>
-						</div>
-						)}
+		<div className='h-screen flex flex-col md:flex-row items-center bg-slate-200'>
+			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
+				<h3>Manage Employees</h3>
+				<div className='border-[1px] border-black w-full h-full overflow-auto rounded bg-white'>
+					{ users && users.map(user => 
+							<div key={user._id} onClick={() => {
+								setUserConfiguration(true)
+								setSelectedUser(user)
+								}}>
+								<UserCard user={user}/>
+							</div>
+							)}
 				</div>
-				<Modal show={showJobsList} onHide={() => {
-					setShowJobsList(false)
+			</div>
+			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
+				<h3>Manage Equipment</h3>
+				<div className='border-[1px] border-black w-full h-full overflow-auto rounded bg-white'>
+					{ equipment && equipment.map(equipment => 
+						<div key={equipment._id} onClick={() => {
+							setEquipmentConfiguration(true)
+							setSelectedEquipment(equipment)
+						}}>
+							<UserCard user={equipment} />
+						</div>) }
+				</div>
+			</div>
+			
+
+
+				<Modal show={userConfiguration} onHide={() => {
+					setUserConfiguration(false)
 					setErrorMessage('')
 					}}>
 					<Modal.Header>Choose Jobsite for {selectedUser.name}</Modal.Header>
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard selectedUser={selectedUser} jobsite={jobsite} setErrorMessage={setErrorMessage}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`jobsite/add/${selectedUser._id}/${jobsite._id}`}/>
 							</div>
 							) }
 							<p className='font-bold text-red-600'>{errorMessage}</p>
 					</Modal.Body>
 
 					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
-					{ selectedUser.name === auth.name ? 
-						<></>
-						:
+					{ selectedUser.name === auth.name ? <></> :
 						<>
 						<Modal.Header>Or</Modal.Header>
 						<Modal.Body>
@@ -89,6 +107,22 @@ const settings = () => {
 						</Modal.Body>
 						</>
 					}
+				</Modal>
+
+				<Modal show={equipmentConfiguration} onHide={() => {
+					setEquipmentConfiguration(false)
+					setErrorMessage('')
+				}}>
+					<Modal.Header>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
+					<Modal.Body>
+						{ jobsites.map(jobsite => 
+							<div key={jobsite._id}>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`jobsite/equipment/${selectedEquipment._id}/${jobsite._id}`}/>
+							</div>
+							) 
+							}
+						<p className='font-bold text-red-600'>{errorMessage}</p>
+					</Modal.Body>
 				</Modal>
 		</div>
 	)

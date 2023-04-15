@@ -23,7 +23,7 @@ export default async function (req, res, next) {
             return
         }
         
-        foundJobsite.equipment.push(foundEquipment.name);
+        foundJobsite.equipment.push(`${foundEquipment.number} ${foundEquipment.name}`);
         await foundJobsite.save()
         res.json(foundJobsite)
     } catch {

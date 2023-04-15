@@ -2,14 +2,14 @@ import axios from '@/custom/axios'
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const JobsiteMiniCard = ( { jobsite, selectedUser, setErrorMessage } ) => {
+const JobsiteMiniCard = ( { jobsite, setErrorMessage, route } ) => {
 
     const router = useRouter()
 
     const handleUpdate = () => {
         setErrorMessage('')
         try {
-            axios.patch(`/api/jobsite/add/${selectedUser._id}/${jobsite._id}`)
+            axios.patch(`/api/${route}`)
                 .then(res => {
                     router.push('/home')
                 })

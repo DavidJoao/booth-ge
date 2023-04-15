@@ -19,6 +19,8 @@ const JobsiteCard = ( { jobsite, auth } ) => {
     .then(res => loadAll())
   }
 
+  console.log(jobsite)
+
   return (
     <div className='border-[1px] border-black w-full lg:w-[500px] h-[280px] lg:h-[500px] basic-container m-2'>
           <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl flex items-center justify-between'>
@@ -39,7 +41,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
               }}>Delete</button>
             </Modal.Body>
           </Modal>
-        <div className='border-[1px] border-white p-2 mt-2 rounded-lg h-[70%] overflow-auto'>
+        <div className='border-[1px] border-white p-2 mt-2 rounded-lg overflow-auto lg:h-auto'>
             <p>Address: {jobsite.address}</p>
             <p>Superintendent: {jobsite.superintendent}</p>
             <p>Employees:</p>
@@ -56,11 +58,24 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                       <></>
                      }
                   </div>
-                )
-            })
-            :
-            <p>No employees yet</p>
+                )}) : <p>No employees</p>
             }
+            <p>Equipment:</p>
+            { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
+              return(
+                <div className='flex flex-row items-center justify-between'>
+                  <p>{equipment}</p>
+                  { auth.isAdmin ? 
+                    <button className='bg-red-700 rounded w-[70px]' onClick={() => {
+                      axios.patch(`/api/equipment/remove/${equipment}/${jobsite._id}`)
+                        .then(res => loadAll())
+                    }}>remove</button>
+                  :
+                    <></>
+                 }
+                </div>
+              )}) : <p>No equipment</p>}
+
             <p>Start Time: {jobsite.startTime} A.M.</p>
         </div>
     </div>
