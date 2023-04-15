@@ -30,6 +30,9 @@
   .jobsite-container{
     @apply border-[3px] border-[#3b2c19] h-[90%] w-[360px] lg:w-[60%] rounded-xl flex flex-col items-center overflow-auto p-3 shadow-xl bg-[rgba(255,255,255,0.5)]
   }
+  .form-container{
+    @apply w-full flex flex-col items-center justify-center border-[1px] border-black h-full rounded p-2
+  }
 }
 * {
   box-sizing: border-box;

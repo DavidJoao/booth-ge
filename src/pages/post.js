@@ -82,10 +82,10 @@ const post = () => {
     }
 
   return (
-    <div className='w-full flex flex-col items-center justify-center h-[680px] xl:h-[820px] bg-slate-200'>
-        <div className='w-full flex flex-col items-center'>
-            <h1>Post Job</h1>
+    <div className='grid grid-cols-1 md:grid-cols-2 grid-rows-2 gap-4 items-center justify-center h-auto md:h-[680px] xl:h-[820px] bg-slate-200'>
+        <div className='form-container'>
             <form onSubmit={handlePostSubmit} className='form'>
+                <h3>Post Job</h3>
                 <label>Jobsite Name:</label>
                 <input required name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
                 <label>Address:</label>
@@ -97,14 +97,24 @@ const post = () => {
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>
-        <div className='w-full flex flex-col items-center mt-3'>
-            <h1>Post Notification</h1>
+        <div className='form-container'>
             <form className='form' onSubmit={handleNotificationSubmit}>
+                <h3>Post Notification</h3>
                 <label>Title:</label>
                 <input required name='title' className='input' value={notification.title} onChange={handleNotificationChange}/>
                 <label>Message:</label>
                 <textarea required name='message' className='input' value={notification.message} onChange={handleNotificationChange}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
+            </form>
+        </div>
+        <div className='form-container'>
+            <form className='form'>
+                <h3>Add equipment</h3>
+                <label>Number:</label>
+                <input className='input'/>
+                <label>Name:</label>
+                <input className='input'/>
+                <button className='buttons mx-auto mt-2'>Add</button>
             </form>
         </div>
     </div>
