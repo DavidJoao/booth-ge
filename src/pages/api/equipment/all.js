@@ -1,7 +1,8 @@
+
 const Equipment = require('../../../models/equipment')
 
 export default async function (req, res, next) {
-    await Equipment.create(req.body)
-        .then(equipment => res.json(equipment))
-        .catch(next)
+    await Equipment.find({})
+    .then(equipment => res.json(equipment))
+    .catch(next)
 }
