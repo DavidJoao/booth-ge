@@ -10,6 +10,7 @@ export const AuthProvider = ( { children } ) => {
     const [jobsites, setJobsites] = useState([])
     const [users, setUsers] = useState([])
     const [notifications, setNotifications] = useState([])
+    const [equipment, setEquipment] = useState([])
     const loadAll = () => {
         axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
@@ -19,6 +20,9 @@ export const AuthProvider = ( { children } ) => {
         
         axios.get('/api/user/all')
         .then(res => setUsers(res.data))
+
+        axios.get('/api/equipment/all')
+        .then(res => setEquipment(res.data))
     }
 
     return(
