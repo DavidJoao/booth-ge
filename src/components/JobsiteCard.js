@@ -43,15 +43,16 @@ const JobsiteCard = ( { jobsite, auth } ) => {
           </Modal>
         <div className='border-[1px] border-white p-2 mt-2 rounded-lg overflow-auto lg:h-auto'>
             <p>Address: {jobsite.address}</p>
-            <p>Superintendent: {jobsite.superintendent}</p>
-            <p>Employees:</p>
+            <p className='border-t-[1px] border-white pt-2'>Start Time: {jobsite.startTime} A.M.</p>
+            <p className='border-t-[1px] border-white pt-2'>Superintendent: {jobsite.superintendent}</p>
+            <p className='border-t-[1px] border-white pt-2'>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
                 return(
                   <div className='flex flex-row items-center justify-between'>
                     <p>{employee}</p>
                     { auth.isAdmin ? 
                       <button className='bg-red-700 rounded w-[70px]' onClick={() => {
-                        axios.patch(`/api/jobsite/remove/${employee}/${jobsite._id}`)
+                        axios.patch(`/api/user/remove/${employee}/${jobsite._id}`)
                           .then(res => loadAll())
                       }}>remove</button>
                     :
@@ -60,7 +61,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                   </div>
                 )}) : <p>No employees</p>
             }
-            <p>Equipment:</p>
+            <p className='border-t-[1px] border-white pt-2'>Equipment:</p>
             { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
               return(
                 <div className='flex flex-row items-center justify-between'>
@@ -76,7 +77,6 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                 </div>
               )}) : <p>No equipment</p>}
 
-            <p>Start Time: {jobsite.startTime} A.M.</p>
         </div>
     </div>
   )

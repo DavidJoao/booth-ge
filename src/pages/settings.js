@@ -88,7 +88,7 @@ const settings = () => {
 					<Modal.Body>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`jobsite/add/${selectedUser._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
 							</div>
 							) }
 							<p className='font-bold text-red-600'>{errorMessage}</p>
