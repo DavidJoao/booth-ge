@@ -41,60 +41,12 @@ const post = () => {
         if (!auth.isAdmin) router.push('/home')
     }, [])
 
-    const handlePostChange = (e) => {
+    const handleChange = (e, setX, model) => {
         const { name, value } = e.target;
-        setJobPost({
-            ...jobPost,
+        setX({
+            ...model,
             [name]: value
         })
-    }
-
-    const handleNotificationChange = (e) => {
-        const { name, value } = e.target;
-        setNotification({
-            ...notification,
-            [name]: value
-        })
-    }
-
-    const handlePostSubmit = (e) => {
-        e.preventDefault()
-
-        try {
-            axios.post('/api/jobsite/post', JSON.stringify(jobPost), { headers: { 'Content-Type': 'application/json' } })
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-
-            setJobPost(initialPost)
-            router.push('/home')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleNotificationSubmit = (e) => {
-        e.preventDefault()
-
-        try {
-            axios.post('/api/notification/post', JSON.stringify(notification), { headers: { 'Content-Type': 'application/json' } })
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-
-        setNotification(initialNotification)
-        router.push('/home')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleEquipmentSubmit = (e) => {
-        e.preventDefault()
-
-        try {
-        
-        } catch {
-
-        }
     }
 
     const handleSubmit = (route, model, setX, initialX) => {
@@ -119,13 +71,13 @@ const post = () => {
             }} className='form'>
                 <h3>Post Job</h3>
                 <label>Jobsite Name:</label>
-                <input required name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
+                <input required name='name' value={jobPost.name} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Address:</label>
-                <input required name='address' value={jobPost.address} className='input' onChange={handlePostChange}/>
+                <input required name='address' value={jobPost.address} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Super Intendent:</label>
-                <input required name='superintendent' value={jobPost.superintendent} className='input' onChange={handlePostChange}/>
+                <input required name='superintendent' value={jobPost.superintendent} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Start Time:</label>
-                <input required name='startTime' type='time' className='input' onChange={handlePostChange}/>
+                <input required name='startTime' type='time' className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>
@@ -136,9 +88,9 @@ const post = () => {
             }}>
                 <h3>Post Notification</h3>
                 <label>Title:</label>
-                <input required name='title' className='input' value={notification.title} onChange={handleNotificationChange}/>
+                <input required name='title' className='input' value={notification.title} onChange={(e) => handleChange(e, setNotification, notification)}/>
                 <label>Message:</label>
-                <textarea required name='message' className='input' value={notification.message} onChange={handleNotificationChange}/>
+                <textarea required name='message' className='input' value={notification.message} onChange={(e) => handleChange(e, setNotification, notification)}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>
@@ -149,9 +101,9 @@ const post = () => {
             }}>
                 <h3>Add equipment</h3>
                 <label>Number:</label>
-                <input value={equipment.number} name='number' className='input'/>
+                <input value={equipment.number} name='number' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
                 <label>Name:</label>
-                <input value={equipment.name} name='name' className='input'/>
+                <input value={equipment.name} name='name' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Add</button>
             </form>
         </div>
