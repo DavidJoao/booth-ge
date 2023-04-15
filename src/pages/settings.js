@@ -9,7 +9,7 @@ import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 
 const settings = () => {
 
-	const { auth, setAuth, users, loadUsers } = useContext(AuthContext)
+	const { auth, setAuth, users, loadAll } = useContext(AuthContext)
 	const router = useRouter()
 	const [showJobsList, setShowJobsList] = useState(false)
 	const [jobsites, setJobsites] = useState([])
@@ -22,7 +22,7 @@ const settings = () => {
 	}, [])
 
 	useEffect(() => {
-		loadUsers()
+		loadAll()
 	}, [])
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ const settings = () => {
 		axios.patch(`/api/user/admin/remove/${selectedUser._id}`)
 			.then(res => {
 				setShowJobsList(false)
-				loadUsers()
+				loadAll()
 			})
 	}
 	
@@ -42,7 +42,7 @@ const settings = () => {
 		axios.patch(`/api/user/admin/add/${selectedUser._id}`)
 			.then(res => {
 				setShowJobsList(false)
-				loadUsers()
+				loadAll()
 			})
 	}
 

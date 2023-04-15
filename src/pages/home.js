@@ -8,7 +8,7 @@ import NotificationCard from '@/components/NotificationCard'
 
 const Home = () => {
 
-    const { auth, setAuth, jobsites, loadAll, loadNotifications, notifications } = useContext(AuthContext)
+    const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([])
 
@@ -21,10 +21,6 @@ const Home = () => {
     useEffect(() => {
         loadAll()
         handleSingleJobsite()
-    }, [router])
-
-    useEffect(() => {
-        loadNotifications()
     }, [router])
     
     useEffect(() => {
@@ -39,7 +35,7 @@ const Home = () => {
             <div className='notifications-container bg-white'>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg form'>Administration Notifications</h1>
                 { notifications && notifications.map(notification => {
-                    return ( <NotificationCard notification={notification} auth={auth} loadNotifications={loadNotifications} /> )
+                    return ( <NotificationCard notification={notification} auth={auth} loadAll={loadAll} /> )
                 }) }
             </div>
             <div className='jobsite-container'>

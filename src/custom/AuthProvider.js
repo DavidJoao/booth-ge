@@ -13,20 +13,16 @@ export const AuthProvider = ( { children } ) => {
     const loadAll = () => {
         axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
-    }
-    const loadUsers = () => {
+
+        axios.get('/api/notification/all')
+        .then(res => setNotifications(res.data))
+        
         axios.get('/api/user/all')
         .then(res => setUsers(res.data))
     }
-    const loadNotifications = () => {
-        axios.get('/api/notification/all')
-        .then(res => {
-            setNotifications(res.data)
-        })
-    }
 
     return(
-        <AuthContext.Provider value={{ auth, setAuth, current, setCurrent, tokenCookie, setTokenCookie, loadAll, setJobsites, jobsites, loadUsers, users, loadNotifications, notifications }}>
+        <AuthContext.Provider value={{ auth, setAuth, current, setCurrent, tokenCookie, setTokenCookie, loadAll, setJobsites, jobsites, users, notifications }}>
             {children}
         </AuthContext.Provider>
     )
