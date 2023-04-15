@@ -67,10 +67,13 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                 <div className='flex flex-row items-center justify-between'>
                   <p>{equipment.number} {equipment.name}</p>
                   { auth.isAdmin ? 
+                  <div>
+                    {/* <button className='bg-slate-500 rounded w-[70px] mr-2'>edit</button> */}
                     <button className='bg-red-700 rounded w-[70px]' onClick={() => {
                       axios.patch(`/api/equipment/remove/${equipment._id}/${jobsite._id}`)
                         .then(res => loadAll())
                     }}>remove</button>
+                  </div>
                   :
                     <></>
                  }
