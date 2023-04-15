@@ -25,10 +25,16 @@ const post = () => {
         message: '',
         title: '',
     }
+
+    const initialEquipment = {
+        number: '',
+        name: ''
+    }
     
     const router = useRouter()
     const [jobPost, setJobPost] = useState(initialPost)
     const [notification, setNotification] = useState(initialNotification)
+    const [equipment, setEquipment] = useState(initialEquipment)
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)
@@ -81,10 +87,36 @@ const post = () => {
         }
     }
 
+    const handleEquipmentSubmit = (e) => {
+        e.preventDefault()
+
+        try {
+        
+        } catch {
+
+        }
+    }
+
+    const handleSubmit = (route, model, setX, initialX) => {
+        try {
+            axios.post(`/api/${route}/post`, JSON.stringify(model), { headers: { 'Content-Type': 'application/json '} })
+            .then( res => console.log(res))
+            .catch(err => console.log(err))
+
+        setX(initialX)
+        router.push('/home')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 grid-rows-2 gap-4 items-center justify-center h-auto md:h-[680px] xl:h-[820px] bg-slate-200'>
         <div className='form-container'>
-            <form onSubmit={handlePostSubmit} className='form'>
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit('jobsite', jobPost, setJobPost, initialPost)
+            }} className='form'>
                 <h3>Post Job</h3>
                 <label>Jobsite Name:</label>
                 <input required name='name' value={jobPost.name} className='input' onChange={handlePostChange}/>
@@ -98,7 +130,10 @@ const post = () => {
             </form>
         </div>
         <div className='form-container'>
-            <form className='form' onSubmit={handleNotificationSubmit}>
+            <form className='form' onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit('notification', notification, setNotification, initialNotification)
+            }}>
                 <h3>Post Notification</h3>
                 <label>Title:</label>
                 <input required name='title' className='input' value={notification.title} onChange={handleNotificationChange}/>
@@ -108,13 +143,16 @@ const post = () => {
             </form>
         </div>
         <div className='form-container'>
-            <form className='form'>
+            <form className='form' onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit('equipment', equipment, setEquipment, initialEquipment)
+            }}>
                 <h3>Add equipment</h3>
                 <label>Number:</label>
-                <input className='input'/>
+                <input value={equipment.number} name='number' className='input'/>
                 <label>Name:</label>
-                <input className='input'/>
-                <button className='buttons mx-auto mt-2'>Add</button>
+                <input value={equipment.name} name='name' className='input'/>
+                <button type='submit' className='buttons mx-auto mt-2'>Add</button>
             </form>
         </div>
     </div>
