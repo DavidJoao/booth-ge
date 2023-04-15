@@ -4,6 +4,7 @@ const jobsiteSchema = new mongoose.Schema({
     name: String,
     address: String,
     employees: Array,
+    equipment: Array,
     superintendent: String,
     startTime: String
 })
