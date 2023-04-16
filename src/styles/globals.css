@@ -19,16 +19,16 @@
     @apply p-1 rounded-lg mt-2 text-black
   }
   .basic-container{
-    @apply flex flex-col bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] p-4 text-white rounded-lg shadow-xl
+    @apply flex flex-col bg-[#3A3B3C] p-4 text-white rounded-lg shadow-xl
   }
   .home-container{
-    @apply w-full h-[680px] xl:h-[770px] flex flex-col lg:flex-row items-center justify-evenly p-5
+    @apply w-full h-auto xl:h-[770px] flex flex-col lg:flex-row items-center justify-evenly p-5
   }
   .notifications-container{
     @apply h-[90%] w-[360px] lg:w-[30%] rounded-xl shadow-2xl bg-[rgba(255,255,255,0.5)] flex flex-col items-center overflow-auto mb-5 lg:mb-0
   }
   .jobsite-container{
-    @apply h-[90%] w-[360px] lg:w-[60%] flex flex-col items-center overflow-auto p-3 shadow-xl border-l-[1px] border-[#494A4C]
+    @apply h-[500px] lg:h-[90%] w-[360px] lg:w-[60%] flex flex-col items-center overflow-auto p-3 shadow-xl border-l-[1px] border-[#494A4C]
   }
   .form-container{
     @apply w-full flex flex-col items-center justify-center border-[1px] border-black h-full rounded p-2

@@ -7,7 +7,7 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
   </svg>
 
   return (
-    <div className="border-[5px] border-red-600 w-[90%] h-[300px] mb-3 p-3 rounded-lg shadow-md form">
+    <div className="w-[90%] h-[300px] mb-3 p-3 rounded-lg shadow-md bg-[#494A4C] border-[1px] border-slate-400">
       <h1 className="flex items-center justify-between">
         {notification.title}
         { auth.isAdmin ? 

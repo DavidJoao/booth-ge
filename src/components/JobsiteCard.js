@@ -22,8 +22,8 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   console.log(jobsite)
 
   return (
-    <div className='border-[1px] border-black w-full lg:w-[500px] h-[280px] lg:h-[500px] basic-container m-2'>
-          <h1 className='border-[1px] border-white p-2 rounded-lg font-extrabold text-3xl flex items-center justify-between'>
+    <div className='w-full lg:w-[500px] h-[280px] lg:h-[500px] m-2 basic-container'>
+          <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin ? 
             <button className='bg-red-700 p-1 border rounded' onClick={() => setShowDelete(true)}>{trashLogo}</button>
@@ -41,7 +41,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
               }}>Delete</button>
             </Modal.Body>
           </Modal>
-        <div className='border-[1px] border-white p-2 mt-2 rounded-lg overflow-auto lg:h-auto'>
+        <div className='border-[1px] p-2 rounded-lg rounded-tl-none overflow-auto lg:h-auto'>
             <p>Address: {jobsite.address}</p>
             <p className='border-t-[1px] border-white pt-2'>Start Time: {jobsite.startTime} A.M.</p>
             <p className='border-t-[1px] border-white pt-2'>Superintendent: {jobsite.superintendent}</p>
