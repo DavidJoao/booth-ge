@@ -29,8 +29,8 @@ const Navbar = () => {
   
   return (
     <div className='p-2 border-[1px] border-black flex flex-row items-center justify-between bg-[#3a3b3c] text-white'>
-	<h1 className='w-1/2 block lg:hidden'>Booth Grading</h1>
-	<h1 className='w-1/2 hidden lg:block'>Booth Grading and Excavating</h1>
+	<Link href='/' className='w-1/2 block lg:hidden text-white text-3xl no-underline'>Booth Grading</Link>
+	<Link href='/' className='w-1/2 hidden lg:block text-white text-3xl no-underline'>Booth Grading and Excavating</Link>
     { tokenCookie ? 
 		<Dropdown>
 			<Dropdown.Toggle id='dropdown'><p className='pr-5 pl-5 h-[5px] text-white'>{menuIcon}</p></Dropdown.Toggle>

@@ -32,8 +32,8 @@ const JobsiteCard = ( { jobsite, auth } ) => {
              }
           </h1>
           <Modal show={showDelete} onHide={() => setShowDelete(false)}>
-            <Modal.Header className='text-2xl font-bold'>Are you sure you want to delete {jobsite.name}?</Modal.Header>
-            <Modal.Body className='flex items-center justify-between'>
+            <Modal.Header className='text-2xl font-bold bg-[#242526]'>Are you sure you want to delete {jobsite.name}?</Modal.Header>
+            <Modal.Body className='flex items-center justify-between bg-[#242526]'>
               <button className='buttons' onClick={() => setShowDelete(false)}>Cancel</button>
               <button className='red-buttons' onClick={() => {
                 handleDelete()

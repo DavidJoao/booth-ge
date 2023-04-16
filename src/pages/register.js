@@ -40,7 +40,7 @@ const register = () => {
     }
 
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-center'>
+    <div className='h-screen w-full flex flex-col items-center justify-center bg-[#242526]'>
         <p className='text-5xl font-extrabold mb-2'>Sign Up Form</p>
         <form className='form' onSubmit={handleRegister}>
             <label>Email:</label>
