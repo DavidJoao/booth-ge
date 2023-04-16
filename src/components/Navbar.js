@@ -34,8 +34,8 @@ const Navbar = () => {
     { tokenCookie ? 
 		<Dropdown>
 			<Dropdown.Toggle id='dropdown'><p className='pr-5 pl-5 h-[5px] text-white'>{menuIcon}</p></Dropdown.Toggle>
-			<Dropdown.Menu>
-				<div className='flex bg-slate-200'>
+			<Dropdown.Menu id='menu'>
+				<div className='flex flex-col w-[350px] p-4 bg-[#3a3b3c]'>
 					<Link className='nav-buttons' href={'/home'}>Home</Link>
 					{ auth && auth.isAdmin ? 
 					<>

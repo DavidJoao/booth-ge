@@ -7,7 +7,7 @@
     @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
   }
   .nav-buttons{
-    @apply w-full p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] hover:scale-110 duration-300 text-center border-[1px] border-slate-300 hover:text-white no-underline m-1
+    @apply w-full p-2 rounded-lg text-white font-bold bg-[#494A4C] hover:scale-110 duration-300 text-center border-[1px] border-slate-300 hover:text-white no-underline m-1
   }
   .red-buttons{
     @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#990202] to-[#ad5858] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
@@ -35,6 +35,9 @@
   }
   #dropdown {
     @apply bg-[#494A4C] border-none
+  }
+  #menu {
+    @apply bg-[#3a3b3c]
   }
   .scroll::-webkit-scrollbar {
 		@apply w-3 h-3;

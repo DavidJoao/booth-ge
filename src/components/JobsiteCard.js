@@ -43,7 +43,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
           </Modal>
         <div className='border-[1px] p-2 rounded-lg rounded-tl-none overflow-auto lg:h-auto'>
             <p>Address: {jobsite.address}</p>
-            <p className='border-t-[1px] border-white pt-2'>Start Time: {jobsite.startTime} A.M.</p>
+            <p className='pt-2'>Start Time: {jobsite.startTime} A.M.</p>
             <p className='border-t-[1px] border-white pt-2'>Superintendent: {jobsite.superintendent}</p>
             <p className='border-t-[1px] border-white pt-2'>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
