@@ -30,7 +30,7 @@ const Home = () => {
     
   return (
     <div className='flex flex-col items-start bg-[#242526]'>
-        <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name.split(' ')[0]}</h1>
+        <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name}</h1>
         <div className='home-container'>
             <div className='notifications-container bg-[#3a3b3c]'>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>

@@ -4,7 +4,7 @@
 
 @layer components{
   .buttons{
-    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
+    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-[#3A3B3C] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
   }
   .nav-buttons{
     @apply w-full p-2 rounded-lg text-white font-bold bg-[#494A4C] hover:scale-110 duration-300 text-center border-[1px] border-slate-300 hover:text-white no-underline m-1
@@ -13,7 +13,7 @@
     @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#990202] to-[#ad5858] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
   }
   .form{
-    @apply flex flex-col justify-center w-[350px] lg:w-1/2 bg-gradient-to-tr from-[#3b2c19] to-[#6e4f27] p-4 text-white rounded-lg shadow-xl
+    @apply flex flex-col justify-center w-[350px] lg:w-1/2 bg-[#494A4C] p-4 text-white rounded-lg shadow-xl
   }
   .input{
     @apply p-1 rounded-lg mt-2 text-black
@@ -31,13 +31,19 @@
     @apply h-[500px] lg:h-[90%] w-[360px] lg:w-[60%] flex flex-col items-center overflow-auto p-3 shadow-xl border-l-[1px] border-[#494A4C]
   }
   .form-container{
-    @apply w-full flex flex-col items-center justify-center border-[1px] border-black h-full rounded p-2
+    @apply w-full flex flex-col items-center justify-center h-full rounded p-2
+  }
+  .manage-container {
+    @apply w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2 bg-[--secondary-bg] rounded-lg
   }
   #dropdown {
     @apply bg-[#494A4C] border-none
   }
   #menu {
     @apply bg-[#3a3b3c]
+  }
+  #modal {
+    @apply bg-[#242526]
   }
   .scroll::-webkit-scrollbar {
 		@apply w-3 h-3;

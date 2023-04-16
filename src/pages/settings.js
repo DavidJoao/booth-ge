@@ -51,10 +51,10 @@ const settings = () => {
 
 
 	return (
-		<div className='h-screen flex flex-col md:flex-row items-center bg-slate-200'>
+		<div className='h-screen flex flex-col md:flex-row items-center bg-[#242526]'>
 			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
 				<h3>Manage Employees</h3>
-				<div className='border-[1px] border-black w-full h-full overflow-auto rounded bg-white'>
+				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
 					{ users && users.map(user => 
 							<div key={user._id} onClick={() => {
 								setUserConfiguration(true)
@@ -67,7 +67,7 @@ const settings = () => {
 			</div>
 			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
 				<h3>Manage Equipment</h3>
-				<div className='border-[1px] border-black w-full h-full overflow-auto rounded bg-white'>
+				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
 					{ equipment && equipment.map(equipment => 
 						<div key={equipment._id} onClick={() => {
 							setEquipmentConfiguration(true)
@@ -84,8 +84,8 @@ const settings = () => {
 					setUserConfiguration(false)
 					setErrorMessage('')
 					}}>
-					<Modal.Header>Choose Jobsite for {selectedUser.name}</Modal.Header>
-					<Modal.Body>
+					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedUser.name}</Modal.Header>
+					<Modal.Body className='bg-[#242526]'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
 								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
@@ -97,8 +97,8 @@ const settings = () => {
 					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
 					{ selectedUser.name === auth.name ? <></> :
 						<>
-						<Modal.Header>Or</Modal.Header>
-						<Modal.Body>
+						<Modal.Header className='bg-[#242526]'>Or</Modal.Header>
+						<Modal.Body className='bg-[#242526]'>
 							{ selectedUser.isAdmin ? 
 							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold' onClick={removeAdmin}>Remove Admin</button>
 							:
@@ -113,8 +113,8 @@ const settings = () => {
 					setEquipmentConfiguration(false)
 					setErrorMessage('')
 				}}>
-					<Modal.Header>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
-					<Modal.Body>
+					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
+					<Modal.Body className='bg-[#242526]'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
 								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
