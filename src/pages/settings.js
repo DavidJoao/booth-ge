@@ -17,6 +17,7 @@ const settings = () => {
 	const [selectedUser, setSelectedUser] = useState({})
 	const [selectedEquipment, setSelectedEquipment] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
+	const [showDelete, setShowDelete] = useState(false)
 
 
 	useEffect(() => {
@@ -112,15 +113,26 @@ const settings = () => {
 				<Modal show={equipmentConfiguration} onHide={() => {
 					setEquipmentConfiguration(false)
 					setErrorMessage('')
+					setShowDelete(false)
 				}}>
 					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
-					<Modal.Body className='bg-[#242526]'>
+					<Modal.Body className='bg-[#242526] flex flex-col items-start'>
 						{ jobsites.map(jobsite => 
-							<div key={jobsite._id}>
+							<div key={jobsite._id} onClick={() => setShowDelete(true)}>
 								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}
+						{ showDelete == false ? 
+						<button className='bg-red-600 p-2 rounded' onClick={(e) => {
+							e.preventDefault()
+							axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
+							setEquipmentConfiguration(false)
+							loadAll()
+							router.push('/home')
+						}}>Delete Equipment</button>
+						:
+						<></>}
 						<p className='font-bold text-red-600'>{errorMessage}</p>
 					</Modal.Body>
 				</Modal>

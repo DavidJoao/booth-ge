@@ -79,8 +79,6 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                     <></>
                   }
                   </div>
-                    <ol className='list-disc'>
-                    </ol>
                 </div>
               )}) : <p>No equipment</p>}
 

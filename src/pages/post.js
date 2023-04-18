@@ -56,7 +56,7 @@ const post = () => {
             .catch(err => console.log(err))
 
         setX(initialX)
-        router.push('/home')
+        router.push('/settings')
         } catch (error) {
             console.log(error)
         }
