@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 const post = () => {
     
-    const { auth, setAuth } = useContext(AuthContext)
+    const { auth, setAuth, loadAll } = useContext(AuthContext)
     const date = new Date()
     
     const initialPost = {
@@ -30,11 +30,16 @@ const post = () => {
         number: '',
         name: ''
     }
+
+    const intiialAccessory = {
+        name: ''
+    }
     
     const router = useRouter()
     const [jobPost, setJobPost] = useState(initialPost)
     const [notification, setNotification] = useState(initialNotification)
     const [equipment, setEquipment] = useState(initialEquipment)
+    const [accessory, setAccessory] = useState(intiialAccessory)
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)
@@ -56,6 +61,7 @@ const post = () => {
             .catch(err => console.log(err))
 
         setX(initialX)
+        loadAll()
         router.push('/settings')
         } catch (error) {
             console.log(error)
@@ -101,11 +107,23 @@ const post = () => {
             }}>
                 <h3>Add equipment</h3>
                 <label>Number:</label>
-                <input value={equipment.number} name='number' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
+                <input value={equipment.number} placeholder='315' name='number' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
                 <label>Name:</label>
-                <input value={equipment.name} name='name' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
+                <input value={equipment.name} placeholder='Excavator' name='name' className='input' onChange={(e) => handleChange(e, setEquipment, equipment)}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Add</button>
             </form>
+        </div>
+        <div className='form-container'>
+            <form className='form' onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit('accessory', accessory, setAccessory, intiialAccessory)
+            }}>
+                <h3>Add Accessory</h3>
+                <label>Name:</label>
+                <input name='name' value={accessory.name} className='input' placeholder="Ex. 3' bucket" onChange={(e) => handleChange(e, setAccessory, accessory)}/>
+                <button className='buttons mx-auto mt-2' type='submit'>Add</button>
+            </form>
+
         </div>
     </div>
   )

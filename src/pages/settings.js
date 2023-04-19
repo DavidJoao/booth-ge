@@ -9,7 +9,7 @@ import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 
 const settings = () => {
 
-	const { auth, setAuth, users, loadAll, equipment } = useContext(AuthContext)
+	const { auth, setAuth, users, loadAll, equipment, accessories } = useContext(AuthContext)
 	const router = useRouter()
 	const [userConfiguration, setUserConfiguration] = useState(false)
 	const [equipmentConfiguration, setEquipmentConfiguration] = useState(false)
@@ -124,13 +124,31 @@ const settings = () => {
 							) 
 							}
 						{ showDelete == false ? 
-						<button className='bg-red-600 p-2 rounded' onClick={(e) => {
-							e.preventDefault()
-							axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
-							setEquipmentConfiguration(false)
-							loadAll()
-							router.push('/home')
-						}}>Delete Equipment</button>
+						<div className='border w-full p-2 flex flex-col'>
+							<button className='bg-red-600 p-2 rounded' onClick={(e) => {
+								e.preventDefault()
+								axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
+								setEquipmentConfiguration(false)
+								loadAll()
+								router.push('/home')
+							}}>Delete Equipment</button>
+							<div className='border m-2'>
+								{ accessories && accessories.map(accessory => {
+									return(
+										<button className='buttons p-2 m-2' onClick={(e) => {
+											e.preventDefault()
+											axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
+											.then(res => {
+												loadAll()
+												router.push('/settings')
+												setEquipmentConfiguration(false)
+											})
+											.catch(error => setErrorMessage(error.response.data.message))
+										}}>{accessory.name}</button>
+									)
+								}) }
+							</div>
+						</div>
 						:
 						<></>}
 						<p className='font-bold text-red-600'>{errorMessage}</p>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from '@/custom/axios'
 import AuthContext from '@/custom/AuthProvider'
@@ -18,9 +18,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
     axios.delete(`/api/jobsite/delete/${jobsite._id}`)
     .then(res => loadAll())
   }
-
-  console.log(jobsite)
-
+  
   return (
     <div className='w-full lg:w-[500px] h-[280px] lg:h-[500px] m-2 basic-container'>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
@@ -29,7 +27,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             <button className='bg-red-700 p-1 border rounded' onClick={() => setShowDelete(true)}>{trashLogo}</button>
             :
             ''
-             }
+          }
           </h1>
           <Modal show={showDelete} onHide={() => setShowDelete(false)}>
             <Modal.Header className='text-2xl font-bold bg-[#242526]'>Are you sure you want to delete {jobsite.name}?</Modal.Header>
@@ -47,20 +45,20 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             <p className='border-t-[1px] border-white pt-2'>Superintendent: {jobsite.superintendent}</p>
             <p className='border-t-[1px] border-white pt-2'>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
-                return(
-                  <div className='flex flex-row items-center justify-between'>
+              return(
+                <div className='flex flex-row items-center justify-between'>
                     <p>{employee.name}</p>
                     { auth.isAdmin ? 
                       <button className='bg-red-700 rounded w-[70px]' onClick={() => {
                         axios.patch(`/api/user/remove/${employee._id}/${jobsite._id}`)
-                          .then(res => loadAll())
+                        .then(res => loadAll())
                       }}>remove</button>
-                    :
+                      :
                       <></>
-                     }
+                    }
                   </div>
                 )}) : <p>No employees</p>
-            }
+              }
             <p className='border-t-[1px] border-white pt-2'>Equipment:</p>
             { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
               return(
@@ -79,6 +77,8 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                     <></>
                   }
                   </div>
+                  <ul>
+                  </ul>
                 </div>
               )}) : <p>No equipment</p>}
 
