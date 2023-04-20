@@ -20,8 +20,11 @@ export default async function (req, res, next) {
             return
         }
         if (occupiedEquipment) {
-            res.status(401).json( { message: `${foundAccessory.name} being used in ${occupiedEquipment.number} ${occupiedEquipment.name}` } )
+            res.status(401).json( { message: `${foundAccessory.name} being used on ${occupiedEquipment.number} ${occupiedEquipment.name}` } )
             return
+        }
+        if (!foundJobsite) {
+            res.status(401).json( { message: `First assign ${foundEquipment.number} ${foundEquipment.name} a jobsite` } )
         }
 
         // DELETE EQUIPMENT BEFORE UPDATING IT

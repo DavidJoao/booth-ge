@@ -113,13 +113,13 @@ const settings = () => {
 					}
 				</Modal>
 
-				<Modal show={equipmentConfiguration} onHide={() => {
+				<Modal className='overflow-auto' show={equipmentConfiguration} onHide={() => {
 					setEquipmentConfiguration(false)
 					setErrorMessage('')
 					setShowDelete(false)
 				}}>
 					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
-					<Modal.Body className='bg-[#242526] flex flex-col items-start'>
+					<Modal.Body className='bg-[#242526] flex flex-col items-start h-[680px] overflow-auto'>
 
 						{/* LIST OF JOBSITES IN EQUIPMENT CONFIGURATION MODAL */}
 
@@ -130,7 +130,7 @@ const settings = () => {
 							) 
 							}
 						{ showDelete == false ? 
-						<div className='border w-full p-2 flex flex-col'>
+						<div className='w-full p-2 flex flex-col'>
 							<button className='bg-red-600 p-2 rounded' onClick={(e) => {
 								e.preventDefault()
 								axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
@@ -138,13 +138,13 @@ const settings = () => {
 								loadAll()
 								router.push('/home')
 							}}>Delete Equipment</button>
-							<div className='border m-2'>
+							<div className='m-2 flex flex-col items-center'>
 
 								{/* LIST OF ACCESSORIES IN EQUIPMENT CONFIGURATION MODAL */}
 
 								{ accessories && accessories.map(accessory => {
 									return(
-										<button className='buttons p-2 m-2' onClick={(e) => {
+										<button className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
 											e.preventDefault()
 											axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
 											.then(res => {
