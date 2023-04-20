@@ -77,7 +77,12 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                     <></>
                   }
                   </div>
-                  <ul>
+                  <ul className='list-disc'>
+                  {equipment.accessories.map(accessory => {
+                    return(
+                      <li className='m-1'>{accessory.name}<button className='float-right bg-red-600 hover:bg-red-500 w-[20px] rounded text-center'>-</button></li>
+                    )
+                  })}
                   </ul>
                 </div>
               )}) : <p>No equipment</p>}

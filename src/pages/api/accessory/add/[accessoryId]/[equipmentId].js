@@ -1,12 +1,14 @@
 const Equipment = require('../../../../../models/equipment')
 const Accessory = require('../../../../../models/accessory')
+const Jobsite = require('../../../../../models/jobsite')
 
 export default async function (req, res, next) {
 
     try {
         const foundEquipment = await Equipment.findById(req.query.equipmentId)
         const foundAccessory = await Accessory.findById(req.query.accessoryId)
-        const existingAccessory = foundEquipment.accessories.find(accessory => accessory._id.equals(foundAccessory._id));
+        const foundJobsite = await Jobsite.findOne({ "equipment._id": foundEquipment._id })
+        const existingAccessory = await foundEquipment.accessories.find(_id => _id === foundAccessory._id)
         const occupiedEquipment = await Equipment.findOne({ "accessories._id": foundAccessory._id })
 
         if (!foundEquipment || !foundAccessory) {
@@ -22,11 +24,18 @@ export default async function (req, res, next) {
             return
         }
 
-        foundEquipment.accessories.push(foundAccessory);
-        foundEquipment.markModified('accessories')
+        // DELETE EQUIPMENT BEFORE UPDATING IT
+        const index = foundJobsite.equipment.findIndex((e) => e._id.equals(foundEquipment._id))
+        if (index > -1) foundJobsite.equipment.splice(index, 1)
+
+        //PUSH ACCESSORY INTO EQUIPMENT AND ADD EQUIPMENT TO JOBSITE
+        await foundEquipment.accessories.push(foundAccessory);
+        await foundJobsite.equipment.push(foundEquipment);
+
+        await foundJobsite.save()
         await foundEquipment.save()
         res.json(foundEquipment)
-    } catch {
+    } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Internal Error' })
     }

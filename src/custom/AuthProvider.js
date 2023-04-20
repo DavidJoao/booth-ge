@@ -22,14 +22,14 @@ export const AuthProvider = ( { children } ) => {
         
         axios.get('/api/user/all')
         .then(res => setUsers(res.data))
-
-        axios.get('/api/equipment/all')
-        .then(res => setEquipment(res.data))
-
+        
         axios.get('/api/accessory/all')
         .then(res => setAccessories(res.data))
+        
+        axios.get('/api/equipment/all')
+        .then(res => setEquipment(res.data))
     }
-
+    
     return(
         <AuthContext.Provider value={{ auth, setAuth, current, setCurrent, tokenCookie, setTokenCookie, loadAll, setJobsites, jobsites, users, notifications, equipment, accessories }}>
             {children}
