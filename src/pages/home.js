@@ -11,16 +11,15 @@ const Home = () => {
     const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([])
-
-    const handleSingleJobsite = (e) => {
-        jobsites.map(jobsite => {
-            if (jobsite.employees.includes(auth.name) == true ) setSingleJobsite([jobsite])
-        })
-    }
     
     useEffect(() => {
-        loadAll()
-        handleSingleJobsite()
+        if (auth.isAdmin === true) {
+            axios.get('/api/jobsite/all')
+        } else {
+            axios.get(`/api/jobsite/findOne/${auth.email}`)
+                .then(res => setSingleJobsite([res.data]))
+        }
+        
     }, [router])
     
     useEffect(() => {

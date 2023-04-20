@@ -69,6 +69,9 @@ const settings = () => {
 			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
 				<h3>Manage Equipment</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
+
+					{/* LIST OF EQUIPMENT IN SETTINGS "MANAGE EQUIPMENT" CONTAINER */}
+					
 					{ equipment && equipment.map(equipment => 
 						<div key={equipment._id} onClick={() => {
 							setEquipmentConfiguration(true)
@@ -117,6 +120,9 @@ const settings = () => {
 				}}>
 					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
 					<Modal.Body className='bg-[#242526] flex flex-col items-start'>
+
+						{/* LIST OF JOBSITES IN EQUIPMENT CONFIGURATION MODAL */}
+
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id} onClick={() => setShowDelete(true)}>
 								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
@@ -133,6 +139,9 @@ const settings = () => {
 								router.push('/home')
 							}}>Delete Equipment</button>
 							<div className='border m-2'>
+
+								{/* LIST OF ACCESSORIES IN EQUIPMENT CONFIGURATION MODAL */}
+
 								{ accessories && accessories.map(accessory => {
 									return(
 										<button className='buttons p-2 m-2' onClick={(e) => {
@@ -140,7 +149,7 @@ const settings = () => {
 											axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
 											.then(res => {
 												loadAll()
-												router.push('/settings')
+												router.push('/home')
 												setEquipmentConfiguration(false)
 											})
 											.catch(error => setErrorMessage(error.response.data.message))
