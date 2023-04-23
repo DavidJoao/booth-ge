@@ -9,7 +9,8 @@ const register = () => {
         email: '',
         password: '',
         name: '',
-        isAdmin: false
+        isAdmin: false,
+        isForeman
     }
 
     const [user, setUser] = useState(initialUser)

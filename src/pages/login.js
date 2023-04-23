@@ -38,9 +38,9 @@ const login = () => {
         setErrorMessage('')
         await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
-            const { email, token, isAdmin, name } = res?.data
+            const { email, token, isAdmin, isForeman, name } = res?.data
             if (token) {
-                setAuth({ email, token, name, isAdmin })
+                setAuth({ email, token, name, isAdmin, isForeman })
                 setTokenCookie(token)
                 Cookies.set('email', email)
                 router.push('/home')
