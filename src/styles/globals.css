@@ -16,7 +16,7 @@
     @apply flex flex-col justify-center w-[350px] lg:w-1/2 bg-[#494A4C] p-4 text-white rounded-lg shadow-xl
   }
   .input{
-    @apply p-1 rounded-lg mt-2 text-black
+    @apply p-1 rounded-lg mt-2 text-black w-[80%] bg-slate-200
   }
   .basic-container{
     @apply flex flex-col bg-[#3A3B3C] p-4 text-white rounded-lg shadow-xl
@@ -37,7 +37,7 @@
     @apply w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2 bg-[--secondary-bg] rounded-lg
   }
   .daily-container{
-    @apply border h-[400px] rounded
+    @apply h-[500px] w-full lg:w-[70%] rounded mb-2 flex flex-col items-center p-2 bg-[#3a3b3c]
   }
   #dropdown {
     @apply bg-[#494A4C] border-none

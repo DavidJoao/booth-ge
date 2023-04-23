@@ -35,16 +35,16 @@ const Home = () => {
             <div className='notifications-container bg-[#3a3b3c]'>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>
                 { notifications && notifications.map(notification => {
-                    return ( <NotificationCard notification={notification} auth={auth} loadAll={loadAll} /> )
+                    return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                 }) }
             </div>
             <div className='jobsite-container scroll'>
                 { auth.isAdmin ? 
                     jobsites && jobsites.map(jobsite => {
-                        return( <JobsiteCard jobsite={jobsite} auth={auth}/> )})
+                        return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :
                     singleJobsite && singleJobsite.map(jobsite => {
-                        return( <JobsiteCard jobsite={jobsite} auth={auth}/> )})
+                        return( <JobsiteCard key={jobsite.name} jobsite={jobsite} auth={auth}/> )})
             }
             </div>
         </div>
