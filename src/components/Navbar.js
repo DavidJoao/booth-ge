@@ -14,6 +14,7 @@ const Navbar = () => {
   
 	const { auth, setAuth, setTokenCookie, tokenCookie } = useContext(AuthContext)
 	const router = useRouter()
+	console.log(auth)
 
   useEffect(() => {
 	setTokenCookie(Cookies.get('token'))
@@ -41,6 +42,15 @@ const Navbar = () => {
 					<>
 						<Link className='nav-buttons' href={'/settings'}>Settings</Link>
 						<Link className='nav-buttons' href={'/post'}>Post</Link>
+						<Link className='nav-buttons' href={'/timesheets'}>Timesheets</Link>
+						<Link className='nav-buttons' href={'/reports'}>Daily Reports</Link>
+					</>
+					:
+					<></>}
+					{ auth && auth.isAdmin || auth.isForeman == true ?
+					<>
+						<Link className='nav-buttons' href={'/createdaily'}>Create Daily Report</Link>
+						<Link className='nav-buttons' href={'/createtimesheet'}>Create Timesheet</Link>
 					</>
 					:
 					<></>}

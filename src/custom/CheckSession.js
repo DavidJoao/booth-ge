@@ -10,12 +10,13 @@ const CheckSession = ( AuthContext, setAuth  ) => {
     if (tokenCookie && emailCookie) {
         axios.get(`/api/user/${emailCookie}`)
             .then(res => {
-                const { name, email, isAdmin } = res?.data
+                const { name, email, isAdmin, isForeman } = res?.data
         
                 setAuth({
                     name: name,
                     email: email,
                     isAdmin: isAdmin,
+                    isForeman: isForeman,
                     token: tokenCookie
                 })
             })
