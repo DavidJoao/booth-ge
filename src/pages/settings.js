@@ -11,13 +11,17 @@ const settings = () => {
 
 	const { auth, setAuth, users, loadAll, equipment, accessories } = useContext(AuthContext)
 	const router = useRouter()
+
+	// MODAL STATES
 	const [userConfiguration, setUserConfiguration] = useState(false)
 	const [equipmentConfiguration, setEquipmentConfiguration] = useState(false)
+	const [showDelete, setShowDelete] = useState(false)
+	const [userDeletion, showUserDeletion] = useState(false)
+
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
 	const [selectedEquipment, setSelectedEquipment] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
-	const [showDelete, setShowDelete] = useState(false)
 
 
 	useEffect(() => {
@@ -48,6 +52,15 @@ const settings = () => {
 				setUserConfiguration(false)
 				loadAll()
 			})
+	}
+
+	const handleDelete = (e) => {
+		e.preventDefault();
+
+		axios.delete(`/api/user/delete/${selectedUser._id}`)
+			.then(res => console.log(res))
+
+		router.push('/home')
 	}
 
 
@@ -108,6 +121,19 @@ const settings = () => {
 							:
 							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold' onClick={addAdmin}>Make Admin</button> 
 							}
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={() =>{
+								showUserDeletion(true)
+							}}>Delete User</button>
+
+							{/* MODAL FOR USER DELETION CONFIRMATION */}
+							<Modal show={userDeletion} onHide={() => showUserDeletion(false)}>
+								<Modal.Header id="dropdown">Are you sure you want to delete {selectedUser.name}</Modal.Header>
+								<Modal.Body id="dropdown" className='w-full flex mx-auto flex-row items-center justify-between'>
+									<button className='buttons' onClick={() => showUserDeletion(false)}>Cancel</button>
+									<button className='red-buttons' onClick={handleDelete}>DELETE</button>
+								</Modal.Body>
+							</Modal>
+
 						</Modal.Body>
 						</>
 					}
