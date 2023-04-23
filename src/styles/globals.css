@@ -36,6 +36,9 @@
   .manage-container {
     @apply w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2 bg-[--secondary-bg] rounded-lg
   }
+  .daily-container{
+    @apply border h-[400px] rounded
+  }
   #dropdown {
     @apply bg-[#494A4C] border-none
   }
