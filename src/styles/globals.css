@@ -40,7 +40,7 @@
     @apply h-[500px] w-full lg:w-[70%] rounded mb-2 flex flex-col items-center p-2 bg-[#3a3b3c]
   }
   .timesheet-item{
-    @apply bg-slate-500 p-1 rounded
+    @apply bg-slate-500 p-1 rounded w-[200px]
   }
   #dropdown {
     @apply bg-[#494A4C] border-none

@@ -170,7 +170,7 @@ const settings = () => {
 
 								{ accessories && accessories.map(accessory => {
 									return(
-										<button className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
+										<button key={accessory._id} className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
 											e.preventDefault()
 											axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
 											.then(res => {

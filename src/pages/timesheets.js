@@ -25,7 +25,7 @@ const timesheets = () => {
         </div>
         <div className='w-full lg:w-[90%] h-auto p-3'>
             { timesheets && timesheets.filter( timesheet => 
-              search === '' || timesheet.author.toLowerCase().includes(search.toLowerCase())).map(timesheet => <TimesheetCard loadAll={loadAll} timesheet={timesheet}/>) }
+              search === '' || timesheet.author.toLowerCase().includes(search.toLowerCase())).map(timesheet => <TimesheetCard key={timesheet._id} loadAll={loadAll} timesheet={timesheet}/>) }
         </div>
     </div>
   )

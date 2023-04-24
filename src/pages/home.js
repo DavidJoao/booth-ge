@@ -44,7 +44,7 @@ const Home = () => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :
                     singleJobsite && singleJobsite.map(jobsite => {
-                        return( <JobsiteCard key={jobsite.name} jobsite={jobsite} auth={auth}/> )})
+                        return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
             }
             </div>
         </div>
