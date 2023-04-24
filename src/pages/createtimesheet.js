@@ -29,8 +29,8 @@ const createtimesheet = () => {
 
     useEffect(() => {
         loadAll()
-      if (!auth.token) router.push('/login')
-      CheckSession(AuthContext, setAuth)
+        CheckSession(AuthContext, setAuth)
+        if (auth.token === null || auth.token === undefined ) router.push('/login')
     }, [])
 
     const handleChange = (e) => {
@@ -62,6 +62,7 @@ const createtimesheet = () => {
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center">
+            <h2>Day {days.length + 1} of 5</h2>
             <div className="daily-container">
                 <label>Date:</label>
                 <input required name="date" value={form.date} type="date" className="input" onChange={handleChange}/>
