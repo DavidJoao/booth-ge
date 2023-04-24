@@ -55,6 +55,7 @@ const createtimesheet = () => {
         .then( res => {
             loadAll()
             setForm(initialForm)
+            setDays([])
         })
         .catch(err => console.log(err))
     }
@@ -77,10 +78,9 @@ const createtimesheet = () => {
                 <label>Description:</label>
                 <textarea required name="description" value={form.description} className="input w-[90%] h-[100px]" onChange={handleChange}></textarea>
             </div>
-            { days && days.length === 5 ? 
+            { days && days.length >= 4 ? 
             <>
                 <button className="buttons" onClick={handleSubmit}>Submit</button>
-                <button className="buttons mt-2" onClick={handleNextDay}>Next Day</button>
             </>
                 :
                 <button className="buttons" onClick={handleNextDay}>Next Day</button>

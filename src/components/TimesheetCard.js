@@ -2,7 +2,7 @@ import React from 'react'
 
 const TimesheetCard = ( {timesheet} ) => {
   return (
-    <div id='menu' className='p-2 rounded mt-2'>
+    <div id='menu' className='p-2 rounded mt-5'>
         <h4 className='border-b-[1px]'>{timesheet.author}</h4>
         { timesheet && timesheet.days.map(day => {
             return(
