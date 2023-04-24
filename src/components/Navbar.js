@@ -37,11 +37,12 @@ const Navbar = () => {
 			<Dropdown.Menu id='menu'>
 				<div className='flex flex-col w-[350px] p-4 bg-[#3a3b3c]'>
 					<Link className='nav-buttons' href={'/home'}>Home</Link>
+					<Link className='nav-buttons' href={'/createtimesheet'}>Create Timesheet</Link>
 					{ auth && auth.isAdmin ? 
 					<>
+						<Link className='nav-buttons' href={'/timesheets'}>Timesheets</Link>
 						<Link className='nav-buttons' href={'/settings'}>Settings</Link>
 						<Link className='nav-buttons' href={'/post'}>Post</Link>
-						<Link className='nav-buttons' href={'/timesheets'}>Timesheets</Link>
 						<Link className='nav-buttons' href={'/reports'}>Daily Reports</Link>
 					</>
 					:
@@ -52,7 +53,6 @@ const Navbar = () => {
 					</>
 					:
 					<></>}
-					<Link className='nav-buttons' href={'/createtimesheet'}>Create Timesheet</Link>
 					<button className='nav-buttons' onClick={handleLogout}>Log Out</button>
 				</div>
 			</Dropdown.Menu>

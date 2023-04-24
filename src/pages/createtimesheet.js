@@ -29,7 +29,6 @@ const createtimesheet = () => {
 
     useEffect(() => {
         loadAll()
-        CheckSession(AuthContext, setAuth)
         if (auth.token === null || auth.token === undefined ) router.push('/login')
     }, [])
 
@@ -41,16 +40,12 @@ const createtimesheet = () => {
         })
     }
 
-    const handleNextDay = (e) => {
-        e.preventDefault();
-
-        setDays([...days, form])
+    const handleNextDay = () => {
+        days.push(form)
         setForm(initialForm)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
+    const handleSubmit = () => {
         axios.post(`/api/timesheet/post`, JSON.stringify(initialTimesheet), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {
             loadAll()
@@ -69,7 +64,7 @@ const createtimesheet = () => {
                 <label>Jobsite:</label>
                 <input required name="jobsite" value={form.jobsite} className="input" placeholder="Ex. Perugia 123" onChange={handleChange}/>
                 <label>Foreman:</label>
-                <input required name="foreman" value={form.foreman} className="input" onChange={handleChange}/>
+                <input required name="foreman" value={form.foreman} className="input" placeholder="Ex. Alfredo" onChange={handleChange}/>
                 <label>Start Time:</label>
                 <input required name="startTime" value={form.startTime} type="time" className="input" placeholder="7:00" onChange={handleChange}/>
                 <label>Finish Time:</label>
@@ -77,11 +72,15 @@ const createtimesheet = () => {
                 <label>Total Hrs:</label>
                 <input required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
                 <label>Description:</label>
-                <textarea required name="description" value={form.description} className="input w-[90%] h-[100px]" onChange={handleChange}></textarea>
+                <textarea required name="description" value={form.description} className="input h-[100px]" placeholder="Description of work performed" onChange={handleChange}></textarea>
             </div>
             { days && days.length >= 4 ? 
             <>
-                <button className="buttons" onClick={handleSubmit}>Submit</button>
+                <button className="buttons" onClick={(e) => {
+                    e.preventDefault();
+                    days.push(form)
+                    handleSubmit()
+                }}>Submit</button>
             </>
                 :
                 <button className="buttons" onClick={handleNextDay}>Next Day</button>

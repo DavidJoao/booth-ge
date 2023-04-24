@@ -70,7 +70,7 @@ const settings = () => {
 				<h3>Manage Employees</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
 					{ users && users.map(user => 
-							<div key={user._id} onClick={() => {
+							<div className='' key={user._id} onClick={() => {
 								setUserConfiguration(true)
 								setSelectedUser(user)
 								}}>
