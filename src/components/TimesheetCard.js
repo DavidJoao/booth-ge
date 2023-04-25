@@ -23,9 +23,9 @@ const TimesheetCard = ( {timesheet, loadAll} ) => {
                         <p className='timesheet-item'>Date: {day.date}</p>
                         <p className='timesheet-item'>Start Time: {day.startTime}</p>
                         <p className='timesheet-item'>Finish Time: {day.finishTime}</p>
+                        <p className='timesheet-item'>Total Hrs: {day.totalHrs}</p>
                         <p className='timesheet-item'>Jobsite: {day.jobsite}</p>
                         <p className='timesheet-item'>Foreman: {day.foreman}</p>
-                        <p className='timesheet-item'>Total Hrs: {day.totalHrs}</p>
                     </div>
                     <p className='timesheet-item w-[100px]'>Description:</p>
                     <p className='break-words'>{day.description}</p>
