@@ -2,11 +2,13 @@ import axios from '@/custom/axios'
 import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
+import { useRouter } from 'next/router'
 
 const createdaily = () => {
 
     const { auth, setAuth, loadAll } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
+    const router = useRouter()
 
     const initialDaily = {
         date: '',
@@ -23,7 +25,7 @@ const createdaily = () => {
     const [ daily, setDaily ] = useState(initialDaily)
 
     useEffect(() => {
-        if (auth.isAdmin === false || auth.isForeman === false) router.push('/home')
+        if ( auth.isForeman === false) router.push('/home')
       })
 
     useEffect(() => {

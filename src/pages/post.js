@@ -62,7 +62,6 @@ const post = () => {
 
         setX(initialX)
         loadAll()
-        router.push('/settings')
         } catch (error) {
             console.log(error)
         }
