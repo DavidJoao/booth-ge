@@ -1,7 +1,7 @@
 const Jobsite = require('../../../../../models/jobsite')
 const User = require('../../../../../models/user')
 
-export default async function (req, res, next) {
+export default async function addUserToJobsite (req, res, next) {
     
     try {
 

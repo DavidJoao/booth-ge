@@ -1,7 +1,7 @@
 const Jobsite = require('../../../../../models/jobsite')
 const Equipment = require('../../../../../models/equipment')
 
-export default async function (req, res, next) {
+export default async function removeEquipment(req, res, next) {
     const foundEquipment = await Equipment.findOne({ _id: req.query.equipmentId })
     const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
 

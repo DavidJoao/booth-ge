@@ -1,6 +1,6 @@
 const User = require('../../../models/user')
 
-export default async function (req, res, next) {
+export default async function findUserByEmail (req, res, next) {
     const { email } = req.query;
 
     const foundUser = User.findOne({ email: email })

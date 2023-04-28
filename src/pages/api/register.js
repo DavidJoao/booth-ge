@@ -1,7 +1,7 @@
 const User = require('../../models/user')
 const bcrypt = require('bcrypt')
 
-export default async function (req, res, next) {
+export default async function register (req, res, next) {
     const { password, email, name, isAdmin, isForeman } = req.body;
 
     let foundEmail = await User.findOne({ email: email})

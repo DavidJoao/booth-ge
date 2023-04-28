@@ -2,7 +2,7 @@ const Equipment = require('../../../../../models/equipment')
 const Accessory = require('../../../../../models/accessory')
 const Jobsite = require('../../../../../models/jobsite')
 
-export default async function (req, res, next) {
+export default async function addAccessory (req, res, next) {
 
     try {
         const foundEquipment = await Equipment.findById(req.query.equipmentId)

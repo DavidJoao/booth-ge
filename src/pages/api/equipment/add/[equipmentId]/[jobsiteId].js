@@ -1,7 +1,7 @@
 const Jobsite = require('../../../../../models/jobsite')
 const Equipment = require('../../../../../models/equipment')
 
-export default async function (req, res, next) {
+export default async function addEquipment(req, res, next) {
     
     try {
 

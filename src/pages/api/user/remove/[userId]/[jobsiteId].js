@@ -1,7 +1,7 @@
 const Jobsite = require('../../../../../models/jobsite')
 const User = require('../../../../../models/user')
 
-export default async function (req, res, next) {
+export default async function removeUserFromJobsite (req, res, next) {
     const foundUser = await User.findOne({ _id: req.query.userId })
     const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
 

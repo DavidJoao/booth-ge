@@ -1,6 +1,6 @@
 const Jobsite = require('../../../../models/jobsite')
 
-export default async function (req, res, next) {
+export default async function findOneJobsite (req, res, next) {
     try {
         const jobsites = await Jobsite.find({});
         const email = req.query.email;
