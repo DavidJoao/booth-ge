@@ -1,8 +1,6 @@
 const User = require('../../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-import Cookies from 'js-cookie';
-import { setCookie } from 'cookies-next'
 
 export default async function(req, res, next) {
     const { email, password } = req.body;

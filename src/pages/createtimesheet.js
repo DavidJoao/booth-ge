@@ -1,12 +1,11 @@
 import AuthContext from "@/custom/AuthProvider"
 import { useContext, useEffect, useState } from "react"
-import CheckSession from "@/custom/CheckSession"
 import { useRouter } from "next/router"
 import axios from "@/custom/axios"
 
 const createtimesheet = () => {
 
-    const { auth, setAuth, loadAll } = useContext(AuthContext)
+    const { auth, loadAll } = useContext(AuthContext)
     const router = useRouter()
 
     const initialForm = {

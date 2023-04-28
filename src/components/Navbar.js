@@ -4,7 +4,7 @@ import AuthContext from '@/custom/AuthProvider'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
-import { Dropdown, NavDropdown } from 'react-bootstrap'
+import { Dropdown } from 'react-bootstrap'
 
 const Navbar = () => {
 

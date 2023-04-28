@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import axios from "./axios"
 
-const CheckSession = ( AuthContext, setAuth  ) => {
+const CheckSession = ( setAuth  ) => {
 
     
     const tokenCookie = Cookies.get('token')
