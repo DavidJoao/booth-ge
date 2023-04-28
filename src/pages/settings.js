@@ -26,7 +26,7 @@ const settings = () => {
 
 	useEffect(() => {
 		CheckSession(AuthContext, setAuth)
-		if (!auth.token) router.push('/login')
+		if (auth.isAdmin == false) router.push('/login')
 	}, [])
 
 	useEffect(() => {
@@ -52,6 +52,22 @@ const settings = () => {
 				setUserConfiguration(false)
 				loadAll()
 			})
+	}
+
+	const addForeman = () => {
+		axios.patch(`/api/user/foreman/add/${selectedUser._id}`)
+			.then(res => {
+				setUserConfiguration(false)
+				loadAll()
+			})
+	}
+
+	const removeForeman = () => {
+		axios.patch(`/api/user/foreman/remove/${selectedUser._id}`)
+		.then(res => {
+			setUserConfiguration(false)
+			loadAll()
+		})
 	}
 
 	const handleDelete = (e) => {
@@ -121,6 +137,14 @@ const settings = () => {
 							:
 							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold' onClick={addAdmin}>Make Admin</button> 
 							}
+
+
+							{ selectedUser.isForeman? 
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={removeForeman}>Remove Foreman</button>
+							:
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold mt-2' onClick={addForeman}>Make Foreman</button> 
+							}
+
 							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={() =>{
 								showUserDeletion(true)
 							}}>Delete User</button>

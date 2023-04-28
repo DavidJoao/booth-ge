@@ -39,8 +39,6 @@ export default function Home() {
             <p>Email: booth@gmail.com</p>
             <p>Address: 341 Starcrest Street</p>
             <p>City, State, ZIP: Acton, CA, 93550</p>
-
-            <Link href={'/about'} className="buttons mt-3 border-[1px] border-white">About Us</Link>
         </div>
       </div>
     </div>
