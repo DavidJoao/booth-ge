@@ -18,7 +18,7 @@ const Navbar = () => {
   useEffect(() => {
 	setTokenCookie(Cookies.get('token'))
 	CheckSession(AuthContext, setAuth)
-  }, [])
+  }, [setAuth, setTokenCookie])
 
   const handleLogout = (e) => {
 	Cookies.remove('token')

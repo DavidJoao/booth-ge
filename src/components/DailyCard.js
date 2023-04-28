@@ -28,7 +28,7 @@ const DailyCard = ({ daily, loadAll }) => {
         <ul className='list-disc'>
             { daily && daily.employees.map((employee) => {
                 return (
-                    <li>Name: {employee.name} - Hours: {employee.hours}</li>
+                    <li key={employee.name}>Name: {employee.name} - Hours: {employee.hours}</li>
                 )
             }) }
         </ul>

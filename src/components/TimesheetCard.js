@@ -18,7 +18,7 @@ const TimesheetCard = ( {timesheet, loadAll} ) => {
         </div>
         { timesheet && timesheet.days.map(day => {
             return(
-                <div className='p-2 border-[1px] rounded m-1 flex flex-col'>
+                <div className='p-2 border-[1px] rounded m-1 flex flex-col' key={day.date}>
                     <div className='flex flex-col lg:flex-row items-center justify-evenly'>
                         <p className='timesheet-item'>Date: {day.date}</p>
                         <p className='timesheet-item'>Start Time: {day.startTime}</p>
