@@ -4,7 +4,7 @@ import AuthContext from '@/custom/AuthProvider'
 import DailyCard from '@/components/DailyCard'
 import CheckSession from '@/custom/CheckSession'
 
-const reports = () => {
+const Reports = () => {
 
     const { auth, setAuth, loadAll, dailies } = useContext(AuthContext)
     const [search, setSearch] = useState('')
@@ -34,4 +34,4 @@ const reports = () => {
   )
 }
 
-export default reports
+export default Reports

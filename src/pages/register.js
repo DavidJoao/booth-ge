@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import axios from '@/custom/axios'
 import { useRouter } from 'next/router'
 
-const register = () => {
+const Register = () => {
 
     const initialUser = {
         email: '',
@@ -58,4 +58,4 @@ const register = () => {
   )
 }
 
-export default register
+export default Register

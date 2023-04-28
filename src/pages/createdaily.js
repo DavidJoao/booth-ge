@@ -4,7 +4,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 
-const createdaily = () => {
+const CreateDaily = () => {
 
     const { auth, setAuth, loadAll } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
@@ -119,4 +119,4 @@ const createdaily = () => {
   )
 }
 
-export default createdaily
+export default CreateDaily

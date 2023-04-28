@@ -7,7 +7,7 @@ import UserCard from '@/components/UserCard'
 import { Modal } from 'react-bootstrap'
 import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 
-const settings = () => {
+const Settings = () => {
 
 	const { auth, setAuth, users, loadAll, equipment, accessories } = useContext(AuthContext)
 	const router = useRouter()
@@ -217,4 +217,4 @@ const settings = () => {
 	)
 }
 
-export default settings
+export default Settings

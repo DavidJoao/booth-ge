@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import axios from "@/custom/axios"
 
-const createtimesheet = () => {
+const CreateTimesheet = () => {
 
     const { auth, loadAll } = useContext(AuthContext)
     const router = useRouter()
@@ -88,4 +88,4 @@ const createtimesheet = () => {
   )
 }
 
-export default createtimesheet
+export default CreateTimesheet

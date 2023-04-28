@@ -6,13 +6,11 @@ import CheckSession from '@/custom/CheckSession'
 import TimesheetCard from '@/components/TimesheetCard'
 import Link from 'next/link'
 
-const timesheets = () => {
+const Timesheets = () => {
 
     const { auth, setAuth, loadAll, timesheets } = useContext(AuthContext)
     const router = useRouter()
     const [search, setSearch] = useState('')
-
-    console.log(auth)
 
     useEffect(() => {
       if (auth.isAdmin === false) router.push('/home')
@@ -46,4 +44,4 @@ const timesheets = () => {
   )
 }
 
-export default timesheets
+export default Timesheets

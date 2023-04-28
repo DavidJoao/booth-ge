@@ -5,7 +5,7 @@ import axios from '@/custom/axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
 
-const login = () => {
+const Login = () => {
 
     const initialUser = {
         email: '',
@@ -70,4 +70,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

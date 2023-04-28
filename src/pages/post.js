@@ -6,7 +6,7 @@ import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 
 
-const post = () => {
+const Post = () => {
     
     const { auth, setAuth, loadAll } = useContext(AuthContext)
     const date = new Date()
@@ -128,4 +128,4 @@ const post = () => {
   )
 }
 
-export default post
+export default Post
