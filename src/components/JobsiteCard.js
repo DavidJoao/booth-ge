@@ -20,7 +20,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   }
   
   return (
-    <div className='w-full lg:w-[500px] h-[280px] lg:h-[500px] m-2 basic-container'>
+    <div className='w-full lg:w-[500px] h-[280px] lg:h-[500px] m-2 basic-container' key={jobsite._id}>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin ? 
@@ -46,7 +46,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             <p className='border-t-[1px] border-white pt-2'>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
               return(
-                <div className='flex flex-row items-center justify-between'>
+                <div className='flex flex-row items-center justify-between' key={employee._id}>
                     <p>{employee.name}</p>
                     { auth.isAdmin ? 
                       <button className='bg-red-700 rounded w-[70px]' onClick={() => {
@@ -62,7 +62,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             <p className='border-t-[1px] border-white pt-2'>Equipment:</p>
             { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
               return(
-                <div className='border flex flex-col justify-center rounded p-2 mb-2'>
+                <div className='border flex flex-col justify-center rounded p-2 mb-2' key={equipment._id}>
                   <div className='flex flex-row items-start justify-between'>
                     <p>{equipment.number} {equipment.name}</p>
                     { auth.isAdmin ? 
@@ -80,7 +80,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                   <ul className='list-disc'>
                   {equipment.accessories.map(accessory => {
                     return(
-                      <li className='m-1'>{accessory.name}
+                      <li className='m-1' key={accessory._id}>{accessory.name}
                       {auth.isAdmin ? 
                         <button className='float-right bg-red-600 hover:bg-red-500 w-[20px] rounded text-center' onClick={(e) => {
                           e.preventDefault()

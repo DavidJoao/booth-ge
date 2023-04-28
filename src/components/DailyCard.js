@@ -9,7 +9,7 @@ const DailyCard = ({ daily, loadAll }) => {
 
 
   return (
-    <div id='menu' className='w-[45%] p-3 rounded m-2'>
+    <div id='menu' className='w-[45%] p-3 rounded m-2' key={daily._id}>
         <p className='w-full text-center border-b-[1px]'>{daily.date} at {daily.name} <button className='float-right bg-red-700 border rounded' onClick={(e) => {
             e.preventDefault()
             axios.delete(`/api/daily/delete/${daily._id}`)
