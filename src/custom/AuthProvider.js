@@ -13,6 +13,7 @@ export const AuthProvider = ( { children } ) => {
     const [equipment, setEquipment] = useState([])
     const [accessories, setAccessories] = useState([])
     const [timesheets, setTimesheets] = useState([])
+    const [dailies, setDailies] = useState([])
 
     const loadAll = () => {
         axios.get('/api/jobsite/all')
@@ -32,6 +33,9 @@ export const AuthProvider = ( { children } ) => {
 
         axios.get('/api/timesheet/all')
         .then(res => setTimesheets(res.data))
+
+        axios.get('/api/daily/all')
+        .then(res => setDailies(res.data))
     }
     
     return(
@@ -41,7 +45,7 @@ export const AuthProvider = ( { children } ) => {
             tokenCookie, setTokenCookie, 
             setJobsites, 
             loadAll, 
-            jobsites, users, notifications, equipment, accessories, timesheets }}>
+            jobsites, users, notifications, equipment, accessories, timesheets, dailies }}>
             {children}
         </AuthContext.Provider>
     )

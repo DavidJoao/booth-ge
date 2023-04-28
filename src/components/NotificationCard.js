@@ -19,7 +19,7 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
             ''
              }
       </h1>
-      <p className="break-words overflow-auto border-[1px] border-white rounded p-2">{notification.message}</p>
+      <p className="break-words overflow-auto border-[1px] border-white rounded p-2 bg-[rgba(255,255,255,0.3)]">{notification.message}</p>
       <p>Posted By: {notification.author}</p>
       <p>Date: {notification.date}</p>
     </div>

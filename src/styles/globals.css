@@ -42,6 +42,9 @@
   .timesheet-item{
     @apply bg-slate-500 p-1 rounded w-[200px]
   }
+  .centered-main{
+    @apply bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center
+  }
   #dropdown {
     @apply bg-[#494A4C] border-none
   }
