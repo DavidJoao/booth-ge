@@ -28,7 +28,7 @@ const Reports = () => {
         </div>
         <div id='dropdown' className='rounded w-full lg:w-full min-h-[500px] h-auto p-4 flex flex-col items-center justify-start'>
             { dailies && dailies.filter( daily => 
-                search === '' || daily.foreman.toLowerCase().includes(search.toLowerCase())).map(daily => <DailyCard daily={daily} loadAll={loadAll}/>) }
+                search === '' || daily.foreman.toLowerCase().includes(search.toLowerCase())).map(daily => <DailyCard key={daily._id} daily={daily} loadAll={loadAll}/>) }
         </div>
     </div>
   )

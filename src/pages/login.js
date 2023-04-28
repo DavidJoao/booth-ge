@@ -65,7 +65,7 @@ const Login = () => {
             <button className='buttons mx-auto mt-3'>Login</button>
         </form>
             <p className='text-red-600'>{errorMessage}</p>
-            <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Don't have an account? Register here</Link>
+            <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Do not have an account? Register here</Link>
     </div>
   )
 }

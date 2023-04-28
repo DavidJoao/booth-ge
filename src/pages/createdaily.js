@@ -92,7 +92,7 @@ const CreateDaily = () => {
                 }}/>
                 { tempArray.map((employee, index) => {
                     return (
-                        <div className='flex items-center w-full p-2'>
+                        <div className='flex items-center w-full p-2' key={employee.name}>
                             <label>Name:</label>
                             <input required className='input' name={`employee-${index}-name`} onChange={(e) => {
                                 const newEmployees = [...daily.employees];
