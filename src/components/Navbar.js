@@ -29,31 +29,33 @@ const Navbar = () => {
   
   return (
     <div className='p-2 border-[1px] border-black flex flex-row items-center justify-between bg-[#3a3b3c] text-white'>
-	<Link href='/' className='w-1/2 block lg:hidden text-white text-3xl no-underline'>Booth Grading</Link>
+	<Link href='/' className='w-full block lg:hidden text-white text-3xl no-underline'>Booth Grading</Link>
 	<Link href='/' className='w-1/2 hidden lg:block text-white text-3xl no-underline'>Booth Grading and Excavating</Link>
     { tokenCookie ? 
 		<Dropdown>
 			<Dropdown.Toggle id='dropdown'><p className='pr-5 pl-5 h-[5px] text-white'>{menuIcon}</p></Dropdown.Toggle>
 			<Dropdown.Menu id='menu'>
-				<div className='flex flex-col w-[350px] p-4 bg-[#3a3b3c]'>
-					<Link className='nav-buttons' href={'/home'}>Home</Link>
-					<Link className='nav-buttons' href={'/createtimesheet'}>Create Timesheet</Link>
+				<div className='flex flex-col items-center w-[350px] p-4 bg-[#3a3b3c]'>
+					<Dropdown.Item onClick={() => router.push('/home')}><button className='nav-buttons' >Home</button></Dropdown.Item>
+					<Dropdown.Item onClick={() => router.push('/createtimesheet')}><button className='nav-buttons'>Create Timesheet</button></Dropdown.Item>
+					
 					{ auth && auth.isAdmin ? 
 					<>
-						<Link className='nav-buttons' href={'/timesheets'}>Timesheets</Link>
-						<Link className='nav-buttons' href={'/settings'}>Settings</Link>
-						<Link className='nav-buttons' href={'/post'}>Post</Link>
-						<Link className='nav-buttons' href={'/reports'}>Daily Reports</Link>
+						<Dropdown.Item onClick={() => router.push('/timesheets')}><button className='nav-buttons'>Timesheets</button></Dropdown.Item>
+						<Dropdown.Item onClick={() => router.push('/settings')}><button className='nav-buttons'>Settings</button></Dropdown.Item>
+						<Dropdown.Item onClick={() => router.push('/post')}><button className='nav-buttons'>Post</button></Dropdown.Item>
+						<Dropdown.Item onClick={() => router.push('/reports')}><button className='nav-buttons'>Daily Reports</button></Dropdown.Item>
 					</>
 					:
 					<></>}
 					{ auth && auth.isAdmin || auth.isForeman ?
 					<>
-						<Link className='nav-buttons' href={'/createdaily'}>Create Daily Report</Link>
+						<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
 					</>
 					:
 					<></>}
-					<button className='nav-buttons' onClick={handleLogout}>Log Out</button>
+					<Dropdown.Item className='hover:bg-none' onClick={handleLogout}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
+					
 				</div>
 			</Dropdown.Menu>
 		</Dropdown>
