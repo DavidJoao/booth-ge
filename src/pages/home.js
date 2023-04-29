@@ -32,13 +32,13 @@ const Home = () => {
     <div className='flex flex-col items-start bg-[#242526] h-screen'>
         <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name}</h1>
         <div className='home-container'>
-            <div className='notifications-container bg-[#3a3b3c]'>
+            <div className='notifications-container bg-[#3a3b3c]  min-h-[300px] '>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>
                 { notifications && notifications.map(notification => {
                     return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                 }) }
             </div>
-            <div className='jobsite-container scroll'>
+            <div className='jobsite-container scroll min-h-[300px]'>
                 { auth.isAdmin ? 
                     jobsites && jobsites.map(jobsite => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})

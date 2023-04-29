@@ -28,7 +28,7 @@
     @apply h-[90%] w-[360px] lg:w-[30%] rounded-xl shadow-2xl bg-[rgba(255,255,255,0.5)] flex flex-col items-center overflow-auto mb-5 lg:mb-0
   }
   .jobsite-container{
-    @apply lg:h-[500px] lg:h-[90%] w-[360px] lg:w-[60%] flex flex-col items-center lg:overflow-auto p-3 shadow-xl border-l-[1px] border-[#494A4C]
+    @apply lg:h-[500px] lg:h-[90%] w-[360px] lg:w-[60%] flex flex-col items-center lg:overflow-auto p-3 shadow-xl border-[#494A4C]
   }
   .form-container{
     @apply w-full flex flex-col items-center justify-start h-full rounded p-2
