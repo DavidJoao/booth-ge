@@ -29,7 +29,7 @@ const Home = () => {
     }, [])
     
   return (
-    <div className='flex flex-col items-start bg-[#242526]'>
+    <div className='flex flex-col items-start bg-[#242526] h-screen'>
         <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name}</h1>
         <div className='home-container'>
             <div className='notifications-container bg-[#3a3b3c]'>
