@@ -35,7 +35,7 @@ const Register = () => {
             setUser(initialUser)
         })
         .catch(error => {
-            if (error.response.status) setErrorMessage('Email already exists')
+            setErrorMessage(error.response.data.error)
         })
 
     }
@@ -45,11 +45,11 @@ const Register = () => {
         <p className='text-5xl font-extrabold mb-2'>Sign Up Form</p>
         <form className='form' onSubmit={handleRegister}>
             <label>Email:</label>
-            <input name='email' value={user.email} className="input" onChange={handleChange}/>
+            <input placeholder='example@gmail.com' name='email' value={user.email} className="input" onChange={handleChange}/>
             <label>Name:</label>
-            <input name='name' value={user.name} className="input" onChange={handleChange}/>
+            <input placeholder='Jose Sandoval' name='name' value={user.name} className="input" onChange={handleChange}/>
             <label>Password:</label>
-            <input name='password' value={user.password} type={'password'} className="input" onChange={handleChange}/>
+            <input placeholder='*******' name='password' value={user.password} type={'password'} className="input" onChange={handleChange}/>
             <button className='buttons mx-auto mt-3'>Register</button>
         </form>
             <p className='text-red-600 font-bold'>{errorMessage}</p>

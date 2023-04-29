@@ -122,7 +122,7 @@ const Settings = () => {
 					setUserConfiguration(false)
 					setErrorMessage('')
 					}}>
-					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedUser.name}</Modal.Header>
+					<Modal.Header closeButton className='bg-slate-600'>Choose Jobsite for {selectedUser.name}</Modal.Header>
 					<Modal.Body className='bg-[#242526]'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
@@ -135,7 +135,7 @@ const Settings = () => {
 					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
 					{ selectedUser.name === auth.name ? <></> :
 						<>
-						<Modal.Header className='bg-[#242526]'>Or</Modal.Header>
+						<Modal.Body className='bg-[#242526] border-t-[1px]'>Or</Modal.Body>
 						<Modal.Body className='bg-[#242526]'>
 							{ selectedUser.isAdmin ? 
 							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold' onClick={removeAdmin}>Remove Admin</button>
@@ -156,7 +156,7 @@ const Settings = () => {
 
 							{/* MODAL FOR USER DELETION CONFIRMATION */}
 							<Modal show={userDeletion} onHide={() => showUserDeletion(false)}>
-								<Modal.Header id="dropdown">Are you sure you want to delete {selectedUser.name}</Modal.Header>
+								<Modal.Header closeButton id="dropdown">Are you sure you want to delete {selectedUser.name}</Modal.Header>
 								<Modal.Body id="dropdown" className='w-full flex mx-auto flex-row items-center justify-between'>
 									<button className='buttons' onClick={() => showUserDeletion(false)}>Cancel</button>
 									<button className='red-buttons' onClick={handleDelete}>DELETE</button>
@@ -173,7 +173,7 @@ const Settings = () => {
 					setErrorMessage('')
 					setShowDelete(false)
 				}}>
-					<Modal.Header className='bg-[#242526]'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
+					<Modal.Header closeButton className='bg-slate-600'>Choose Jobsite for {selectedEquipment.number} {selectedEquipment.name}</Modal.Header>
 					<Modal.Body className='bg-[#242526] flex flex-col items-start h-[680px] overflow-auto'>
 
 						{/* LIST OF JOBSITES IN EQUIPMENT CONFIGURATION MODAL */}

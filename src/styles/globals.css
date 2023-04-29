@@ -40,7 +40,7 @@
     @apply h-[500px] w-full lg:w-[70%] rounded mb-2 flex flex-col items-center p-2 bg-[#3a3b3c]
   }
   .timesheet-item{
-    @apply bg-slate-500 p-1 rounded w-[200px]
+    @apply bg-slate-500 p-1 rounded lg:w-[200px]
   }
   .centered-main{
     @apply bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center

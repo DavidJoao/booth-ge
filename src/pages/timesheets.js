@@ -25,11 +25,11 @@ const Timesheets = () => {
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center">
       { auth.isAdmin ? 
       <>
-        <div className='flex w-[350px] items-center justify-center mb-2'>
-            <h4 className='w-[300px]'>Search by name</h4>
+        <div className='flex w-[350px] items-center justify-center p-1'>
+            <h4 className='w-[300px] my-0'>Search by name</h4>
             <input className='input' onChange={(e) => setSearch(e.target.value)}/>
         </div>
-        <div className='w-full lg:w-[90%] h-auto p-3'>
+        <div className='w-full lg:w-[90%] h-auto p-3 pt-0'>
             { timesheets && timesheets.filter( timesheet => 
               search === '' || timesheet.author.toLowerCase().includes(search.toLowerCase())).map(timesheet => <TimesheetCard key={timesheet._id} loadAll={loadAll} timesheet={timesheet}/>) }
         </div>

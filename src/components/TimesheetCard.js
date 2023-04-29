@@ -18,8 +18,8 @@ const TimesheetCard = ( {timesheet, loadAll} ) => {
         </div>
         { timesheet && timesheet.days.map(day => {
             return(
-                <div className='p-2 border-[1px] rounded m-1 flex flex-col' key={day.date}>
-                    <div className='flex flex-col lg:flex-row items-center justify-evenly'>
+                <div className='p-2 border-[1px] rounded m-1 flex flex-col items-start' key={day.date}>
+                    <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 lg:flex lg:flex-row lg:items-center lg:justify-evenly'>
                         <p className='timesheet-item'>Date: {day.date}</p>
                         <p className='timesheet-item'>Start Time: {day.startTime}</p>
                         <p className='timesheet-item'>Finish Time: {day.finishTime}</p>
@@ -27,7 +27,7 @@ const TimesheetCard = ( {timesheet, loadAll} ) => {
                         <p className='timesheet-item'>Jobsite: {day.jobsite}</p>
                         <p className='timesheet-item'>Foreman: {day.foreman}</p>
                     </div>
-                    <p className='timesheet-item w-[100px]'>Description:</p>
+                    <p className='timesheet-item w-full lg:w-[100px]'>Description:</p>
                     <p className='break-words'>{day.description}</p>
                 </div>
             )
