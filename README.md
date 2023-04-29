@@ -1,38 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Getting Started With Booth Grading Employee Panel <BR><BR>
 
-## Getting Started
+## Deployed Test Site - [CLICK HERE!](https://booth-ge.vercel.app/) -
 
-First, run the development server:
+### Admin Test Account: 
+- Email: admintester@booth.com
+- Password: boothtesting
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### Foreman Test Account: 
+- Email: foremantester@booth.com
+- Password: boothtesting
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Laborer Test Account: 
+- Email: laborertester@booth.com
+- Password: boothtesting
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Technologies used:
+- NextJS
+- MongoDB
+- HTML
+- React Bootstrap
+- TailwindCSS
+- Node
+- JWT Authentication
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### User Stories:
+- As an employee, I want to see my assigned jobsite.
+- As an employee, I want to be able to see start time, other employees in jobsite, and important notifications.
+- As an employee, I want to create an account and log into the portal.
+- As an employee, I want to create timesheets fast.
+- As a foreman, I want to be able to have access to do daily reports.
+- As a administrator, I want to create jobsites, notifications, accessories for equipment, equipment.
+- As a administrator, I want to manage employees and add/remove them to different jobsites
+- As a administrator, I want to manage equipment and add/remove it to/from jobsites.
+- As a administrator, I want to be able to delete users, notifications, timesheets, reports, equipment, accessories.
+- As a administrator, I want to be able to see all timesheets and daily reports.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Screenshots
+<br><br>
+Index
 
-## Learn More
+![index](/assets/index.png)
 
-To learn more about Next.js, take a look at the following resources:
+### Admin Account Screenshots
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Home
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![alt text](./assets/adminhome.png)
 
-## Deploy on Vercel
+Menu
+![admin menu](/assets/adminmenu.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Manage Employees and Equipment
+![manage](/assets/manage.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Manage Equipment
+![manage equipment](/assets/manageequip.png)
+
+Manage Employees
+![manage employees](/assets/manageuser.png)
+
+Posting new jobsites, equipment, accessories, notifications
+![post](/assets/post.png)
+![post2](/assets/post2.png)
+
+All daily reports
+![reports](/assets/reports.png)
+
+All timesheets
+![timesheets](/assets/timesheets.png)
+
+<br><br>
+
+
+### Foreman Account Screenshots
+
+Foreman Menu
+![foreman menu](/assets/foremanmenu.png)
+![create report](/assets/makereport.png)
+
+<br><br>
+
+### Laborer Account Screenshots
+
+Laborer Home
+![home laborer](/assets/laborerhome.png)
+
+Laborer Menu
+![menu laborer](/assets/laborermenu.png)
+
+Create Timesheet
+![createtimesheet](/assets/createtime.png)
