@@ -31,10 +31,10 @@ export default function Home() {
         <div className='w-full h-auto sm:h-[40vh] flex flex-col justify-center sm:justify-start items-center p-4 text-white bg-[#242526] bg-center' >
             <h1 className='text-5xl font-extrabold'>Contact Us</h1>
             <p>Want to learn more about our services or have a question about your project? Contact us using the information below:</p>
-            <p>Phone: xxx-xxx-xxx</p>
+            <p>Contact Field Administrator (Alfredo): 661-547-3730</p>
             <p>Email: booth@gmail.com</p>
-            <p>Address: 341 Starcrest Street</p>
-            <p>City, State, ZIP: Acton, CA, 93550</p>
+            <p>2149 W Carson Mesa Road</p>
+            <p>Acton, CA 93510</p>
         </div>
       </div>
     </div>
