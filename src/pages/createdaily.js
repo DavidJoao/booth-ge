@@ -29,8 +29,12 @@ const CreateDaily = () => {
       })
 
     useEffect(() => {
-        loadAll()
-        CheckSession(AuthContext, setAuth)
+        if ( auth.token === undefined) {
+            router.push('/login')
+        } else {
+            loadAll()
+            CheckSession(AuthContext, setAuth)
+        }
     }, [])
 
     const handleChange = (e) => {

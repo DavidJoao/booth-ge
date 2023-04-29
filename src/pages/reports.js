@@ -3,15 +3,21 @@ import { useContext, useEffect, useState } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import DailyCard from '@/components/DailyCard'
 import CheckSession from '@/custom/CheckSession'
+import { useRouter } from 'next/router'
 
 const Reports = () => {
 
     const { auth, setAuth, loadAll, dailies } = useContext(AuthContext)
     const [search, setSearch] = useState('')
+    const router = useRouter()
 
     useEffect(() => {
-        loadAll()
-        CheckSession(AuthContext, setAuth)
+        if ( auth.token === undefined) {
+            router.push('/login')
+        } else {
+            loadAll()
+            CheckSession(AuthContext, setAuth)
+        }
     }, [])
 
     useEffect(() => {

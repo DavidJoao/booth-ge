@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import axios from "./axios"
+import { redirect } from 'next/dist/server/api-utils'
 
 const CheckSession = ( AuthContext, setAuth  ) => {
 
@@ -21,8 +22,6 @@ const CheckSession = ( AuthContext, setAuth  ) => {
                 })
             })
     }
-    
-
 }
 
 export default CheckSession

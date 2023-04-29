@@ -25,9 +25,14 @@ const Settings = () => {
 
 
 	useEffect(() => {
-		CheckSession(AuthContext, setAuth)
 		if (auth.isAdmin == false) router.push('/login')
-	}, [])
+        if ( auth.token === undefined) {
+            router.push('/login')
+        } else {
+            loadAll()
+            CheckSession(AuthContext, setAuth)
+        }
+    }, [])
 
 	useEffect(() => {
 		loadAll()
