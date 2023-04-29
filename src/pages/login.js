@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import axios from '@/custom/axios'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
 
