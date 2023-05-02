@@ -67,6 +67,7 @@ const Settings = () => {
 				setUserConfiguration(false)
 				loadAll()
 			})
+			.catch(err => setErrorMessage(err.response.data.message))
 	}
 
 	const removeForeman = () => {
@@ -75,6 +76,7 @@ const Settings = () => {
 			setUserConfiguration(false)
 			loadAll()
 		})
+		.catch(err => setErrorMessage(err.response.data.message))
 	}
 
 	const handleDelete = (e) => {
