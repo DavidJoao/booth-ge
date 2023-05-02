@@ -204,8 +204,8 @@ const Settings = () => {
 
 								{ accessories && accessories.map(accessory => {
 									return(
-										<div className='flex items-center'>
-											<button key={accessory._id} className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
+										<div className='flex items-center' key={accessory._id}>
+											<button className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
 												e.preventDefault()
 												axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
 												.then(res => {
