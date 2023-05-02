@@ -28,6 +28,14 @@ export default async function deleteAccessory (req, res, next) {
             await foundEquipment.save()
             await foundJobsite.save()
             await Accessory.findOneAndDelete({ _id: req.query.accessoryId })
+        } else if (foundEquipment) {
+
+            const accessoryIndex = foundEquipment.accessories.findIndex((e) => e._id.equals(foundAccessory._id))
+            
+            if (accessoryIndex > -1) foundEquipment.accessories.splice(accessoryIndex, 1)
+            await foundEquipment.save()    
+            await Accessory.findOneAndDelete({ _id: req.query.accessoryId })
+
         } else if (!foundJobsite && !foundEquipment) {
             await Accessory.findOneAndDelete({ _id: req.query.accessoryId })
         }

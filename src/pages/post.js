@@ -16,7 +16,8 @@ const Post = () => {
         name: '',
         superintendent: '',
         employees: [],
-        startTime: ''
+        startTime: '',
+        contractor: ''
     }
 
     const initialNotification = {
@@ -81,6 +82,8 @@ const Post = () => {
                 <input required name='address' value={jobPost.address} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Super Intendent:</label>
                 <input required name='superintendent' value={jobPost.superintendent} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
+                <label>Contractor:</label>
+                <input required name='contractor' value={jobPost.contractor} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Start Time:</label>
                 <input required name='startTime' type='time' className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>

@@ -225,7 +225,7 @@ const Settings = () => {
 											<Modal show={accessoryDeletion} onHide={() => showAccessoryDeletion(false)}>
 												<Modal.Header closeButton id="dropdown">Are you sure you want to delete {selectedAccessory.name}</Modal.Header>
 												<Modal.Body id="dropdown" className='w-full flex mx-auto flex-row items-center justify-between'>
-													<button className='buttons' onClick={() => showUserDeletion(false)}>Cancel</button>
+													<button className='buttons' onClick={() => showAccessoryDeletion(false)}>Cancel</button>
 													<button className='red-buttons' onClick={(e) => {
 													e.preventDefault()
 						
