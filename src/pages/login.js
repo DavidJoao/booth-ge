@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
+import Image from 'next/image'
 
 const Login = () => {
 
@@ -57,7 +58,7 @@ const Login = () => {
   return (
     <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526]'>
         <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
-        <img src='http://www.boothgrading.com/www.boothgrading.com/Welcome_files/Booth%20Grading%20%26%20Exc.jpg' className='m-2 rounded-xl w-[200px]'/>
+        <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleLogin}>
             <label>Email:</label>
             <input name='email' value={user.email} className="input" onChange={handleChange}/>

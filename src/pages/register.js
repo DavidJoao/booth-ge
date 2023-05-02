@@ -43,7 +43,7 @@ const Register = () => {
   return (
     <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526]'>
         <p className='text-3xl font-extrabold mb-2'>Sign Up</p>
-        <img src='http://www.boothgrading.com/www.boothgrading.com/Welcome_files/Booth%20Grading%20%26%20Exc.jpg' className='m-2 rounded-xl w-[200px]'/>
+        <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleRegister}>
             <label>Email:</label>
             <input placeholder='example@gmail.com' name='email' value={user.email} className="input" onChange={handleChange}/>
