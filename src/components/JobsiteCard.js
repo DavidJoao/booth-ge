@@ -20,7 +20,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   }
   
   return (
-    <div className='w-full lg:w-[500px] h-[280px] lg:h-[500px] m-2 basic-container' key={jobsite._id}>
+    <div className='w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' key={jobsite._id}>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin ? 
@@ -39,7 +39,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
               }}>Delete</button>
             </Modal.Body>
           </Modal>
-        <div className='border-[1px] p-2 rounded-lg rounded-tl-none overflow-auto lg:h-auto'>
+        <div className='border-[1px] p-2 rounded-lg rounded-tl-none h-auto'>
             <p>Address: {jobsite.address}</p>
             <p className='  pt-2'>Start Time: {jobsite.startTime} A.M.</p>
             <p className='border-t-[1px] border-white pt-2'>Superintendent: {jobsite.superintendent}</p>
@@ -47,7 +47,11 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
               return(
                 <div className='flex flex-row items-center justify-between' key={employee._id}>
-                    <p>{employee.name}</p>
+                    { employee.isForeman === true ?
+                      <p>{employee.name} (foreman)</p>
+                      :
+                      <p>{employee.name}</p>
+                     }
                     { auth.isAdmin ? 
                       <button className='bg-red-700 rounded w-[70px]' onClick={() => {
                         axios.patch(`/api/user/remove/${employee._id}/${jobsite._id}`)

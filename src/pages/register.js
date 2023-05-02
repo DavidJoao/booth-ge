@@ -41,8 +41,9 @@ const Register = () => {
     }
 
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-center bg-[#242526]'>
-        <p className='text-5xl font-extrabold mb-2'>Sign Up Form</p>
+    <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526]'>
+        <p className='text-3xl font-extrabold mb-2'>Sign Up</p>
+        <img src='http://www.boothgrading.com/www.boothgrading.com/Welcome_files/Booth%20Grading%20%26%20Exc.jpg' className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleRegister}>
             <label>Email:</label>
             <input placeholder='example@gmail.com' name='email' value={user.email} className="input" onChange={handleChange}/>
@@ -53,7 +54,7 @@ const Register = () => {
             <button className='buttons mx-auto mt-3'>Register</button>
         </form>
             <p className='text-red-600 font-bold'>{errorMessage}</p>
-            <Link href={'/login'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Already have an account? Click Here </Link>
+            <Link href={'/login'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px] no-underline">Already have an account? Click Here </Link>
     </div>
   )
 }

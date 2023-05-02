@@ -55,8 +55,9 @@ const Login = () => {
     }
 
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-center bg-[#242526]'>
-        <p className='text-5xl font-extrabold mb-2'>Log In</p>
+    <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526]'>
+        <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
+        <img src='http://www.boothgrading.com/www.boothgrading.com/Welcome_files/Booth%20Grading%20%26%20Exc.jpg' className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleLogin}>
             <label>Email:</label>
             <input name='email' value={user.email} className="input" onChange={handleChange}/>
@@ -65,7 +66,7 @@ const Login = () => {
             <button className='buttons mx-auto mt-3'>Login</button>
         </form>
             <p className='text-red-600'>{errorMessage}</p>
-            <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px]">Do not have an account? Register here</Link>
+            <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px] no-underline">Do not have an account? Register here</Link>
     </div>
   )
 }

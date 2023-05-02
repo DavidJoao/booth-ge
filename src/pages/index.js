@@ -22,9 +22,9 @@ export default function Home() {
         <div className='w-full h-[60vh] flex flex-col items-center justify-center relative z-20 bg-[rgba(58,59,60,0.8)] p-3'>
             <h1 className='w-[360px] md:w-[700px] font-extrabold text-5xl'>Welcome to Booth Grading and Excavating</h1>
             <p className='w-[360px] md:w-[700px]'>Welcome to Booth Grading and Excavating, your go-to construction company for all your grading and excavation needs in the area. We have a team of highly experienced professionals ready to take on any project, big or small.</p>
-            <div className='w-[300px] flex justify-evenly p-1 mt-2'>
+            <div className='w-[300px] flex justify-evenly items-center p-1 mt-2'>
                 <Link href={'/login'} className='nav-buttons'>Log In</Link>
-                <p>or</p>
+                <p className='my-auto'>or</p>
                 <Link href={'/register'} className='nav-buttons'>Register</Link>
             </div>
         </div>

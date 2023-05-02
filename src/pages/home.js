@@ -37,6 +37,7 @@ const Home = () => {
                 { notifications && notifications.map(notification => {
                     return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                 }) }
+                { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}
             </div>
             <div className='jobsite-container scroll min-h-[300px]'>
                 { auth.isAdmin ? 

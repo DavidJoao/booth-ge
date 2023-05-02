@@ -17,10 +17,12 @@ const Settings = () => {
 	const [equipmentConfiguration, setEquipmentConfiguration] = useState(false)
 	const [showDelete, setShowDelete] = useState(false)
 	const [userDeletion, showUserDeletion] = useState(false)
+	const [accessoryDeletion, showAccessoryDeletion] = useState(false)
 
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
 	const [selectedEquipment, setSelectedEquipment] = useState({})
+	const [selectedAccessory, setSelectedAccessory] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
 
 
@@ -79,11 +81,11 @@ const Settings = () => {
 		e.preventDefault();
 
 		axios.delete(`/api/user/delete/${selectedUser._id}`)
-			.then(res => console.log(res))
-
-		router.push('/home')
+			.then(res => {
+				showUserDeletion(false)
+				loadAll()
+			})
 	}
-
 
 	return (
 		<div className='h-screen flex flex-col md:flex-row items-center bg-[#242526]'>
@@ -113,6 +115,8 @@ const Settings = () => {
 						}}>
 							<UserCard user={equipment} />
 						</div>) }
+
+					{ equipment && equipment.length === 0 ? <p className='text-center'>No equipment yet</p> : <></>}
 				</div>
 			</div>
 			
@@ -179,11 +183,12 @@ const Settings = () => {
 						{/* LIST OF JOBSITES IN EQUIPMENT CONFIGURATION MODAL */}
 
 						{ jobsites.map(jobsite => 
-							<div key={jobsite._id} onClick={() => setShowDelete(true)}>
+							<div key={jobsite._id} onClick={() => setShowDelete(true)} className='w-full'>
 								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}
+						<p className='mx-auto mt-2'>or</p>
 						{ showDelete == false ? 
 						<div className='w-full p-2 flex flex-col'>
 							<button className='bg-red-600 p-2 rounded' onClick={(e) => {
@@ -191,28 +196,53 @@ const Settings = () => {
 								axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
 								setEquipmentConfiguration(false)
 								loadAll()
-								router.push('/home')
 							}}>Delete Equipment</button>
 							<div className='m-2 flex flex-col items-center'>
+							<p className='mx-auto mt-2 pb-2 border-b-[1px]'>Add/Delete accessories</p>
 
 								{/* LIST OF ACCESSORIES IN EQUIPMENT CONFIGURATION MODAL */}
 
 								{ accessories && accessories.map(accessory => {
 									return(
-										<button key={accessory._id} className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
-											e.preventDefault()
-											axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
-											.then(res => {
-												loadAll()
-												router.push('/home')
-												setEquipmentConfiguration(false)
-											})
-											.catch(error => setErrorMessage(error.response.data.message))
-										}}>{accessory.name}</button>
+										<div className='flex items-center'>
+											<button key={accessory._id} className='buttons p-2 m-2 w-[300px]' onClick={(e) => {
+												e.preventDefault()
+												axios.patch(`/api/accessory/add/${accessory._id}/${selectedEquipment._id}`)
+												.then(res => {
+													loadAll()
+													setEquipmentConfiguration(false)
+												})
+												.catch(error => setErrorMessage(error.response.data.message))
+											}}>{accessory.name}</button>
+
+											<button className='border h-[30px] w-[30px] bg-red-700 rounded' onClick={(e) => {
+												e.preventDefault()
+												showAccessoryDeletion(true)
+												setSelectedAccessory(accessory)
+											}}> x </button>
+
+											{/* ACCESSORY DELETION MODAL */}
+											<Modal show={accessoryDeletion} onHide={() => showAccessoryDeletion(false)}>
+												<Modal.Header closeButton id="dropdown">Are you sure you want to delete {selectedAccessory.name}</Modal.Header>
+												<Modal.Body id="dropdown" className='w-full flex mx-auto flex-row items-center justify-between'>
+													<button className='buttons' onClick={() => showUserDeletion(false)}>Cancel</button>
+													<button className='red-buttons' onClick={(e) => {
+													e.preventDefault()
+						
+													axios.delete(`/api/accessory/delete/${selectedAccessory._id}`)
+													setEquipmentConfiguration(false)
+													showAccessoryDeletion(false)
+													router.push('/home')
+													loadAll()
+														}}>DELETE</button>
+													</Modal.Body>
+											</Modal>
+										</div>
 									)
 								}) }
 							</div>
 						</div>
+						
 						:
 						<></>}
 						<p className='font-bold text-red-600'>{errorMessage}</p>

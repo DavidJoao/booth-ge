@@ -24,7 +24,7 @@ const JobsiteMiniCard = ( { jobsite, setErrorMessage, route } ) => {
 
   return (
     <>
-        <button className='form m-2 w-[200px] border border-white hover:scale-110 duration-200' onClick={handleUpdate}>{jobsite.address}</button>
+        <button className='form mx-auto w-[200px] border border-white hover:scale-110 duration-200' onClick={handleUpdate}>{jobsite.address}</button>
     </>
   )
 }
