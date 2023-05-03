@@ -21,7 +21,7 @@ const Reports = () => {
     }, [])
 
     useEffect(() => {
-        if ( auth.isForeman === false) router.push('/home')
+        if ( auth.isAdmin === false) router.push('/home')
       })
 
 
