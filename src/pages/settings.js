@@ -90,7 +90,7 @@ const Settings = () => {
 	}
 
 	return (
-		<div className='h-screen flex flex-col md:flex-row items-center bg-[#242526]'>
+		<div className='h-auto min-h-screen flex flex-col md:flex-row items-center bg-[#242526]'>
 			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
 				<h3>Manage Employees</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
