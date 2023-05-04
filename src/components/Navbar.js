@@ -34,9 +34,9 @@ const Navbar = () => {
 		<div className='w-[300px] lg:w-[800px] flex items-center'>
 			<Link href='/home' className='w-full block lg:hidden text-white text-3xl no-underline'>Booth Grading</Link>
 			<Link href='/home' className='w-1/2 hidden lg:block text-white text-3xl no-underline'>Booth Grading and Excavating</Link>
-			{ tokenCookie ? <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[50px]'/> : <></>}
+			{ auth.token ? <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[50px]'/> : <></>}
 		</div>
-    { tokenCookie ? 
+    { auth.token ? 
 		<Dropdown>
 			<Dropdown.Toggle id='dropdown'><p className='pr-5 pl-5 h-[5px] text-white'>{menuIcon}</p></Dropdown.Toggle>
 			<Dropdown.Menu id='menu'>
