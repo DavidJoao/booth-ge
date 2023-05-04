@@ -39,9 +39,9 @@ const Login = () => {
         setErrorMessage('')
         await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
-            const { email, token, isAdmin, isForeman, name } = res?.data
+            const { email, token, isAdmin, isModerator, isForeman, name } = res?.data
             if (token) {
-                setAuth({ email, token, name, isAdmin, isForeman })
+                setAuth({ email, token, name, isAdmin, isModerator, isForeman })
                 setTokenCookie(token)
                 Cookies.set('email', email)
                 localStorage.setItem('email', email)

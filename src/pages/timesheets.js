@@ -13,7 +13,7 @@ const Timesheets = () => {
     const [search, setSearch] = useState('')
 
     useEffect(() => {
-      if (auth.isAdmin === false) router.push('/home')
+      if (auth.isModerator === false) router.push('/home')
     })
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const Timesheets = () => {
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
-      { auth.isAdmin ? 
+      { auth.isModerator ? 
       <>
         <div className='flex w-[350px] items-center justify-center p-1'>
             <h4 className='w-[300px] my-0'>Search by name</h4>
@@ -31,7 +31,7 @@ const Timesheets = () => {
         </div>
         <div className='w-full lg:w-[90%] h-auto p-3 pt-0'>
             { timesheets && timesheets.filter( timesheet => 
-              search === '' || timesheet.author.toLowerCase().includes(search.toLowerCase())).map(timesheet => <TimesheetCard key={timesheet._id} loadAll={loadAll} timesheet={timesheet}/>) }
+              search === '' || timesheet.author.toLowerCase().includes(search.toLowerCase())).map(timesheet => <TimesheetCard key={timesheet._id} loadAll={loadAll} timesheet={timesheet} auth={auth}/>) }
         </div>
       </>
       :

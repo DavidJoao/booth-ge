@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 export default async function register (req, res, next) {
     try {
-        const { password, email, name, isAdmin, isForeman } = req.body;
+        const { password, email, name, isAdmin, isModerator, isForeman } = req.body;
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
     
         let foundEmail = await User.findOne({ email: email})
@@ -24,6 +24,7 @@ export default async function register (req, res, next) {
                 email: email,
                 password: hash,
                 isAdmin: isAdmin,
+                isModerator: isModerator,
                 isForeman: isForeman,
                 name: name
             }))

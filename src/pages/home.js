@@ -13,11 +13,11 @@ const Home = () => {
     const [singleJobsite, setSingleJobsite] = useState([])
     
     useEffect(() => {
-        if (auth.isAdmin === true) {
-            axios.get('/api/jobsite/all')
+        if (auth.isAdmin === true || auth.isModerator === true) {
+            axios.get('/api/jobsite/all') 
         } else {
             axios.get(`/api/jobsite/findOne/${auth.email}`)
-                .then(res => setSingleJobsite([res.data]))
+            .then(res => setSingleJobsite([res.data]))
         }
         
     }, [router])
@@ -40,7 +40,7 @@ const Home = () => {
                 { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}
             </div>
             <div className='jobsite-container scroll min-h-[300px]'>
-                { auth.isAdmin ? 
+                { auth.isAdmin || auth.isModerator ? 
                     jobsites && jobsites.map(jobsite => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :

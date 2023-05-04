@@ -26,6 +26,7 @@ const Navbar = () => {
 	localStorage.removeItem('email')
 	localStorage.removeItem('token')
 	setTokenCookie(null)
+	setAuth({})
 	router.push('/login')
   }
   
@@ -44,16 +45,22 @@ const Navbar = () => {
 					<Dropdown.Item onClick={() => router.push('/home')}><button className='nav-buttons' >Home</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/createtimesheet')}><button className='nav-buttons'>Create Timesheet</button></Dropdown.Item>
 					
-					{ auth && auth.isAdmin ? 
+					{ auth && auth.isModerator ? 
 					<>
 						<Dropdown.Item onClick={() => router.push('/timesheets')}><button className='nav-buttons'>Timesheets</button></Dropdown.Item>
-						<Dropdown.Item onClick={() => router.push('/settings')}><button className='nav-buttons'>Settings</button></Dropdown.Item>
+
+						{/* ONLY ALLOW SETTINGS TO ADMINS */}
+						{ auth.isAdmin ? 
+							<Dropdown.Item onClick={() => router.push('/settings')}><button className='nav-buttons'>Settings</button></Dropdown.Item>
+							:
+							<></>
+						}
 						<Dropdown.Item onClick={() => router.push('/post')}><button className='nav-buttons'>Post</button></Dropdown.Item>
 						<Dropdown.Item onClick={() => router.push('/reports')}><button className='nav-buttons'>Daily Reports</button></Dropdown.Item>
 					</>
 					:
 					<></>}
-					{ auth && auth.isAdmin || auth.isForeman ?
+					{ auth && auth.isAdmin || auth.isForeman || auth.isModerator ?
 					<>
 						<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
 					</>

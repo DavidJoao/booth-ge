@@ -79,6 +79,14 @@ const Settings = () => {
 		.catch(err => setErrorMessage(err.response.data.message))
 	}
 
+	const handleRoles = (role, action) => {
+		axios.patch(`/api/user/${role}/${action}/${selectedUser._id}`)
+			.then(res => {
+				setUserConfiguration(false);
+				loadAll();
+			})
+	}
+
 	const handleDelete = (e) => {
 		e.preventDefault();
 
@@ -144,16 +152,40 @@ const Settings = () => {
 						<Modal.Body className='bg-[#242526] border-t-[1px]'>Or</Modal.Body>
 						<Modal.Body className='bg-[#242526]'>
 							{ selectedUser.isAdmin ? 
-							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold' onClick={removeAdmin}>Remove Admin</button>
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('admin','remove');
+							}}>Remove Admin</button>
 							:
-							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold' onClick={addAdmin}>Make Admin</button> 
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('admin','add');
+							}}>Make Admin</button> 
 							}
 
 
 							{ selectedUser.isForeman? 
-							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={removeForeman}>Remove Foreman</button>
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('foreman', 'remove');
+							}}>Remove Foreman</button>
 							:
-							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold mt-2' onClick={addForeman}>Make Foreman</button> 
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold mt-2' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('foreman', 'add')
+							}}>Make Foreman</button> 
+							}
+
+							{ selectedUser.isModerator ? 
+							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('moderator', 'remove');
+							}}>Remove Moderator</button>
+							:
+							<button className='w-full mx-auto bg-blue-600 text-white rounded p-1 font-bold mt-2' onClick={(e) => {
+								e.preventDefault();
+								handleRoles('moderator', 'add');
+							}}>Make Moderator</button> 
 							}
 
 							<button className='w-full mx-auto bg-red-600 text-white rounded p-1 font-bold mt-2' onClick={() =>{

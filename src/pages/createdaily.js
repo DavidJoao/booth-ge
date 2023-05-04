@@ -25,7 +25,7 @@ const CreateDaily = () => {
     const [ daily, setDaily ] = useState(initialDaily)
 
     useEffect(() => {
-        if ( auth.isAdmin === false) router.push('/home')
+        if ( auth.isForeman === false) router.push('/home')
       })
 
     useEffect(() => {

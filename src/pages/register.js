@@ -11,6 +11,7 @@ const Register = () => {
         name: '',
         isAdmin: false,
         isForeman: false,
+        isModerator: false,
     }
 
     const [user, setUser] = useState(initialUser)

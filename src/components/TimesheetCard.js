@@ -2,7 +2,7 @@ import axios from '@/custom/axios';
 import React from 'react'
 import { Carousel } from 'react-bootstrap';
 
-const TimesheetCard = ( {timesheet, loadAll} ) => {
+const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
 
 
     const handleDelete = (e) => {
@@ -15,7 +15,11 @@ const TimesheetCard = ( {timesheet, loadAll} ) => {
     <div id='menu' className='p-2 rounded mt-5'>
         <div className='flex items-center justify-between border-b-[1px] pb-1'>
             <h4>{timesheet.author}</h4>
-            <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button>
+            { auth.isAdmin ?
+                <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button>
+                :
+                <></>
+            }
         </div>
         <Carousel slide={false}>
 

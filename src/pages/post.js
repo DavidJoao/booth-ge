@@ -44,7 +44,7 @@ const Post = () => {
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)
-        if (!auth.isAdmin) router.push('/home')
+        if (!auth.isModerator) router.push('/home')
     }, [])
 
     const handleChange = (e, setX, model) => {
@@ -75,7 +75,7 @@ const Post = () => {
                 e.preventDefault()
                 handleSubmit('jobsite', jobPost, setJobPost, initialPost)
             }} className='form'>
-                <h3>Post Job</h3>
+                <h3>Post Jobsite</h3>
                 <label>Jobsite Name:</label>
                 <input required name='name' value={jobPost.name} className='input' onChange={(e) => handleChange(e, setJobPost, jobPost)}/>
                 <label>Address:</label>
