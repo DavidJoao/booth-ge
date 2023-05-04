@@ -15,7 +15,6 @@ const Login = () => {
     const { setAuth, setTokenCookie } = useContext(AuthContext)
     const router = useRouter()
     const tokenCookie = Cookies.get('token')
-    const tokenItem = localStorage.getItem('token')
     const [user, setUser] = useState(initialUser)
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -30,7 +29,8 @@ const Login = () => {
 
     //CHECKS FOR TOKEN, IF TOKEN EXITS REDIRECTS TO HOME
     useEffect(() => {
-        if (tokenCookie || tokenItem) router.push('/home')
+        if (tokenCookie ) router.push('/home')
+        if (localStorage.getItem('token')) router.push('/home')
     }, [])
 
     //LOGS USER IN
