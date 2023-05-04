@@ -58,7 +58,7 @@ const Login = () => {
     }
 
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526]'>
+    <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526] pt-[80px]'>
         <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
         <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleLogin}>
