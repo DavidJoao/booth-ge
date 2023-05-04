@@ -22,7 +22,7 @@ const Timesheets = () => {
     }, [])
 
   return (
-    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center">
+    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
       { auth.isAdmin ? 
       <>
         <div className='flex w-[350px] items-center justify-center p-1'>

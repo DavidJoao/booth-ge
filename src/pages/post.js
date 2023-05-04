@@ -69,7 +69,7 @@ const Post = () => {
     }
 
   return (
-    <div className='grid grid-cols-1 gap-4 items-center justify-center h-auto md:h-[680px] xl:h-[820px] bg-[#242526]'>
+    <div className='grid grid-cols-1 gap-4 items-center justify-center h-auto md:h-[680px] xl:h-[820px] bg-[#242526] pt-[80px]'>
         <div className='form-container'>
             <form onSubmit={(e) => {
                 e.preventDefault()

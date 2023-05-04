@@ -25,7 +25,7 @@ const CreateDaily = () => {
     const [ daily, setDaily ] = useState(initialDaily)
 
     useEffect(() => {
-        if ( auth.isForeman === false) router.push('/home')
+        if ( auth.isAdmin === false) router.push('/home')
       })
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const CreateDaily = () => {
     }
 
   return (
-    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center">
+    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
         <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center'>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Date:</label>

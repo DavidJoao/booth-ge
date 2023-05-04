@@ -26,7 +26,7 @@ const Reports = () => {
 
 
   return (
-    <div className='bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-start lg:p-4'>
+    <div className='bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-start pt-[80px] lg:p-4 lg:pt-[80px]'>
         <h3 className='mt-2'>Daily Reports</h3>
         <div className='flex items-center justify-center'>
             <h4 className='w-[300px]'>Search by Foreman</h4>

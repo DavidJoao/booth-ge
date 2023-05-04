@@ -55,7 +55,7 @@ const CreateTimesheet = () => {
     }
 
   return (
-    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center">
+    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
             <h2>Day {days.length + 1} of 5</h2>
             <div className="daily-container">
                 <label>Date:</label>
