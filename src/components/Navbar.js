@@ -30,7 +30,7 @@ const Navbar = () => {
   }
   
   return (
-    <div className='p-2 border-[1px] border-black flex flex-row items-center justify-between bg-[#3a3b3c] text-white fixed w-full'>
+    <div className='p-2 border-[1px] border-black flex flex-row items-center justify-between bg-[#3a3b3c] text-white fixed w-full z-50'>
 		<div className='w-[300px] lg:w-[800px] flex items-center'>
 			<Link href='/home' className='w-full block lg:hidden text-white text-3xl no-underline'>Booth Grading</Link>
 			<Link href='/home' className='w-1/2 hidden lg:block text-white text-3xl no-underline'>Booth Grading and Excavating</Link>
