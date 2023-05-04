@@ -25,8 +25,8 @@ const Navbar = () => {
 	Cookies.remove('email')
 	localStorage.removeItem('email')
 	localStorage.removeItem('token')
-	router.push('/')
 	setTokenCookie(null)
+	router.push('/login')
   }
   
   return (

@@ -6,7 +6,7 @@ export default async function removeUserFromJobsite (req, res, next) {
     const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
 
     if (!foundUser && !foundJobsite) throw new Error
-    const index = foundJobsite.employees.findIndex((e) => e._id.equals(foundUser._id))
+    const index = foundJobsite.employees.findIndex((e) => e._id.toString() === (foundUser._id.toString()))
 
     try {
         if (index > -1) foundJobsite.employees.splice(index, 1)
@@ -16,4 +16,4 @@ export default async function removeUserFromJobsite (req, res, next) {
     } catch (error) {
         next(error)
     }
-}
+}   

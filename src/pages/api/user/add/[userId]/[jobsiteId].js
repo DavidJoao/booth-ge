@@ -7,7 +7,7 @@ export default async function addUserToJobsite (req, res, next) {
 
         const foundUser = await User.findOne({ _id: req.query.userId })
         const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
-        const existingUser = await foundJobsite.employees.find(_id => _id === foundUser._id)
+        const existingUser = await foundJobsite.employees.find(_id => _id.toString() === foundUser._id.toString())
         const occupiedJob = await Jobsite.findOne({ "employees._id": foundUser._id })
 
         if (!foundUser && !foundJobsite) {

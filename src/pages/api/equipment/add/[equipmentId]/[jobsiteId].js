@@ -7,7 +7,7 @@ export default async function addEquipment(req, res, next) {
 
         const foundEquipment = await Equipment.findOne({ _id: req.query.equipmentId })
         const foundJobsite = await Jobsite.findOne({ _id: req.query.jobsiteId })
-        const existingEquipment = await foundJobsite.equipment.find(_id => _id === foundEquipment._id)
+        const existingEquipment = await foundJobsite.equipment.find(_id => _id.toString() === foundEquipment._id.toString())
         const occupiedJob = await Jobsite.findOne({ "equipment._id": foundEquipment._id })
 
         if (!foundEquipment && !foundJobsite) {

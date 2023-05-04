@@ -1,16 +1,19 @@
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
+import AuthContext from '@/custom/AuthProvider'
 
 
 export default function Home() {
 
   const router = useRouter()
   const tokenCookie = Cookies.get('token')
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
     if (tokenCookie) router.push('/home')
+    if (auth.token) router.push('/home')
   })
 
   return (
