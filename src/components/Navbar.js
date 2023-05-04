@@ -23,6 +23,8 @@ const Navbar = () => {
   const handleLogout = (e) => {
 	Cookies.remove('token')
 	Cookies.remove('email')
+	localStorage.removeItem('email')
+	localStorage.removeItem('token')
 	router.push('/')
 	setTokenCookie(null)
   }
