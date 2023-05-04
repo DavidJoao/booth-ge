@@ -60,9 +60,9 @@ const Login = () => {
         <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
         <form className='form' onSubmit={handleLogin}>
             <label>Email:</label>
-            <input name='email' value={user.email.toLowerCase()} className="input" onChange={handleChange}/>
+            <input name='email' value={user.email.toLowerCase()} className="input" autoComplete='username' onChange={handleChange}/>
             <label>Password:</label>
-            <input name='password' value={user.password} type={'password'} className="input" onChange={handleChange}/>
+            <input name='password' value={user.password} type={'password'} className="input" autoComplete='current-password' onChange={handleChange}/>
             <button className='buttons mx-auto mt-3'>Login</button>
         </form>
             <p className='text-red-600'>{errorMessage}</p>
