@@ -48,6 +48,9 @@
   #dropdown {
     @apply bg-[#494A4C] border-none
   }
+  #error-modal {
+    @apply bg-red-700 border-none
+  }
   #menu {
     @apply bg-[#3a3b3c]
   }

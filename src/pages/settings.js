@@ -6,6 +6,7 @@ import axios from '@/custom/axios'
 import UserCard from '@/components/UserCard'
 import { Modal } from 'react-bootstrap'
 import JobsiteMiniCard from '@/components/JobsiteMiniCard'
+import ErrorModal from '@/components/ErrorModal'
 
 const Settings = () => {
 
@@ -18,6 +19,7 @@ const Settings = () => {
 	const [showDelete, setShowDelete] = useState(false)
 	const [userDeletion, showUserDeletion] = useState(false)
 	const [accessoryDeletion, showAccessoryDeletion] = useState(false)
+	const [errorModal, setErrorModal] = useState(false)
 
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
@@ -51,7 +53,10 @@ const Settings = () => {
 				setUserConfiguration(false);
 				loadAll();
 			})
-			.catch(err => setErrorMessage(err.response.data.message))
+			.catch(err => {
+				setErrorModal(true)
+				setErrorMessage(err.response.data.message)
+			})
 	}
 
 	const handleDelete = (e) => {
@@ -108,19 +113,19 @@ const Settings = () => {
 			</div>
 			
 
-
+				{/* USER CONFIGURATION MODAL */}
 				<Modal show={userConfiguration} onHide={() => {
 					setUserConfiguration(false)
 					setErrorMessage('')
 					}}>
 					<Modal.Header closeButton className='bg-slate-600'>Choose Jobsite for {selectedUser.name} ({selectedUser.email})</Modal.Header>
-					<Modal.Body className='bg-[#242526]'>
+					<Modal.Body className='bg-[#242526] h-[450px] overflow-auto'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
 							</div>
 							) }
-							<p className='font-bold text-red-600'>{errorMessage}</p>
+							<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
 					</Modal.Body>
 
 					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
@@ -183,6 +188,8 @@ const Settings = () => {
 					}
 				</Modal>
 
+
+				{/* EQUIPMENT CONFIGURATION MODAL */}
 				<Modal className='overflow-auto' show={equipmentConfiguration} onHide={() => {
 					setEquipmentConfiguration(false)
 					setErrorMessage('')
@@ -195,7 +202,7 @@ const Settings = () => {
 
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id} onClick={() => setShowDelete(true)} className='w-full'>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}
@@ -223,7 +230,10 @@ const Settings = () => {
 													loadAll()
 													setEquipmentConfiguration(false)
 												})
-												.catch(error => setErrorMessage(error.response.data.message))
+												.catch(error => {
+													setErrorModal(true)
+													setErrorMessage(error.response.data.message)}
+													)
 											}}>{accessory.name}</button>
 
 											<button className='border h-[30px] w-[30px] bg-red-700 rounded' onClick={(e) => {
@@ -256,7 +266,7 @@ const Settings = () => {
 						
 						:
 						<></>}
-						<p className='font-bold text-red-600'>{errorMessage}</p>
+						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
 					</Modal.Body>
 				</Modal>
 		</div>

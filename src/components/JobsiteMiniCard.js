@@ -2,7 +2,7 @@ import axios from '@/custom/axios'
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const JobsiteMiniCard = ( { jobsite, setErrorMessage, route } ) => {
+const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route } ) => {
 
     const router = useRouter()
 
@@ -14,6 +14,7 @@ const JobsiteMiniCard = ( { jobsite, setErrorMessage, route } ) => {
                     router.push('/home')
                 })
                 .catch(err => {
+                    setErrorModal(true)
                     setErrorMessage(err.response.data.message)
                 })
         } catch (error) {
