@@ -65,21 +65,31 @@ const Settings = () => {
 	}
 
 	return (
+		// CONTAINER FOR EMPLOYEES
 		<div className='h-auto min-h-screen flex flex-col md:flex-row items-center bg-[#242526] pt-[80px]'>
-			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
+			<div className='w-[350px] md:w-1/2 h-[400px] lg:h-[700px] flex flex-col items-center m-2'>
 				<h3>Manage Employees</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
-					{ users && users.map(user => 
-							<div className='' key={user._id} onClick={() => {
-								setUserConfiguration(true)
-								setSelectedUser(user)
-								}}>
-								<UserCard user={user}/>
-							</div>
-							)}
+					{ users && users.sort(function (a, b) {
+						if (a.name < b.name) {
+							return -1;
+						}
+						if (a.name > b.name) {
+							return 1;
+						}
+						return 0
+					}).map(user => 
+						<div className='' key={user._id} onClick={() => {
+							setUserConfiguration(true)
+							setSelectedUser(user)
+						}}>
+							<UserCard user={user}/>
+						</div>
+					)}
 				</div>
 			</div>
-			<div className='w-[350px] md:w-1/2 h-[400px] flex flex-col items-center m-2'>
+			{/* CONTAINER FOR EQUIPMENT */}
+			<div className='w-[350px] md:w-1/2 h-[400px] lg:h-[700px] flex flex-col items-center m-2'>
 				<h3>Manage Equipment</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
 
@@ -93,7 +103,7 @@ const Settings = () => {
 							<UserCard user={equipment} />
 						</div>) }
 
-					{ equipment && equipment.length === 0 ? <p className='text-center'>No equipment yet</p> : <></>}
+					{ equipment && equipment.length === 0 ? <p className='text-center'>No equipment yet</p> : <></> }
 				</div>
 			</div>
 			
@@ -228,15 +238,15 @@ const Settings = () => {
 												<Modal.Body id="dropdown" className='w-full flex mx-auto flex-row items-center justify-between'>
 													<button className='buttons' onClick={() => showAccessoryDeletion(false)}>Cancel</button>
 													<button className='red-buttons' onClick={(e) => {
-													e.preventDefault()
+														e.preventDefault()
 						
-													axios.delete(`/api/accessory/delete/${selectedAccessory._id}`)
-													setEquipmentConfiguration(false)
-													showAccessoryDeletion(false)
-													router.push('/home')
-													loadAll()
-														}}>DELETE</button>
-													</Modal.Body>
+														axios.delete(`/api/accessory/delete/${selectedAccessory._id}`)
+														setEquipmentConfiguration(false)
+														showAccessoryDeletion(false)
+														router.push('/home')
+														loadAll()
+													}}>DELETE</button>
+												</Modal.Body>
 											</Modal>
 										</div>
 									)

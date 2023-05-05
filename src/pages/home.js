@@ -41,7 +41,15 @@ const Home = () => {
             </div>
             <div className='jobsite-container scroll min-h-[300px]'>
                 { auth.isAdmin || auth.isModerator ? 
-                    jobsites && jobsites.map(jobsite => {
+                    jobsites && jobsites.sort(function (a, b) {
+						if (a.name < b.name) {
+							return -1;
+						}
+						if (a.name > b.name) {
+							return 1;
+						}
+						return 0
+					}).map(jobsite => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :
                     singleJobsite && singleJobsite.map(jobsite => {
