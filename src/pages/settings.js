@@ -45,46 +45,13 @@ const Settings = () => {
 			.then(res => setJobsites(res.data))
 	}, [])
 
-	const removeAdmin = () => {
-		axios.patch(`/api/user/admin/remove/${selectedUser._id}`)
-			.then(res => {
-				setUserConfiguration(false)
-				loadAll()
-			})
-	}
-	
-	const addAdmin = () => {
-		axios.patch(`/api/user/admin/add/${selectedUser._id}`)
-			.then(res => {
-				setUserConfiguration(false)
-				loadAll()
-			})
-	}
-
-	const addForeman = () => {
-		axios.patch(`/api/user/foreman/add/${selectedUser._id}`)
-			.then(res => {
-				setUserConfiguration(false)
-				loadAll()
-			})
-			.catch(err => setErrorMessage(err.response.data.message))
-	}
-
-	const removeForeman = () => {
-		axios.patch(`/api/user/foreman/remove/${selectedUser._id}`)
-		.then(res => {
-			setUserConfiguration(false)
-			loadAll()
-		})
-		.catch(err => setErrorMessage(err.response.data.message))
-	}
-
 	const handleRoles = (role, action) => {
 		axios.patch(`/api/user/${role}/${action}/${selectedUser._id}`)
 			.then(res => {
 				setUserConfiguration(false);
 				loadAll();
 			})
+			.catch(err => setErrorMessage(err.response.data.message))
 	}
 
 	const handleDelete = (e) => {
@@ -136,7 +103,7 @@ const Settings = () => {
 					setUserConfiguration(false)
 					setErrorMessage('')
 					}}>
-					<Modal.Header closeButton className='bg-slate-600'>Choose Jobsite for {selectedUser.name}</Modal.Header>
+					<Modal.Header closeButton className='bg-slate-600'>Choose Jobsite for {selectedUser.name} ({selectedUser.email})</Modal.Header>
 					<Modal.Body className='bg-[#242526]'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
