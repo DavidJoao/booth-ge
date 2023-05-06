@@ -1,8 +1,13 @@
 import axios from '@/custom/axios';
 import React from 'react'
 import { Carousel } from 'react-bootstrap';
+import { jsPDF } from 'jspdf'
 
 const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
+
+    const printIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
+    </svg>
 
 
     const handleDelete = (e) => {
@@ -11,12 +16,73 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
             .then(() => loadAll())
     }
 
+    const generatePDF = (e) => {
+        const doc = new jsPDF({
+            orientation: 'landscape'
+        })
+
+        doc.setFontSize(12)
+        doc.text(`Name: ${timesheet.author}`, 10, 10);
+        doc.text(`Total Hours: ${parseFloat(timesheet.days[0].totalHrs) + parseFloat(timesheet.days[1].totalHrs) + parseFloat(timesheet.days[2].totalHrs) + parseFloat(timesheet.days[3].totalHrs) + parseFloat(timesheet.days[4].totalHrs)}`, 150, 10)
+
+        doc.rect(10, 15, 280, 30, 'S')
+        doc.text(`Date: ${timesheet.days[0].date}`, 10, 20)
+        doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 20)
+        doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 130, 20)
+        doc.text(`Start Time: ${timesheet.days[0].startTime}`, 10, 30)
+        doc.text(`Finish Time: ${timesheet.days[0].finishTime}`, 70, 30)
+        doc.text(`Foreman: ${timesheet.days[0].foreman}`, 130, 30)
+        doc.text(`Description: ${timesheet.days[0].description}`, 10, 40)
+
+        doc.rect(10, 55, 280, 30, 'S')
+        doc.text(`Date: ${timesheet.days[1].date}`, 10, 60)
+        doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 60)
+        doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 130, 60)
+        doc.text(`Start Time: ${timesheet.days[1].startTime}`, 10, 70)
+        doc.text(`Finish Time: ${timesheet.days[1].finishTime}`, 70, 70)
+        doc.text(`Foreman: ${timesheet.days[1].foreman}`, 130, 70)
+        doc.text(`Description: ${timesheet.days[1].description}`, 10, 80)
+
+        doc.rect(10, 95, 280, 30, 'S')
+        doc.text(`Date: ${timesheet.days[2].date}`, 10, 100)
+        doc.text(`Tuesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
+        doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 130, 100)
+        doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 110)
+        doc.text(`Finish Time: ${timesheet.days[2].finishTime}`, 70, 110)
+        doc.text(`Foreman: ${timesheet.days[2].foreman}`, 130, 110)
+        doc.text(`Description: ${timesheet.days[2].description}`, 10, 120)
+
+        doc.rect(10, 135, 280, 30, 'S')
+        doc.text(`Date: ${timesheet.days[3].date}`, 10, 140)
+        doc.text(`Tuesday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
+        doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 130, 140)
+        doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 150)
+        doc.text(`Finish Time: ${timesheet.days[3].finishTime}`, 70, 150)
+        doc.text(`Foreman: ${timesheet.days[3].foreman}`, 130, 150)
+        doc.text(`Description: ${timesheet.days[3].description}`, 10, 160)
+
+        doc.rect(10, 175, 280, 30, 'S')
+        doc.text(`Date: ${timesheet.days[4].date}`, 10, 180)
+        doc.text(`Tuesday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
+        doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 130, 180)
+        doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 190)
+        doc.text(`Finish Time: ${timesheet.days[4].finishTime}`, 70, 190)
+        doc.text(`Foreman: ${timesheet.days[4].foreman}`, 130, 190)
+        doc.text(`Description: ${timesheet.days[4].description}`, 10, 200)
+
+        doc.save(`${timesheet.author}${timesheet.days[0].date}.pdf`);
+
+    }
+
   return (
     <div id='menu' className='p-2 rounded mt-5'>
         <div className='flex items-center justify-between border-b-[1px] pb-1'>
             <h4>{timesheet.author}</h4>
             { auth.isAdmin ?
-                <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button>
+                <div className='w-[150px] flex flex-row justify-between'>
+                    <button className='text-white border p-1 rounded bg-slate-600' onClick={generatePDF}>{printIcon}</button>
+                    <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button>
+                </div>
                 :
                 <></>
             }
