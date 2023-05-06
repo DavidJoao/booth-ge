@@ -21,71 +21,100 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
             orientation: 'landscape'
         })
 
+        let totalHrs = 0;
+        timesheet.days.map(day => {
+            if (day.totalHrs === "") {
+                totalHrs += 0;
+            } else {
+                totalHrs += parseFloat(day.totalHrs)
+            }
+        })
+
         doc.setFontSize(12)
         doc.text(`Name: ${timesheet.author}`, 10, 10);
-        doc.text(`Total Hours: ${parseFloat(timesheet.days[0].totalHrs) + parseFloat(timesheet.days[1].totalHrs) + parseFloat(timesheet.days[2].totalHrs) + parseFloat(timesheet.days[3].totalHrs) + parseFloat(timesheet.days[4].totalHrs)}`, 150, 10)
+        doc.text(`Total Hours: ${totalHrs}`, 150, 10);
 
-        doc.rect(10, 15, 280, 30, 'S')
+        doc.rect(5, 15, 260, 35, 'S')
         doc.text(`Date: ${timesheet.days[0].date}`, 10, 20)
         doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 20)
         doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 130, 20)
         doc.text(`Start Time: ${timesheet.days[0].startTime}`, 10, 30)
         doc.text(`Finish Time: ${timesheet.days[0].finishTime}`, 70, 30)
         doc.text(`Foreman: ${timesheet.days[0].foreman}`, 130, 30)
-        doc.text(`Description: ${timesheet.days[0].description}`, 10, 40)
+        const mondayText = `Description: ${timesheet.days[0].description}`
+        const mondayLines = doc.splitTextToSize(mondayText, 250)
+        mondayLines.forEach((line, index) => {
+            doc.text(line, 10, 40 + (index * 7))
+        })
 
-        doc.rect(10, 55, 280, 30, 'S')
+        doc.rect(5, 55, 260, 35, 'S')
         doc.text(`Date: ${timesheet.days[1].date}`, 10, 60)
         doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 60)
         doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 130, 60)
         doc.text(`Start Time: ${timesheet.days[1].startTime}`, 10, 70)
         doc.text(`Finish Time: ${timesheet.days[1].finishTime}`, 70, 70)
         doc.text(`Foreman: ${timesheet.days[1].foreman}`, 130, 70)
-        doc.text(`Description: ${timesheet.days[1].description}`, 10, 80)
+        const tuesdayText = `Description: ${timesheet.days[1].description}`
+        const tuesdayLines = doc.splitTextToSize(tuesdayText, 250)
+        tuesdayLines.forEach((line, index) => {
+            doc.text(line, 10, 80 + (index * 7))
+        })
 
-        doc.rect(10, 95, 280, 30, 'S')
+        doc.rect(5, 95, 260, 35, 'S')
         doc.text(`Date: ${timesheet.days[2].date}`, 10, 100)
         doc.text(`Tuesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
         doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 130, 100)
         doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 110)
         doc.text(`Finish Time: ${timesheet.days[2].finishTime}`, 70, 110)
         doc.text(`Foreman: ${timesheet.days[2].foreman}`, 130, 110)
-        doc.text(`Description: ${timesheet.days[2].description}`, 10, 120)
+        const wednesdayText = `Description: ${timesheet.days[2].description}`
+        const wednesdayLines = doc.splitTextToSize(wednesdayText, 250)
+        wednesdayLines.forEach((line, index) => {
+            doc.text(line, 10, 120 + (index * 7))
+        })
 
-        doc.rect(10, 135, 280, 30, 'S')
+        doc.rect(5, 135, 260, 35, 'S')
         doc.text(`Date: ${timesheet.days[3].date}`, 10, 140)
         doc.text(`Tuesday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
         doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 130, 140)
         doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 150)
         doc.text(`Finish Time: ${timesheet.days[3].finishTime}`, 70, 150)
         doc.text(`Foreman: ${timesheet.days[3].foreman}`, 130, 150)
-        doc.text(`Description: ${timesheet.days[3].description}`, 10, 160)
+        const thursdayText = `Description: ${timesheet.days[3].description}`
+        const thursdayLines = doc.splitTextToSize(thursdayText, 250)
+        thursdayLines.forEach((line, index) => {
+            doc.text(line, 10, 160 + (index * 7))
+        })
 
-        doc.rect(10, 175, 280, 30, 'S')
+        doc.rect(5, 175, 260, 35, 'S')
         doc.text(`Date: ${timesheet.days[4].date}`, 10, 180)
         doc.text(`Tuesday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
         doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 130, 180)
         doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 190)
         doc.text(`Finish Time: ${timesheet.days[4].finishTime}`, 70, 190)
         doc.text(`Foreman: ${timesheet.days[4].foreman}`, 130, 190)
-        doc.text(`Description: ${timesheet.days[4].description}`, 10, 200)
+        const fridayText = `Description: ${timesheet.days[4].description}`
+        const fridayLines = doc.splitTextToSize(fridayText, 250)
+        fridayLines.forEach((line, index) => {
+            doc.text(line, 10, 200 + (index * 7))
+        })
 
         doc.save(`${timesheet.author}${timesheet.days[0].date}.pdf`);
 
     }
 
   return (
-    <div id='menu' className='p-2 rounded mt-5'>
+    <div id='menu' className='p-2 rounded mt-5' key={timesheet._id}>
         <div className='flex items-center justify-between border-b-[1px] pb-1'>
             <h4>{timesheet.author}</h4>
-            { auth.isAdmin ?
                 <div className='w-[150px] flex flex-row justify-between'>
-                    <button className='text-white border p-1 rounded bg-slate-600' onClick={generatePDF}>{printIcon}</button>
-                    <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button>
+                    { auth.isModerator ? 
+                        <button className='text-white border p-1 rounded bg-slate-600' onClick={generatePDF}>{printIcon}</button> : <></>
+                    }
+                    { auth.isAdmin ? 
+                        <button className='bg-red-600 hover:bg-red-500 p-1 rounded' onClick={handleDelete}>delete</button> : <></>
+                    }
                 </div>
-                :
-                <></>
-            }
         </div>
         <Carousel slide={false}>
 
