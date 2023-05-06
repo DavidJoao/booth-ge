@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import axios from "./axios"
 import { redirect } from 'next/dist/server/api-utils'
 
-const CheckSession = ( AuthContext, setAuth  ) => {
+const CheckSession = async ( AuthContext, setAuth  ) => {
 
     
     const tokenCookie = Cookies.get('token')
@@ -11,35 +11,40 @@ const CheckSession = ( AuthContext, setAuth  ) => {
     const emailItem = localStorage.getItem('email')
     const tokenItem = localStorage.getItem('token')
 
-    if (tokenCookie && emailCookie) {
-        axios.get(`/api/user/${emailCookie}`)
-            .then(res => {
-                const { name, email, isAdmin, isForeman, isModerator } = res?.data
-        
-                setAuth({
-                    name: name,
-                    email: email,
-                    isAdmin: isAdmin,
-                    isModerator: isModerator,
-                    isForeman: isForeman,
-                    token: tokenCookie
+    try {
+        if (tokenCookie && emailCookie) {
+            await axios.get(`/api/user/${emailCookie}`)
+                .then(res => {
+                    const { name, email, isAdmin, isForeman, isModerator } = res?.data
+            
+                    setAuth({
+                        name: name,
+                        email: email,
+                        isAdmin: isAdmin,
+                        isModerator: isModerator,
+                        isForeman: isForeman,
+                        token: tokenCookie
+                    })
                 })
-            })
-    } else {
-        axios.get(`/api/user/${emailItem}`)
-        .then(res => {
-            const { name, email, isAdmin, isForeman, isModerator } = res?.data
-    
-            setAuth({
-                name: name,
-                email: email,
-                isAdmin: isAdmin,
-                isModerator: isModerator,
-                isForeman: isForeman,
-                token: tokenItem
-            })
-        })
+            } else {
+                await axios.get(`/api/user/${emailItem}`)
+                .then(res => {
+                    const { name, email, isAdmin, isForeman, isModerator } = res?.data
+            
+                    setAuth({
+                        name: name,
+                        email: email,
+                        isAdmin: isAdmin,
+                        isModerator: isModerator,
+                        isForeman: isForeman,
+                        token: tokenItem
+                    })
+                })
+            }
+    } catch (error) {
+        console.error("Error fetching user data", error);
     }
+
 }
 
 export default CheckSession

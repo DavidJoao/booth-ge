@@ -13,19 +13,21 @@ const Home = () => {
     const [singleJobsite, setSingleJobsite] = useState([])
     
     useEffect(() => {
-        if (auth.isAdmin === true || auth.isModerator === true) {
-            axios.get('/api/jobsite/all') 
-        } else {
-            axios.get(`/api/jobsite/findOne/${auth.email}`)
-            .then(res => setSingleJobsite([res.data]))
+        async function fetchData () {
+            if (auth.isAdmin === true || auth.isModerator === true) {
+                axios.get('/api/jobsite/all') 
+            } else {
+                axios.get(`/api/jobsite/findOne/${auth.email}`)
+                .then(res => setSingleJobsite([res.data]))
+            }
         }
-        
+        fetchData();
     }, [router])
     
     useEffect(() => {
         loadAll()
-      if (!auth.token) router.push('/login')
-      CheckSession(AuthContext, setAuth)
+        if (!auth.token) router.push('/login')
+        CheckSession(AuthContext, setAuth)
     }, [])
     
   return (
