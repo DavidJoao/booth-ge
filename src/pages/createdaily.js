@@ -3,8 +3,8 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
-import { Modal } from 'react-bootstrap'
 import { jsPDF } from 'jspdf'
+import { PuffLoader } from 'react-spinners'
 
 
 const CreateDaily = () => {
@@ -77,25 +77,29 @@ const CreateDaily = () => {
 
         let yPos = 250; // starting y-position
         images.forEach((image, index) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(image);
-          reader.onloadend = () => {
-            const imageData = reader.result;
-            const imgWidth = 155;
-            const imgHeight = 120;
-            if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
-              doc.addPage();
-              yPos = 10;
-            }
-            doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
-            yPos += imgHeight + 10; // increment the y-position
-            if (index === images.length - 1) {
-                doc.save(`${daily.date}${daily.name}.pdf`);
-                return
-            }
-        };
-    });
-
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onloadend = () => {
+              const imageData = reader.result;
+              const img = new Image();
+              img.src = imageData;
+              img.onload = () => {
+                const pageWidth = doc.internal.pageSize.width - 10; // 10 is the margin
+                const scaleFactor = pageWidth / img.width;
+                const imgWidth = img.width * scaleFactor;
+                const imgHeight = img.height * scaleFactor;
+                if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
+                  doc.addPage();
+                  yPos = 10;
+                }
+                doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
+                yPos += imgHeight + 10; // increment the y-position
+                if (index === images.length - 1) {
+                  doc.save(`${daily.date}${daily.name}.pdf`);
+                }
+              };
+            };
+          });
     // DOWNLOAD EVEN IF HAS NO IMAGES
     if (images.length === 0) {
         doc.save(`${daily.date}${daily.name}.pdf`);
@@ -132,7 +136,7 @@ const CreateDaily = () => {
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
-        <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center'>
+        <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]'>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Date:</label>
                 <input required value={daily.date} name='date' type='date' className='input' onChange={handleChange}/>
@@ -151,7 +155,7 @@ const CreateDaily = () => {
             </div>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Number of employees in jobsite:</label>
-                <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' onChange={(e) => {
+                <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['employeesNo']: e.target.value
@@ -184,19 +188,14 @@ const CreateDaily = () => {
                 } )}
                 <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
                 { images && images.length > 0 ? 
-                    <button className='buttons w-[200px] mt-2' onClick={() => setImagesModal(true)}>Preview {images.length} Images</button>
+                    <div className='border mt-3 w-[90%] h-[160px] flex flex-row justify-center flex-wrap overflow-auto rounded'>
+                        {images.map((image, index) => (
+                            <img key={index} src={URL.createObjectURL(image)} alt={`Preview ${index}`} className='w-[200px] m-2' />
+                        ))}
+                    </div>
                 :
                     <></>
                 }
-                <Modal className='' show={imagesModal} onHide={() => setImagesModal(false)}>
-                    <Modal.Header id='dropdown' closeButton>Images</Modal.Header>
-                    <Modal.Body id='dropdown'  className='flex flex-col items-center overflow-auto'>
-                        {images.map((image, index) => (
-                            <img key={index} src={URL.createObjectURL(image)} alt={`Preview ${index}`} className='w-[300px] hover:w-[350px] m-2' />
-                        ))}
-                    </Modal.Body>
-                </Modal>
-
             { tempArray.length != 0 ? 
                 <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
                 :

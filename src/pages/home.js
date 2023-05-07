@@ -5,6 +5,7 @@ import CheckSession from '@/custom/CheckSession'
 import JobsiteCard from '@/components/JobsiteCard'
 import axios from '@/custom/axios'
 import NotificationCard from '@/components/NotificationCard'
+import { PuffLoader } from 'react-spinners'
 
 const Home = () => {
 
@@ -36,7 +37,12 @@ const Home = () => {
 
       if (isLoading) {
         // render your loading spinner
-        return <div className='h-screen bg-[#242526]'>Loading...</div>;
+        return (
+        <div className='h-screen bg-[#242526] flex items-center justify-center'>
+            <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
+            <p>Loading, Please Wait...</p>
+        </div>
+        )
       }
     
   return (

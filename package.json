@@ -25,6 +25,7 @@
     "react-bootstrap": "^2.7.4",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.10.0",
+    "react-spinners": "^0.13.8",
     "text-encoding": "^0.7.0"
   },
   "devDependencies": {
