@@ -27,7 +27,6 @@ const Home = () => {
     
     useEffect(() => {
         loadAll()
-        if (!auth.token) router.push('/login')
         CheckSession(AuthContext, setAuth).then(() => setIsLoading(false));
     }, [])
 
