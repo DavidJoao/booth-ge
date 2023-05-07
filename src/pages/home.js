@@ -36,9 +36,8 @@ const Home = () => {
       }, [isLoading, auth.token]);
 
       if (isLoading) {
-        // render your loading spinner
         return (
-        <div className='h-screen bg-[#242526] flex items-center justify-center'>
+        <div className='h-screen bg-[#242526] flex flex-col items-center justify-center'>
             <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
             <p>Loading, Please Wait...</p>
         </div>
