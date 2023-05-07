@@ -3,11 +3,17 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
+import { Modal } from 'react-bootstrap'
+import { jsPDF } from 'jspdf'
+import { Buffer } from 'buffer'
+
 
 const CreateDaily = () => {
 
     const { auth, setAuth, loadAll } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
+    const [images, setImages] = useState([]);
+    const [imagesModal, setImagesModal] = useState(false)
     const router = useRouter()
 
     const initialDaily = {
@@ -19,7 +25,7 @@ const CreateDaily = () => {
         equipmentDescription: '',
         workDescription: '',
         employeesNo: '',
-        employees: []
+        employees: [],
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -47,18 +53,83 @@ const CreateDaily = () => {
 
     }
 
+    const generatePDF = (e) => {
+        const doc = new jsPDF()
+        doc.setFontSize(12)
+
+        doc.text('Booth Grading and Excavating, Inc.', 10, 10)
+        doc.text(`Daily Report`, 10, 15)
+        doc.text(`Contractor: ${daily.contractor}`, 10, 25)
+        doc.text(`Date: ${daily.date}`, 80, 25)
+        doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
+        doc.text(`Project: ${daily.name}`, 80, 35)
+        doc.text(`Foreman: ${daily.foreman}`, 10, 55)
+        doc.rect(7, 60, 180, 35)
+        doc.text(`Equipment on jobsite and hours used:`, 10, 65)
+        doc.text(`${daily.equipmentDescription}`, 10, 70)
+        doc.text(`Description for work performed:`, 10, 80)
+        doc.text(`${daily.workDescription}`, 10, 85)
+        doc.rect(7, 110, 180, 60)
+        doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
+        daily.employees.forEach((employee, index) => {
+            doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
+            doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
+        })
+
+        let yPos = 250; // starting y-position
+        images.forEach((image, index) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(image);
+          reader.onloadend = () => {
+            const imageData = reader.result;
+            const imgWidth = 155;
+            const imgHeight = 120;
+            if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
+              doc.addPage();
+              yPos = 10;
+            }
+            doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
+            yPos += imgHeight + 10; // increment the y-position
+            if (index === images.length - 1) {
+                doc.save(`${daily.date}${daily.name}.pdf`);
+                return
+            }
+        };
+    });
+
+    // DOWNLOAD EVEN IF HAS NO IMAGES
+    if (images.length === 0) {
+        doc.save(`${daily.date}${daily.name}.pdf`);
+        return
+    }
+
+    const pdfData = doc.output('datauristring');
+    const emailBody = encodeURIComponent(`Please see the attached PDF file. Daily Report ${daily.name} - ${daily.date}`);
+    const mailtoLink = `mailto:davidsandoval596@gmail.com?subject=Daily Report&body=${emailBody}&attachment=${encodeURIComponent(pdfData)}`;
+    window.open(mailtoLink, '_blank');
+
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        generatePDF();
 
         axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {
             loadAll()
             setDaily(initialDaily)
             setTempArray([])
+            setImages([])
         })
         .catch(err => console.log(err))
         
     }
+
+    const handleFileUpload = (event) => {
+        const files = Array.from(event.target.files);
+        setImages([...images, ...files]);
+      };
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
@@ -112,8 +183,23 @@ const CreateDaily = () => {
                         </div>
                     )
                 } )}
+                <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
+                { images && images.length > 0 ? 
+                    <button className='buttons w-[200px] mt-2' onClick={() => setImagesModal(true)}>Preview {images.length} Images</button>
+                :
+                    <></>
+                }
+                <Modal className='' show={imagesModal} onHide={() => setImagesModal(false)}>
+                    <Modal.Header id='dropdown' closeButton>Images</Modal.Header>
+                    <Modal.Body id='dropdown'  className='flex flex-col items-center overflow-auto'>
+                        {images.map((image, index) => (
+                            <img key={index} src={URL.createObjectURL(image)} alt={`Preview ${index}`} className='w-[300px] hover:w-[350px] m-2' />
+                        ))}
+                    </Modal.Body>
+                </Modal>
+
             { tempArray.length != 0 ? 
-                <button type='submit' className='buttons mt-3' onClick={handleSubmit}>Send</button>
+                <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
                 :
                 <></>
             } 
