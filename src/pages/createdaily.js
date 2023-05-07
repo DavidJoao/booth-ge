@@ -5,7 +5,6 @@ import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import { Modal } from 'react-bootstrap'
 import { jsPDF } from 'jspdf'
-import { Buffer } from 'buffer'
 
 
 const CreateDaily = () => {

@@ -11,6 +11,7 @@ const Home = () => {
     const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
         async function fetchData () {
@@ -27,8 +28,17 @@ const Home = () => {
     useEffect(() => {
         loadAll()
         if (!auth.token) router.push('/login')
-        CheckSession(AuthContext, setAuth)
+        CheckSession(AuthContext, setAuth).then(() => setIsLoading(false));
     }, [])
+
+    useEffect(() => {
+        if (!isLoading && !auth.token) router.push('/login');
+      }, [isLoading, auth.token]);
+
+      if (isLoading) {
+        // render your loading spinner
+        return <div className='h-screen bg-[#242526]'>Loading...</div>;
+      }
     
   return (
     <div className='flex flex-col items-start bg-[#242526] min-h-screen h-auto pt-[80px]'>
