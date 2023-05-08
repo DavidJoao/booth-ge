@@ -3,16 +3,13 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
-import { jsPDF } from 'jspdf'
-import { PuffLoader } from 'react-spinners'
-
 
 const CreateDaily = () => {
-
+    
     const { auth, setAuth, loadAll } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
     const [images, setImages] = useState([]);
-    const [imagesModal, setImagesModal] = useState(false)
+    const [ids, setIds] = useState([])
     const router = useRouter()
 
     const initialDaily = {
@@ -25,6 +22,7 @@ const CreateDaily = () => {
         workDescription: '',
         employeesNo: '',
         employees: [],
+        imagesIds: []
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -52,73 +50,88 @@ const CreateDaily = () => {
 
     }
 
-    const generatePDF = (e) => {
-        const doc = new jsPDF()
-        doc.setFontSize(12)
+    // const generatePDF = (e) => {
+    //     const doc = new jsPDF()
+    //     doc.setFontSize(12)
 
-        doc.text('Booth Grading and Excavating, Inc.', 10, 10)
-        doc.text(`Daily Report`, 10, 15)
-        doc.text(`Contractor: ${daily.contractor}`, 10, 25)
-        doc.text(`Date: ${daily.date}`, 80, 25)
-        doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
-        doc.text(`Project: ${daily.name}`, 80, 35)
-        doc.text(`Foreman: ${daily.foreman}`, 10, 55)
-        doc.rect(7, 60, 180, 35)
-        doc.text(`Equipment on jobsite and hours used:`, 10, 65)
-        doc.text(`${daily.equipmentDescription}`, 10, 70)
-        doc.text(`Description for work performed:`, 10, 80)
-        doc.text(`${daily.workDescription}`, 10, 85)
-        doc.rect(7, 110, 180, 60)
-        doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
-        daily.employees.forEach((employee, index) => {
-            doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
-            doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
-        })
+    //     doc.text('Booth Grading and Excavating, Inc.', 10, 10)
+    //     doc.text(`Daily Report`, 10, 15)
+    //     doc.text(`Contractor: ${daily.contractor}`, 10, 25)
+    //     doc.text(`Date: ${daily.date}`, 80, 25)
+    //     doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
+    //     doc.text(`Project: ${daily.name}`, 80, 35)
+    //     doc.text(`Foreman: ${daily.foreman}`, 10, 55)
+    //     doc.rect(7, 60, 180, 35)
+    //     doc.text(`Equipment on jobsite and hours used:`, 10, 65)
+    //     doc.text(`${daily.equipmentDescription}`, 10, 70)
+    //     doc.text(`Description for work performed:`, 10, 80)
+    //     doc.text(`${daily.workDescription}`, 10, 85)
+    //     doc.rect(7, 110, 180, 60)
+    //     doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
+    //     daily.employees.forEach((employee, index) => {
+    //         doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
+    //         doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
+    //     })
 
-        let yPos = 250; // starting y-position
-        images.forEach((image, index) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(image);
-            reader.onloadend = () => {
-              const imageData = reader.result;
-              const img = new Image();
-              img.src = imageData;
-              img.onload = () => {
-                const pageWidth = doc.internal.pageSize.width - 10; // 10 is the margin
-                const scaleFactor = pageWidth / img.width;
-                const imgWidth = img.width * scaleFactor;
-                const imgHeight = img.height * scaleFactor;
-                if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
-                  doc.addPage();
-                  yPos = 10;
-                }
-                doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
-                yPos += imgHeight + 10; // increment the y-position
-                if (index === images.length - 1) {
-                  doc.save(`${daily.date}${daily.name}.pdf`);
-                }
-              };
-            };
-          });
-    // DOWNLOAD EVEN IF HAS NO IMAGES
-    if (images.length === 0) {
-        doc.save(`${daily.date}${daily.name}.pdf`);
-        return
-    }
+    //     let yPos = 250; // starting y-position
+    //     images.forEach((image, index) => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(image);
+    //         reader.onloadend = () => {
+    //             const imageData = reader.result;
+    //             const img = new Image();
+    //             img.src = imageData;
+    //             img.onload = () => {
+    //             const pageWidth = doc.internal.pageSize.width - 10; // 10 is the margin
+    //             const pageHeight = doc.internal.pageSize.height - 10; // 10 is the margin
+    //             const widthScaleFactor = pageWidth / img.width;
+    //             const heightScaleFactor = pageHeight / img.height;
+    //             const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
+    //             const imgWidth = img.width * scaleFactor;
+    //             const imgHeight = img.height * scaleFactor;
+    //             if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
+    //                 doc.addPage();
+    //                 yPos = 10;
+    //             }
+    //             doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
+    //             yPos += imgHeight + 10; // increment the y-position
+    //             if (index === images.length - 1) {
+    //                 doc.save(`${daily.date}${daily.name}.pdf`);
+    //             }
+    //             };
+    //         };
+    //       });
+    // // DOWNLOAD EVEN IF HAS NO IMAGES
+    // if (images.length === 0) {
+    //     doc.save(`${daily.date}${daily.name}.pdf`);
+    //     return
+    //     }
+    // }
 
-    const pdfData = doc.output('datauristring');
-    const emailBody = encodeURIComponent(`Please see the attached PDF file. Daily Report ${daily.name} - ${daily.date}`);
-    const mailtoLink = `mailto:davidsandoval596@gmail.com?subject=Daily Report&body=${emailBody}&attachment=${encodeURIComponent(pdfData)}`;
-    window.open(mailtoLink, '_blank');
-
-    }
-
-    const handleSubmit = (e) => {
+    const handleImagesUpload = async () => {
+        const idsArray = []
+        for (const image of images) {
+            const formData = new FormData();
+            formData.append('file', image);
+            formData.append('api_key', process.env.NEXT_PUBLIC_API_KEY)
+            formData.append('upload_preset', 'b6spfpjz');
+            formData.append('folder', 'booth_grading')
+        
+            await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}}/image/upload`, formData)
+                .then(res => {
+                    idsArray.push(res.data.public_id)
+                    daily.imagesIds = idsArray
+                })
+          }
+      };
+    
+      
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        generatePDF();
+        await handleImagesUpload();
 
-        axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
+        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {
             loadAll()
             setDaily(initialDaily)

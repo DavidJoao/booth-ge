@@ -9,7 +9,8 @@ const dailySchema = new mongoose.Schema({
     equipmentDescription: String,
     workDescription: String,
     employeesNo: String,
-    employees: Array
+    employees: Array,
+    imagesIds: Array
 })
 
 module.exports = mongoose.models.Daily || mongoose.model('Daily', dailySchema);

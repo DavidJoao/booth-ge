@@ -108,7 +108,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         <div className='flex items-center justify-between border-b-[1px] pb-1'>
             <h4>{timesheet.author}</h4>
                 <div className='w-[150px] flex flex-row justify-between'>
-                    { auth.isModerator ? 
+                    { auth.isModerator || auth.isAdmin ? 
                         <button className='text-white border p-1 rounded bg-slate-600' onClick={generatePDF}>{printIcon}</button> : <></>
                     }
                     { auth.isAdmin ? 
