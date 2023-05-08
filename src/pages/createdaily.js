@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
+import { PuffLoader } from 'react-spinners'
 
 const CreateDaily = () => {
     
@@ -10,6 +11,7 @@ const CreateDaily = () => {
     const [tempArray, setTempArray] = useState([])
     const [images, setImages] = useState([]);
     const [ids, setIds] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
     const initialDaily = {
@@ -50,66 +52,10 @@ const CreateDaily = () => {
 
     }
 
-    // const generatePDF = (e) => {
-    //     const doc = new jsPDF()
-    //     doc.setFontSize(12)
-
-    //     doc.text('Booth Grading and Excavating, Inc.', 10, 10)
-    //     doc.text(`Daily Report`, 10, 15)
-    //     doc.text(`Contractor: ${daily.contractor}`, 10, 25)
-    //     doc.text(`Date: ${daily.date}`, 80, 25)
-    //     doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
-    //     doc.text(`Project: ${daily.name}`, 80, 35)
-    //     doc.text(`Foreman: ${daily.foreman}`, 10, 55)
-    //     doc.rect(7, 60, 180, 35)
-    //     doc.text(`Equipment on jobsite and hours used:`, 10, 65)
-    //     doc.text(`${daily.equipmentDescription}`, 10, 70)
-    //     doc.text(`Description for work performed:`, 10, 80)
-    //     doc.text(`${daily.workDescription}`, 10, 85)
-    //     doc.rect(7, 110, 180, 60)
-    //     doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
-    //     daily.employees.forEach((employee, index) => {
-    //         doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
-    //         doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
-    //     })
-
-    //     let yPos = 250; // starting y-position
-    //     images.forEach((image, index) => {
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(image);
-    //         reader.onloadend = () => {
-    //             const imageData = reader.result;
-    //             const img = new Image();
-    //             img.src = imageData;
-    //             img.onload = () => {
-    //             const pageWidth = doc.internal.pageSize.width - 10; // 10 is the margin
-    //             const pageHeight = doc.internal.pageSize.height - 10; // 10 is the margin
-    //             const widthScaleFactor = pageWidth / img.width;
-    //             const heightScaleFactor = pageHeight / img.height;
-    //             const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
-    //             const imgWidth = img.width * scaleFactor;
-    //             const imgHeight = img.height * scaleFactor;
-    //             if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
-    //                 doc.addPage();
-    //                 yPos = 10;
-    //             }
-    //             doc.addImage(imageData, 'JPEG', 5, yPos, imgWidth, imgHeight);
-    //             yPos += imgHeight + 10; // increment the y-position
-    //             if (index === images.length - 1) {
-    //                 doc.save(`${daily.date}${daily.name}.pdf`);
-    //             }
-    //             };
-    //         };
-    //       });
-    // // DOWNLOAD EVEN IF HAS NO IMAGES
-    // if (images.length === 0) {
-    //     doc.save(`${daily.date}${daily.name}.pdf`);
-    //     return
-    //     }
-    // }
 
     const handleImagesUpload = async () => {
         const idsArray = []
+        setIsLoading(true)
         for (const image of images) {
             const formData = new FormData();
             formData.append('file', image);
@@ -137,6 +83,7 @@ const CreateDaily = () => {
             setDaily(initialDaily)
             setTempArray([])
             setImages([])
+            setIsLoading(false)
         })
         .catch(err => console.log(err))
         
@@ -149,6 +96,12 @@ const CreateDaily = () => {
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
+        { isLoading ? 
+        <div className='flex flex-col items-center justify-center'>
+            <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
+            <p className="mt-4">Submitting Daily, Please Wait...</p>
+        </div>
+        :
         <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]'>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Date:</label>
@@ -216,6 +169,7 @@ const CreateDaily = () => {
             } 
             </div>
         </form>
+         }
     </div>
   )
 }
