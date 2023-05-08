@@ -39,7 +39,7 @@ const Home = () => {
         return (
         <div className='h-screen bg-[#242526] flex flex-col items-center justify-center'>
             <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
-            <p mt-4>Loading, Please Wait...</p>
+            <p className="mt-4">Loading, Please Wait...</p>
         </div>
         )
       }
