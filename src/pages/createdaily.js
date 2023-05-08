@@ -7,7 +7,7 @@ import { PuffLoader } from 'react-spinners'
 
 const CreateDaily = () => {
     
-    const { auth, setAuth, loadAll } = useContext(AuthContext)
+    const { auth, setAuth, loadAll, jobsites } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
     const [images, setImages] = useState([]);
     const [ids, setIds] = useState([])
@@ -111,7 +111,14 @@ const CreateDaily = () => {
                 <label>Superintendent:</label>
                 <input required value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
                 <label>Job Address / Name</label>
-                <input required value={daily.name} name='name' className='input' onChange={handleChange}/>
+                <select name='name' value={daily.name} onChange={handleChange} className='input' id='jobsites'>
+                    <option value="" selected disabled hidden>Choose Jobsite</option>
+                    { jobsites && jobsites.map(jobsite => {
+                        return (
+                            <option name="name" value={jobsite.address}>{jobsite.address}</option>
+                        )
+                    })}
+                </select>
                 <label>Foreman:</label>
                 <input required value={daily.foreman} name='foreman' className='input' onChange={handleChange}/>
                 <label>Equipment on jobsite and hours used:</label>

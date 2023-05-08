@@ -80,7 +80,12 @@ const DailyCard = ({ daily, loadAll, auth }) => {
                 )
             }) }
         </ul>
-        <button className='buttons float-right' onClick={() => {setPhotosModal(true)}}>Photos</button>
+        
+        { imagesLinks && imagesLinks.length === 0 ?
+          <></>
+        :
+          <button className='buttons float-right' onClick={() => {setPhotosModal(true)}}>Photos</button>
+        }
 
         <Modal show={photosModal} onHide={() => {
             setPhotosModal(false)
