@@ -7,7 +7,7 @@ export default async function deleteUser (req, res, next) {
         const foundUser = await User.findOne({ _id: req.query.userId })
         const foundJobsite = await Jobsite.findOne({ "employees.name": foundUser.name })
         if (foundJobsite) {
-            const index = foundJobsite.employees.findIndex((e) => e._id.equals(req.query.userId))
+            const index = foundJobsite.employees.find( _id => _id.toString() === foundUser._id.toString())
             if (index > -1) foundJobsite.employees.splice(index, 1)
             await foundJobsite.save()
             User.findOneAndDelete({ _id: req.query.userId})
