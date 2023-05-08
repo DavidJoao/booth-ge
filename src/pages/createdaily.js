@@ -115,7 +115,7 @@ const CreateDaily = () => {
                     <option value="" selected disabled hidden>Choose Jobsite</option>
                     { jobsites && jobsites.map(jobsite => {
                         return (
-                            <option name="name" value={jobsite.address}>{jobsite.address}</option>
+                            <option key={jobsite.address} name="name" value={jobsite.address}>{jobsite.address}</option>
                         )
                     })}
                 </select>
