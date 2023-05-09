@@ -67,6 +67,7 @@ const Settings = () => {
 		axios.delete(`/api/user/delete/${selectedUser._id}`)
 			.then(res => {
 				showUserDeletion(false)
+				setUserConfiguration(false)
 				loadAll()
 			})
 	}
