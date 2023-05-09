@@ -16,36 +16,57 @@ const generatePDF = (daily, imagesLinks) => {
         doc.text(`${daily.equipmentDescription}`, 10, 70)
         doc.text(`Description for work performed:`, 10, 80)
         doc.text(`${daily.workDescription}`, 10, 85)
-        doc.rect(7, 110, 180, 60)
+        doc.rect(7, 110, 180, 55)
         doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
         daily.employees.forEach((employee, index) => {
             doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
             doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
         })
 
-        let yPos = 250; // starting y-position
+        let yPos = doc.internal.pageSize.height; // starting y-position
+        const margin = 10;
+        const pageWidth = doc.internal.pageSize.width - margin * 2; // 10 is the margin
+        const pageHeight = doc.internal.pageSize.height - margin * 2; // 10 is the margin
+        const maxImagesPerPage = 2;
+        let imagesPerPage = 0;
+        
         imagesLinks.forEach((image, index) => {
             const img = new Image();
             img.src = image;
             img.onload = () => {
-              const pageWidth = doc.internal.pageSize.width - 10; // 10 is the margin
-              const pageHeight = doc.internal.pageSize.height - 10; // 10 is the margin
-              const widthScaleFactor = pageWidth / img.width;
-              const heightScaleFactor = pageHeight / img.height;
-              const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
-              const imgWidth = img.width * scaleFactor;
-              const imgHeight = img.height * scaleFactor;
-              if (yPos + imgHeight + 10 > doc.internal.pageSize.height) {
-                doc.addPage();
-                yPos = 10;
-              }
-              doc.addImage(image, 'JPEG', 5, yPos, imgWidth, imgHeight);
-              yPos += imgHeight + 10; // increment the y-position
-              if (index === imagesLinks.length - 1) {
-                doc.save(`${daily.date}${daily.name}.pdf`);
-              }
+                const widthScaleFactor = pageWidth / img.width;
+                const heightScaleFactor = (doc.internal.pageSize.height / 2 - margin * 3) / img.height;
+                const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
+                const imgWidth = img.width * scaleFactor;
+                const imgHeight = doc.internal.pageSize.height / 2 - margin * 3;
+        
+                if (index === 0) {
+                    doc.addPage();
+                    yPos = doc.internal.pageSize.height;
+                    imagesPerPage = 0;
+                }
+        
+                if (yPos - imgHeight - margin < margin) {
+                    doc.addPage();
+                    yPos = doc.internal.pageSize.height;
+                    imagesPerPage = 0;
+                }
+        
+                if (imagesPerPage === maxImagesPerPage) {
+                    doc.addPage();
+                    yPos = doc.internal.pageSize.height;
+                    imagesPerPage = 0;
+                }
+        
+                doc.addImage(image, 'JPEG', margin, yPos - imgHeight - margin, imgWidth, imgHeight);
+                yPos -= imgHeight + margin * 2; // increment the y-position
+                imagesPerPage++;
+        
+                if (index === imagesLinks.length - 1) {
+                    doc.save(`${daily.date}${daily.name}.pdf`);
+                }
             };
-          });
+        });
     // DOWNLOAD EVEN IF HAS NO IMAGES
     if (imagesLinks.length === 0) {
         doc.save(`${daily.date}${daily.name}.pdf`);
