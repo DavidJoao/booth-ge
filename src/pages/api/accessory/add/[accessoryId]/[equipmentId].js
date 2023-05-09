@@ -8,7 +8,7 @@ export default async function addAccessory (req, res, next) {
         const foundEquipment = await Equipment.findById(req.query.equipmentId)
         const foundAccessory = await Accessory.findById(req.query.accessoryId)
         const foundJobsite = await Jobsite.findOne({ "equipment._id": foundEquipment._id })
-        const existingAccessory = await foundEquipment.accessories.find(_id => _id === foundAccessory._id)
+        const existingAccessory = await foundEquipment.accessories.find((e) => e._id.toString() === foundAccessory._id.toString())
         const occupiedEquipment = await Equipment.findOne({ "accessories._id": foundAccessory._id })
 
         if (!foundEquipment || !foundAccessory) {
@@ -16,7 +16,7 @@ export default async function addAccessory (req, res, next) {
             return
         }
         if (existingAccessory !== undefined){
-            res.status(401).json( { message: `${foundAccessory.name} in this equipment` } )
+            res.status(401).json( { message: `${foundAccessory.name} being used in this equipment` } )
             return
         }
         if (occupiedEquipment) {
@@ -28,7 +28,7 @@ export default async function addAccessory (req, res, next) {
         }
 
         // DELETE EQUIPMENT BEFORE UPDATING IT
-        const index = foundJobsite.equipment.findIndex((e) => e._id.equals(foundEquipment._id))
+        const index = foundJobsite.equipment.findIndex((e) => e._id.toString() === foundEquipment._id.toString())
         if (index > -1) foundJobsite.equipment.splice(index, 1)
 
         //PUSH ACCESSORY INTO EQUIPMENT AND ADD EQUIPMENT TO JOBSITE
