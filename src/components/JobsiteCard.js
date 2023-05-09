@@ -101,8 +101,8 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                 <p className='text-center mt-3 text-red-600 font-bold'>{errorMessage}</p>
               </Modal.Body>
           </Modal>
-        <div className='border-[1px] p-2 rounded-lg rounded-tl-none h-auto'>
-            <a className='text-white no-underline bg-blue-500 p-1 rounded float-right' target='_blank' href={`https://maps.google.com/?q=${jobsite.address}`}> 
+        <div className='border-[1px] p-2 rounded-lg rounded-tl-none h-auto flex flex-col'>
+            <a className='text-white no-underline bg-blue-500 p-1 rounded mt-1 mb-2 text-center' target='_blank' href={`https://maps.google.com/?q=${jobsite.address}`}> 
               <a className='text-white no-underline' target='_blank' href={`https://maps.google.com/?q=${jobsite.address}`}>Open in Maps </a>
             </a>
             <p>Address: {jobsite.address}</p>

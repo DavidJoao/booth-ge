@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { AuthContext } from '@/custom/AuthProvider'
+import { PuffLoader } from 'react-spinners'
 
 const Login = () => {
 
@@ -17,6 +18,7 @@ const Login = () => {
     const tokenCookie = Cookies.get('token')
     const [user, setUser] = useState(initialUser)
     const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     // CHANGE HANDLER FOR INPUT BOXES
     const handleChange = (e) => {
@@ -36,6 +38,7 @@ const Login = () => {
     //LOGS USER IN
     const handleLogin = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         setErrorMessage('')
         await axios.post('/api/login', JSON.stringify(user), { headers: { 'Content-Type': 'application/json' } })
         .then(res => {
@@ -47,6 +50,7 @@ const Login = () => {
                 localStorage.setItem('email', email)
                 localStorage.setItem('token', token)
                 router.push('/home')
+                setIsLoading(false)
             }
         })
         .catch(err => {
@@ -59,17 +63,25 @@ const Login = () => {
 
   return (
     <div className='h-screen w-full flex flex-col items-center justify-start bg-[#242526] pt-[80px]'>
-        <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
-        <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
-        <form className='form' onSubmit={handleLogin}>
-            <label>Email:</label>
-            <input name='email' value={user.email.toLowerCase()} className="input" autoComplete='email' onChange={handleChange}/>
-            <label>Password:</label>
-            <input name='password' value={user.password} type={'password'} className="input" autoComplete='current-password' onChange={handleChange}/>
-            <button className='buttons mx-auto mt-3'>Login</button>
-        </form>
-            <p className='text-red-600'>{errorMessage}</p>
-            <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px] no-underline">Do not have an account? Register here</Link>
+        { isLoading ? 
+            <>
+                <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
+                <p className="mt-4">Logging In, Please Wait...</p>
+            </>
+        :
+        <>
+            <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
+            <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
+            <form className='form' onSubmit={handleLogin}>
+                <label>Email:</label>
+                <input name='email' value={user.email.toLowerCase()} className="input" autoComplete='email' onChange={handleChange}/>
+                <label>Password:</label>
+                <input name='password' value={user.password} type={'password'} className="input" autoComplete='current-password' onChange={handleChange}/>
+                <button className='buttons mx-auto mt-3'>Login</button>
+            </form>
+                <p className='text-red-600'>{errorMessage}</p>
+                <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px] no-underline">Do not have an account? Register here</Link>
+        </> }
     </div>
   )
 }
