@@ -141,9 +141,9 @@ const Settings = () => {
 				}}>
 					<Modal.Header closeButton className='bg-slate-600'>Choose Equipment for {selectedAccessory.name}</Modal.Header>
 					<Modal.Body className='bg-[#242526] h-[650px] overflow-auto flex flex-col items-center'>
-						{ equipment.map(equipment => 
-							<div key={equipment._id}>
-								<EquipmentMiniCard equipment={equipment} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`accessory/add/${selectedAccessory._id}/${equipment._id}`}/>
+						{ jobsites.map(jobsite => 
+							<div key={jobsite._id}>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`accessory/add/${selectedAccessory._id}/${jobsite._id}`}/>
 							</div>
 							) }
 						<button className='red-buttons w-[200px] mt-4' onClick={(e) => {

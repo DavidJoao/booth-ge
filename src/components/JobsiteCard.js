@@ -109,7 +109,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             <p>Superintendent: {jobsite.superintendent}</p>
             <p> Contractor: {jobsite.contractor}</p>
             <p className='border-t-[1px] border-white pt-2'>Start Time: {jobsite.startTime} A.M.</p>
-            <p className='border-t-[1px] border-white pt-2'>Employees:</p>
+            <p className='border-t-[1px] border-white pt-2 font-bold'>Employees:</p>
             { jobsite && jobsite.employees.length != 0 ? jobsite.employees.map(employee => {
               return(
                 <div className='flex flex-row items-center justify-between' key={employee._id}>
@@ -129,10 +129,10 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                   </div>
                 )}) : <p>No employees</p>
               }
-            <p className='border-t-[1px] border-white pt-2'>Equipment:</p>
+            <p className='border-t-[1px] border-white pt-2 font-bold'>Equipment:</p>
             { jobsite && jobsite.equipment.length != 0 ? jobsite.equipment.map(equipment => {
               return(
-                <div className='border flex flex-col justify-center rounded p-2 mb-2' key={equipment._id}>
+                <div className='border flex flex-col justify-center rounded p-2 mb-1' key={equipment._id}>
                   <div className='flex flex-row items-start justify-between'>
                     <p>{equipment.number} {equipment.name}</p>
                     { auth.isAdmin ? 
@@ -147,25 +147,26 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                     <></>
                   }
                   </div>
-                  <ul className='list-disc'>
-                  {equipment.accessories.map(accessory => {
-                    return(
-                      <li className='m-1' key={accessory._id}>{accessory.name}
-                      {auth.isAdmin ? 
-                        <button className='float-right bg-red-600 hover:bg-red-500 w-[20px] rounded text-center' onClick={(e) => {
-                          e.preventDefault()
-                          axios.patch(`/api/accessory/remove/${accessory._id}/${equipment._id}`)
-                            .then(res => loadAll())
-                        }}>-</button>
-                        :
-                        <></>
-                      }
-                      </li>
-                    )
-                  })}
-                  </ul>
                 </div>
               )}) : <p>No equipment</p>}
+                <p className='border-t-[1px] border-white pt-2 font-bold'>Accessories:</p>
+                <ul className='list-disc'>
+                  {jobsite && jobsite.accessories.length != 0 ? jobsite.accessories.map(accessory => {
+                    return(
+                      <li className='m-1' key={accessory._id}>{accessory.name}
+                        {auth.isAdmin ? 
+                          <button className='float-right bg-red-600 hover:bg-red-500 w-[20px] rounded text-center' onClick={(e) => {
+                            e.preventDefault()
+                            axios.patch(`/api/accessory/remove/${accessory._id}/${jobsite._id}`)
+                            .then(res => loadAll())
+                          }}>-</button>
+                        :
+                          <></>
+                        }
+                      </li>
+                    )
+                  }) : <p>No accessories</p>}
+                  </ul>
 
         </div>
     </div>
