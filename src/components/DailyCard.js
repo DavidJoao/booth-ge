@@ -20,6 +20,7 @@ const DailyCard = ({ daily, loadAll, auth }) => {
     const [photosModal, setPhotosModal] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [imagesLinks, setImagesLink] = useState([])
+    const [deleteModal, setDeleteModal] = useState(false)
 
     const loadImages = () => {
         return new Promise((resolve, reject) => {
@@ -42,7 +43,7 @@ const DailyCard = ({ daily, loadAll, auth }) => {
       }
 
       useEffect(() => {
-        loadImages().then(() => setIsLoading(false))
+        loadImages().then(() => setIsLoading(false)).catch(err => console.log(err))
       }) 
 
   return (
@@ -57,12 +58,24 @@ const DailyCard = ({ daily, loadAll, auth }) => {
             
             { auth.isAdmin ? 
                 <button className='float-right bg-red-700 border rounded' onClick={(e) => {
-                    e.preventDefault()
-                    axios.delete(`/api/daily/delete/${daily._id}`)
-                    loadAll()
+                  setDeleteModal(true)
                 }}>{trashLogo}</button> :
             <></>}
         </div>
+        <Modal show={deleteModal} onHide={() => setDeleteModal(false)} >
+                <Modal.Header id='dropdown' closeButton>Are you sure you want to delete the daily permanently?</Modal.Header>
+                <Modal.Body className='flex flex-row items-center justify-evenly p-3' id='modal'>
+                  <button className='buttons' onClick={() => setDeleteModal(false)}>Cancel</button>
+                  <button className='red-buttons' onClick={(e) => {
+                      e.preventDefault()
+                      axios.delete(`/api/daily/delete/${daily._id}`)
+                      loadAll()
+                      setDeleteModal(false)
+                  }}> DELETE
+                  </button>
+                </Modal.Body>
+        </Modal>
+        
         <div className='flex justify-evenly'>
             <p>Contractor: {daily.contractor}</p>
             <p>Superintendent: {daily.superintendent}</p>
