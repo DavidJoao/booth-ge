@@ -4,6 +4,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import { PuffLoader } from 'react-spinners'
+import imageCompression from 'browser-image-compression';
 
 const CreateDaily = () => {
     
@@ -57,8 +58,14 @@ const CreateDaily = () => {
         const idsArray = []
         setIsLoading(true)
         for (const image of images) {
+
+            const compressedImage = await imageCompression(image, {
+                maxSizeMB: 0.01, // Set the desired maximum size in MB
+                maxWidthOrHeight: 1920, // Set the desired maximum width or height in pixels
+              });
+
             const formData = new FormData();
-            formData.append('file', image);
+            formData.append('file', compressedImage);
             formData.append('api_key', process.env.NEXT_PUBLIC_API_KEY)
             formData.append('upload_preset', 'b6spfpjz');
             formData.append('folder', 'booth_grading')
