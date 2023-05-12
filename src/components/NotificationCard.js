@@ -48,6 +48,7 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
             ''
              }
       </div>
+      {/*  */}
       <Modal show={showEdit} onHide={() => setShowEdit(false)}>
         <Modal.Header id="dropdown" closeButton>Edit Notification</Modal.Header>
         <Modal.Body id="modal" className="flex flex-col">
