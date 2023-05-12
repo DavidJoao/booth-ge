@@ -185,7 +185,7 @@ const CreateDaily = () => {
                                 <option>Choose Employee</option>
                                 { users && users.filter((user) => user.name !== 'Byanka Arceo' && user.name !== 'Alfredo Sandoval' && user.name !== 'Roger Booth' && user.name !== 'Veronica Rivera').map(user => {
                                     return (
-                                        <option>{user.name}</option>
+                                        <option key={user._id}>{user.name}</option>
                                     )
                                 })}
                             </select>
