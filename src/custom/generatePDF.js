@@ -11,17 +11,28 @@ const generatePDF = (daily, imagesLinks) => {
         doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
         doc.text(`Project: ${daily.name}`, 80, 35)
         doc.text(`Foreman: ${daily.foreman}`, 10, 55)
-        doc.rect(7, 60, 180, 35)
         doc.text(`Equipment on jobsite and hours used:`, 10, 65)
         doc.text(`${daily.equipmentDescription}`, 10, 70)
-        doc.text(`Description for work performed:`, 10, 80)
+        doc.text(`Description for contract work performed:`, 10, 80)
         doc.text(`${daily.workDescription}`, 10, 85)
+
+        doc.text(`Description of extra work performed:`, 10, 95)
+        doc.text(`${daily.extraWorkDescription}`, 10, 100)
+
         doc.rect(7, 110, 180, 55)
-        doc.text(`Number of employees in jobsite: ${daily.employeesNo}`, 10, 115)
+        doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 115)
+        doc.text(`Name: ${daily.foreman}`, 10, 125)
+        doc.text(`Hours: ${daily.totalHours}`, 80, 125)
+        doc.text(`Picked Up Diesel? ${daily.pickedUpDiesel}`, 110, 125)
         daily.employees.forEach((employee, index) => {
-            doc.text(`Name: ${employee.name}`, 10, 125 + (index * 5))
-            doc.text(`Hours ${employee.hours}`, 80, 125 + (index * 5))
+            doc.text(`Name: ${employee.name}`, 10, 130 + (index * 5))
+            doc.text(`Hours ${employee.hours}`, 80, 130 + (index * 5))
         })
+
+
+        doc.text(`Notes:`, 10, 175)
+        doc.text(`${daily.notes}`, 10, 180)
+
 
         let yPos = doc.internal.pageSize.height; // starting y-position
         const margin = 10;

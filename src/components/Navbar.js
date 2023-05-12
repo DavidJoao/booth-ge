@@ -60,12 +60,7 @@ const Navbar = () => {
 					</>
 					:
 					<></>}
-					{ auth && auth.isAdmin || auth.isForeman || auth.isModerator ?
-					<>
-						<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
-					</>
-					:
-					<></>}
+					<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
 					<Dropdown.Item className='hover:bg-none' onClick={handleLogout}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
 					
 				</div>

@@ -8,31 +8,32 @@ import imageCompression from 'browser-image-compression';
 
 const CreateDaily = () => {
     
-    const { auth, setAuth, loadAll, jobsites } = useContext(AuthContext)
+    const { auth, setAuth, loadAll, jobsites, users } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
     const [images, setImages] = useState([]);
-    const [ids, setIds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [checkBoxStatus, setCheckBoxStatus] = useState(false)
     const router = useRouter()
 
     const initialDaily = {
         date: '',
+        dateCreated: Date().split(' ').splice(0, 5).join(' '),
+        pickedUpDiesel: checkBoxStatus === true ? 'Yes' : 'No',
+        totalHours: '',
         contractor: '',
         superintendent: '',
         name: '',
         foreman: '',
         equipmentDescription: '',
         workDescription: '',
+        extraWorkDescription: '',
+        notes: '',
         employeesNo: '',
         employees: [],
         imagesIds: []
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
-
-    useEffect(() => {
-        if ( auth.isForeman === false) router.push('/home')
-      })
 
     useEffect(() => {
         if ( auth.token === undefined) {
@@ -50,7 +51,7 @@ const CreateDaily = () => {
             ...daily,
             [name]: value
         })
-
+        console.log(daily)
     }
 
 
@@ -128,10 +129,34 @@ const CreateDaily = () => {
                 </select>
                 <label>Foreman:</label>
                 <input required value={daily.foreman} name='foreman' className='input' onChange={handleChange}/>
+                <div className='flex flex-col lg:flex-row items-center justify-around mt-2 w-full lg:w-[80%]'>
+                    <label>Total Hours:</label>
+                    <input className='input lg:w-[100px]' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
+                    <label>Picked Up Diesel?</label>
+                    <input type='checkbox' onChange={(e) => {
+                        setCheckBoxStatus(e.target.checked)
+                        if (checkBoxStatus === true) {
+                            setDaily({
+                                ...daily,
+                                ['totalHours']: (parseFloat(daily.totalHours) - 0.5).toString()
+                            })
+                        } else {
+                            setDaily({
+                                ...daily,
+                                ['totalHours']: (parseFloat(daily.totalHours) + 0.5).toString()
+                            })
+                        }
+                    }}/>
+                </div>
+                <input className='input bg-slate-400' disabled value={checkBoxStatus === true ? parseFloat(daily.totalHours) : parseFloat(daily.totalHours) || 0} /> 
                 <label>Equipment on jobsite and hours used:</label>
                 <textarea required value={daily.equipmentDescription} name='equipmentDescription' className='input' onChange={handleChange}/>
-                <label>Description of work performed:</label>
+                <label>Description of contract work performed:</label>
                 <textarea required value={daily.workDescription} name='workDescription' className='input h-[150px]' onChange={handleChange}/>
+                <label>Description of extra work performed:</label>
+                <textarea required value={daily.extraWorkDescription} name='extraWorkDescription' className='input h-[150px]' onChange={handleChange}/>
+                <label>Notes:</label>
+                <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Number of employees in jobsite:</label>
@@ -152,11 +177,18 @@ const CreateDaily = () => {
                     return (
                         <div className='flex items-center w-full p-2' key={employee.name}>
                             <label>Name:</label>
-                            <input required className='input' name={`employee-${index}-name`} onChange={(e) => {
+                            <select className='input' onChange={(e) => {
                                 const newEmployees = [...daily.employees];
                                 newEmployees[index] = { ...newEmployees[index], name: e.target.value };
                                 setDaily({ ...daily, employees: newEmployees });
-                            }}/> 
+                            }}>
+                                <option>Choose Employee</option>
+                                { users && users.filter((user) => user.name !== 'Byanka Arceo' && user.name !== 'Alfredo Sandoval' && user.name !== 'Roger Booth' && user.name !== 'Veronica Rivera').map(user => {
+                                    return (
+                                        <option>{user.name}</option>
+                                    )
+                                })}
+                            </select>
                             <label className='ml-2'>Hours:</label>
                             <input required className='input' name={`employee-${index}-hours`} onChange={(e) => {
                                 const newEmployees = [...daily.employees];
