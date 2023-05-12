@@ -1,6 +1,4 @@
 const nodemailer = require('nodemailer')
-const { Readable } = require('stream');
-import jsPDF from 'jspdf';
 
 export default async function sendPDF (req, res, next) {
     
