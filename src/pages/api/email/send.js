@@ -36,3 +36,11 @@ export default async function sendPDF (req, res, next) {
         }
       })
 }
+
+export const config = {
+  api: {
+      bodyParser: {
+          sizeLimit: '100mb' // Set desired value here
+      }
+  }
+}

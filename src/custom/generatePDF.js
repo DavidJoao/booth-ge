@@ -11,6 +11,7 @@ const generatePDF = (daily, imagesLinks) => {
         doc.text(`Directed By: ${daily.superintendent}`, 10, 35)
         doc.text(`Project: ${daily.name}`, 80, 35)
         doc.text(`Foreman: ${daily.foreman}`, 10, 55)
+        doc.text(`Submitted ${daily.dateCreated}`, 110, 55)
         doc.text(`Equipment on jobsite and hours used:`, 10, 65)
         doc.text(`${daily.equipmentDescription}`, 10, 70)
         doc.text(`Description for contract work performed:`, 10, 80)
