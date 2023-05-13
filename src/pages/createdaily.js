@@ -5,11 +5,13 @@ import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import { PuffLoader } from 'react-spinners'
 import imageCompression from 'browser-image-compression';
+import generatePDF from '@/custom/generatePDF'
 
 const CreateDaily = () => {
     
-    const { auth, setAuth, loadAll, jobsites, users } = useContext(AuthContext)
+    const { auth, setAuth, loadAll, jobsites, users, equipment } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
+    const [tempRentedArray, setTempRentedArray] = useState([])
     const [images, setImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [checkBoxStatus, setCheckBoxStatus] = useState(false)
@@ -29,8 +31,9 @@ const CreateDaily = () => {
         extraWorkDescription: '',
         notes: '',
         employeesNo: '',
+        rentedNo: '',
         employees: [],
-        imagesIds: []
+        rentedEmployees: [],
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -53,37 +56,11 @@ const CreateDaily = () => {
         })
         console.log(daily)
     }
-
-
-    const handleImagesUpload = async () => {
-        const idsArray = []
-        setIsLoading(true)
-        for (const image of images) {
-
-            const compressedImage = await imageCompression(image, {
-                maxSizeMB: 0.01, // Set the desired maximum size in MB
-                maxWidthOrHeight: 1920, // Set the desired maximum width or height in pixels
-              });
-
-            const formData = new FormData();
-            formData.append('file', compressedImage);
-            formData.append('api_key', process.env.NEXT_PUBLIC_API_KEY)
-            formData.append('upload_preset', 'b6spfpjz');
-            formData.append('folder', 'booth_grading')
-        
-            await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}}/image/upload`, formData)
-                .then(res => {
-                    idsArray.push(res.data.public_id)
-                    daily.imagesIds = idsArray
-                })
-          }
-      };
-    
-      
+     
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await handleImagesUpload();
+        await axios.post('/api/email/send', { daily, images})
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {
@@ -97,10 +74,38 @@ const CreateDaily = () => {
         
     }
 
-    const handleFileUpload = (event) => {
-        const files = Array.from(event.target.files);
-        setImages([...images, ...files]);
-      };
+    const handleFileUpload = async (event) => {
+      const files = Array.from(event.target.files);
+    
+      const compressPromises = files.map((file) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const compressedFile = await imageCompression(file, {
+              maxSizeMB: 1,
+              maxWidthOrHeight: 800, 
+            });
+    
+            const reader = new FileReader();
+            reader.onload = () => {
+              resolve(reader.result);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(compressedFile);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      });
+    
+      Promise.all(compressPromises)
+        .then((base64Images) => {
+          setImages([...images, ...base64Images]);
+        })
+        .catch((error) => {
+          console.error('Error reading file:', error);
+        });
+    };
+    
 
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
@@ -150,6 +155,13 @@ const CreateDaily = () => {
                 </div>
                 <input className='input bg-slate-400' disabled value={checkBoxStatus === true ? parseFloat(daily.totalHours) : parseFloat(daily.totalHours) || 0} /> 
                 <label>Equipment on jobsite and hours used:</label>
+                {/* <select className='input' onChange={(e) => console.log(e.target.value)}>
+                    { equipment && equipment.map(item => {
+                        return (
+                            <option>{item.number} {item.name}</option>
+                        )
+                    }) }
+                </select> */}
                 <textarea required value={daily.equipmentDescription} name='equipmentDescription' className='input' onChange={handleChange}/>
                 <label>Description of contract work performed:</label>
                 <textarea required value={daily.workDescription} name='workDescription' className='input h-[150px]' onChange={handleChange}/>
@@ -159,6 +171,7 @@ const CreateDaily = () => {
                 <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
+                {/* EMPLOYEE INPUT */}
                 <label>Number of employees in jobsite:</label>
                 <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
@@ -198,21 +211,56 @@ const CreateDaily = () => {
                         </div>
                     )
                 } )}
+
+                {/* TEMPORAL EMPLOYEE INPUT */}
+                {/* <label>Number of rented employees:</label>
+                <input required value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
+                    setDaily({ 
+                        ...daily,
+                        ['rentedNo']: e.target.value
+                     })
+                    
+                     const newArray = [];
+                     for (let i = 0; i < parseInt(e.target.value); i++) {
+                       newArray.push(i);
+                     }
+
+                     setTempRentedArray(newArray);
+                }}/>
+                { tempRentedArray.map((employee, index) => {
+                    return (
+                        <div className='flex items-center w-full p-2' key={employee.name}>
+                            <label>Name:</label>
+                            <input className='input' onChange={(e) => {
+                                const newEmployees = [...daily.rentedEmployees];
+                                newEmployees[index] = { ...newEmployees[index], name: e.target.value };
+                                setDaily({ ...daily, rentedEmployees: newEmployees });
+                            }} />
+                            <label className='ml-2'>Hours:</label>
+                            <input required className='input' name={`rentedEmployee-${index}-hours`} onChange={(e) => {
+                                const newEmployees = [...daily.rentedEmployees];
+                                newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
+                                setDaily({ ...daily, rentedEmployees: newEmployees });
+                            }}/>
+                        </div>
+                    )
+                } )} */}
+
                 <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
                 { images && images.length > 0 ? 
                     <div className='border mt-3 w-[90%] h-[160px] flex flex-row justify-center flex-wrap overflow-auto rounded'>
                         {images.map((image, index) => (
-                            <img key={index} src={URL.createObjectURL(image)} alt={`Preview ${index}`} className='w-[200px] m-2' />
+                            <img key={index} src={image} alt={`Preview ${index}`} className='w-[200px] m-2' />
                         ))}
                     </div>
                 :
                     <></>
                 }
-            { tempArray.length != 0 ? 
-                <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
-                :
-                <></>
-            } 
+                { tempArray.length != 0 ? 
+                    <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
+                    :
+                    <></>
+                }
             </div>
         </form>
          }
