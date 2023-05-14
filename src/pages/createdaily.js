@@ -11,9 +11,9 @@ const CreateDaily = () => {
     
     const { auth, setAuth, loadAll, jobsites, users, equipment } = useContext(AuthContext)
     const [tempArray, setTempArray] = useState([])
-    const [tempRentedArray, setTempRentedArray] = useState([])
     const [images, setImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
+    const [statusMessage, setStatusMessage] = useState('')
     const [checkBoxStatus, setCheckBoxStatus] = useState(false)
     const router = useRouter()
 
@@ -60,6 +60,9 @@ const CreateDaily = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        setIsLoading(true)
+        setStatusMessage('Submitting Daily, Please Wait...')
+
         await axios.post('/api/email/send', { daily, images})
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
@@ -68,7 +71,11 @@ const CreateDaily = () => {
             setDaily(initialDaily)
             setTempArray([])
             setImages([])
-            setIsLoading(false)
+            setStatusMessage('✓ Daily Submitted Successfully ✓')
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 2000)
+            
         })
         .catch(err => console.log(err))
         
@@ -112,7 +119,7 @@ const CreateDaily = () => {
         { isLoading ? 
         <div className='flex flex-col items-center justify-center'>
             <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
-            <p className="mt-4">Submitting Daily, Please Wait...</p>
+            <p className="mt-4">{statusMessage}</p>
         </div>
         :
         <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]'>

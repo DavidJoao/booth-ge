@@ -55,7 +55,7 @@ const CreateTimesheet = () => {
             loadAll()
             setForm(initialForm)
             setDays([])
-            setStatusMessage('✓ Daily Submitted Successfuly ✓')
+            setStatusMessage('✓ Timesheet Submitted Successfully ✓')
             setTimeout(() => {
                 setIsLoading(false)
               }, "2000");

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import AuthContext from '@/custom/AuthProvider'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Modal } from 'react-bootstrap'
 
 const Navbar = () => {
 
@@ -14,6 +14,7 @@ const Navbar = () => {
   
 	const { auth, setAuth, setTokenCookie, tokenCookie } = useContext(AuthContext)
 	const router = useRouter()
+	const [logoutModal, setLogoutModal] = useState(false)
 
   useEffect(() => {
 	setTokenCookie(Cookies.get('token'))
@@ -61,7 +62,23 @@ const Navbar = () => {
 					:
 					<></>}
 					<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
-					<Dropdown.Item className='hover:bg-none' onClick={handleLogout}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
+					<Dropdown.Item className='hover:bg-none' onClick={() => setLogoutModal(true)}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
+					<Modal show={logoutModal} onHide={() => setLogoutModal(false)}>
+						<Modal.Header id="dropdown" closeButton> Are you sure you want to log out? </Modal.Header>
+						<Modal.Body className="flex flex-row items-center justify-evenly p-3" id="modal">
+						<button className="buttons" onClick={() => setLogoutModal(false)}>
+							Cancel
+						</button>
+						<button
+							className="red-buttons"
+							onClick={e => {
+								e.preventDefault()
+								handleLogout()
+								setLogoutModal(false)
+							}}>{" "} Log Out
+						</button>
+						</Modal.Body>
+					</Modal>
 					
 				</div>
 			</Dropdown.Menu>
