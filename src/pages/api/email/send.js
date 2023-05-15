@@ -79,7 +79,7 @@ export default async function sendPDF(req, res, next) {
         from: "boothpaperwork@hotmail.com",
         to: "bgepayroll@gmail.com",
         subject: `${daily.date} Daily Report for ${daily.name}`,
-        text: `${daily.date} - ${daily.name},
+        text: `${daily.date} - ${daily.name}`,
         attachments: [
           {
               filename: `${daily.date}${daily.name}.pdf`,
