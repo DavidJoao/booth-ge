@@ -63,6 +63,15 @@ const CreateTimesheet = () => {
         .catch(err => console.log(err))
     }
 
+    const handleEditChange = (e, index) => {
+        const { name, value } = e.target;
+      
+        const updatedDays = [...days];
+        const updatedDay = { ...updatedDays[index], [name]: value }; 
+        updatedDays[index] = updatedDay; 
+        setDays(updatedDays);
+      };
+
   return (
     <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
             { isLoading ? 
@@ -96,19 +105,54 @@ const CreateTimesheet = () => {
                     <label>Description:</label>
                     <textarea required name="description" value={form.description} className="input h-[100px]" placeholder="Description of work performed" onChange={handleChange}></textarea>
                 </div>
-                { days && days.length >= 4 ? 
-                <>
-                    <button className="buttons" onClick={(e) => {
-                        e.preventDefault();
-                        days.push(form)
-                        handleSubmit()
-                    }}>Submit</button>
-                </>
-                    :
-                    <button className="buttons" onClick={handleNextDay}>Next Day</button>
-                 }
+                <div className="w-full flex items-center justify-evenly p-2">
+                   { days && days.length >= 4 ? (
+                        <button className="buttons" onClick={(e) => {
+                            e.preventDefault();
+                            days.push(form)
+                            handleSubmit()
+                        }}>Submit</button>
+                        ) : (
+                        <button className="buttons w-[150px]" onClick={handleNextDay}>Next Day</button> )
+                    }
+                </div>
                 </>
             }
+            <div className="w-full p-2 mt-2">
+                { days && days.length > 0 ? <p className="text-center">Preview and edit timesheet</p> : <></>}
+                { days && days.length > 0 ? (
+                    days.map((day, index) => {
+                        return (
+                            <form className="form mb-3" key={index}>
+                                <p>Day {index + 1} of 5</p>
+                                <label>Date:</label>
+                                <input required name="date" value={days[index].date} className="input" type="date" onChange={(e) => handleEditChange(e, index)}/>
+                                <label>Jobsite:</label>
+                                <select name='jobsite' value={days[index].jobsite} onChange={handleChange} className='input' id='jobsites'>
+                                    <option value="" selected disabled hidden>Choose Jobsite</option>
+                                    { jobsites && jobsites.map(jobsite => {
+                                        return (
+                                            <option key={jobsite.address} name="name" value={jobsite.address}>{jobsite.address}</option>
+                                        )
+                                    })}
+                                </select>
+                                <label>Foreman:</label>
+                                <input required name="foreman" value={days[index].foreman} className="input" placeholder="Ex. Alfredo" onChange={(e) => handleEditChange(e, index)}/>
+                                <label>Start Time:</label>
+                                <input required name="startTime" value={days[index].startTime} type="time" className="input" placeholder="7:00" onChange={(e) => handleEditChange(e, index)}/>
+                                <label>Finish Time:</label>
+                                <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/>
+                                <label>Total Hrs:</label>
+                                <input required name="totalHrs" value={days[index].totalHrs} className="input" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
+                                <label>Description:</label>
+                                <textarea required name="description" value={days[index].description} className="input h-[100px]" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
+                            </form>
+                        )
+                    })
+                ) : (
+                    <></>
+                ) }
+            </div>
     </div>
   )
 }
