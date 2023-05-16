@@ -12,6 +12,7 @@ const CreateTimesheet = () => {
     const initialForm = {
         date: '',
         jobsite: '',
+        additional: '',
         foreman: '',
         startTime: '',
         finishTime: '',
@@ -24,7 +25,7 @@ const CreateTimesheet = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState('Submitting Timesheet, Please Wait...')
 
-    const initialTimesheet = {
+    const timesheet = {
         author: auth.name,
         days: days,
     }
@@ -50,7 +51,9 @@ const CreateTimesheet = () => {
     const handleSubmit = () => {
         setIsLoading(true)
 
-        axios.post(`/api/timesheet/post`, JSON.stringify(initialTimesheet), { headers: { 'Content-Type': 'application/json '} })
+        axios.post('/api/timesheet/send', { timesheet })
+
+        axios.post(`/api/timesheet/post`, JSON.stringify(timesheet), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {
             loadAll()
             setForm(initialForm)
@@ -84,7 +87,7 @@ const CreateTimesheet = () => {
                 <h2>Day {days.length + 1} of 5</h2>
                 <div className="daily-container">
                     <label>Date:</label>
-                    <input required name="date" value={form.date} type="date" className="input" onChange={handleChange}/>
+                    <input required name="date" value={form.date} type="date" className="input p-2" onChange={handleChange}/>
                     <label>Jobsite:</label>
                     <select name='jobsite' value={form.jobsite} onChange={handleChange} className='input' id='jobsites'>
                         <option value="" selected disabled hidden>Choose Jobsite</option>
@@ -94,12 +97,14 @@ const CreateTimesheet = () => {
                             )
                         })}
                     </select>
+                    <label>Additional Jobsite (if any) </label>
+                    <input required name="additional" value={form.additional} className="input" onChange={handleChange}/>
                     <label>Foreman:</label>
                     <input required name="foreman" value={form.foreman} className="input" placeholder="Ex. Alfredo" onChange={handleChange}/>
                     <label>Start Time:</label>
-                    <input required name="startTime" value={form.startTime} type="time" className="input" placeholder="7:00" onChange={handleChange}/>
+                    <input required name="startTime" value={form.startTime} type="time" className="input p-2" placeholder="7:00" onChange={handleChange}/>
                     <label>Finish Time:</label>
-                    <input required name="finishTime" value={form.finishTime} type="time" className="input" placeholder="3:30" onChange={handleChange}/>
+                    <input required name="finishTime" value={form.finishTime} type="time" className="input p-2" placeholder="3:30" onChange={handleChange}/>
                     <label>Total Hrs:</label>
                     <input required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
                     <label>Description:</label>
@@ -118,7 +123,7 @@ const CreateTimesheet = () => {
                 </div>
                 </>
             }
-            <div className="w-full p-2 mt-2">
+            <div className="w-full p-2 mt-2 flex flex-col items-center">
                 { days && days.length > 0 ? <p className="text-center">Preview and edit timesheet</p> : <></>}
                 { days && days.length > 0 ? (
                     days.map((day, index) => {
@@ -136,6 +141,8 @@ const CreateTimesheet = () => {
                                         )
                                     })}
                                 </select>
+                                <label>Additional Jobsite (if any) </label>
+                                <input required name="additional" value={days[index].additional} className="input" onChange={handleEditChange}/>
                                 <label>Foreman:</label>
                                 <input required name="foreman" value={days[index].foreman} className="input" placeholder="Ex. Alfredo" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Start Time:</label>

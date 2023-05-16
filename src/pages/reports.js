@@ -36,9 +36,9 @@ const Reports = () => {
         </div>
         <div className='flex items-center justify-center pl-3 pr-3 mt-1'>
             <p className='my-0'>From</p>
-            <input className='input m-1' type='date' onChange={(e) => setStartDate(e.target.value)}/>
+            <input className='input m-1' type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
             <p className='my-0'>to</p>
-            <input className='input m-1' type='date' onChange={(e) => setFinishDate(e.target.value)}/>
+            <input className='input m-1' type='date' value={finishDate} onChange={(e) => setFinishDate(e.target.value)}/>
         </div>
         <button className='buttons w-[150px] mt-2 mb-2' onClick={(e) => {
             e.preventDefault()
