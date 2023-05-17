@@ -1,12 +1,9 @@
 import nodemailer from 'nodemailer';
-const fs = require('fs')
-import formidable from 'formidable'
-
 
 export default async function handler(req, res) {
 
   const arrayBuffer = req.body;
-  const buffer = Buffer.from(arrayBuffer)
+  const pdfBuffer = Buffer.from(arrayBuffer)
 
   const transporter = nodemailer.createTransport({
     service: 'hotmail',
@@ -24,8 +21,9 @@ export default async function handler(req, res) {
     attachments: [
       {
         filename: 'test.pdf',
-        content: buffer,
+        content: pdfBuffer,
         contentType: 'application/pdf',
+        encoding: 'base64'
       },
     ],
   };
