@@ -59,7 +59,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
     <div className='w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' key={jobsite._id}>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
-            { auth.isAdmin ? 
+            { auth.isAdmin || auth.isModerator ? 
             <div className='w-[100px] flex flex-row justify-between'>
               <button className='bg-slate-700 p-1 border rounded' onClick={() => setShowEdit(true)}>{editLogo}</button>
               <button className='bg-red-700 p-1 border rounded' onClick={() => setShowDelete(true)}>{trashLogo}</button>
