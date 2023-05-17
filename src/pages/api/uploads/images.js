@@ -4,8 +4,10 @@ const Jimp = require('jimp');
 export default async function sendImages (req, res, next) {
 
     const { images, userObj } = req.body;
+
     const jimpImages = await Promise.all(
         images.map(async (base64Images, index) => {
+          
             const buffer = Buffer.from(base64Images.split(',')[1], 'base64');
             const image = await Jimp.read(buffer);
 
@@ -39,7 +41,7 @@ export default async function sendImages (req, res, next) {
       
       const mailOptions = {
         from: 'boothpaperwork@hotmail.com',
-        to: 'davidsandoval596@gmail.com',
+        to: 'bgepayroll@gmail.com',
         subject: `${userObj.name} - Images`,
         text: '',
         attachments: jimpImages

@@ -62,6 +62,7 @@ const Navbar = () => {
 					:
 					<></>}
 					<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
+					<Dropdown.Item onClick={() => router.push('/upload')}><button className='nav-buttons'>Upload Docs/Images</button></Dropdown.Item>
 					<Dropdown.Item className='hover:bg-none' onClick={() => setLogoutModal(true)}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
 					<Modal show={logoutModal} onHide={() => setLogoutModal(false)}>
 						<Modal.Header id="dropdown" closeButton> Are you sure you want to log out? </Modal.Header>

@@ -4,6 +4,7 @@ import multer from 'multer';
 const upload = multer({ storage: multer.memoryStorage() });
 
 export default async function sendDocuments(req, res) {
+  
   upload.single('file')(req, res, (err) => {
     if (err) {
       console.log(err)
@@ -22,7 +23,7 @@ export default async function sendDocuments(req, res) {
       
       const mailOptions = {
         from: 'boothpaperwork@hotmail.com',
-        to: 'davidsandoval596@gmail.com',
+        to: 'bgepayroll@gmail.com',
         subject: filename,
         text: '',
         attachments: [
