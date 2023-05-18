@@ -1,17 +1,23 @@
-    import React, { useState, useContext } from "react"
+    import React, { useState, useContext, useEffect } from "react"
     import axios from "@/custom/axios"
     import AuthContext from "@/custom/AuthProvider"
     import imageCompression from "browser-image-compression"
     import { PuffLoader } from "react-spinners"
+    import { useRouter } from "next/router"
 
     const Upload = () => {
+    const router = useRouter()
     const { auth } = useContext(AuthContext)
     const [file, setFile] = useState(null)
     const [images, setImages] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState("")
 
-    console.log(auth.name)
+    useEffect(() => {
+        if ( auth.token === undefined) {
+            router.push('/login')
+        }
+    }, [])
 
     const handleFileUpload = event => {
         const file = event.target.files[0]

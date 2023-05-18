@@ -10,7 +10,10 @@ import generatePDF from '@/custom/generatePDF'
 const CreateDaily = () => {
     
     const { auth, setAuth, loadAll, jobsites, users, equipment } = useContext(AuthContext)
+    const allEquipment = equipment;
     const [tempArray, setTempArray] = useState([])
+    const [tempRentedArray, setTempRentedArray] = useState([])
+    const [tempEquipment, setTempEquipment] = useState([])
     const [images, setImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState('')
@@ -20,20 +23,21 @@ const CreateDaily = () => {
     const initialDaily = {
         date: '',
         dateCreated: Date().split(' ').splice(0, 5).join(' '),
-        pickedUpDiesel: checkBoxStatus === true ? 'Yes' : 'No',
+        foreman: '',
         totalHours: '',
+        pickedUpDiesel: false,
         contractor: '',
         superintendent: '',
         name: '',
-        foreman: '',
-        equipmentDescription: '',
         workDescription: '',
         extraWorkDescription: '',
         notes: '',
         employeesNo: '',
         rentedNo: '',
+        equipmentNo: '',
         employees: [],
         rentedEmployees: [],
+        equipment: [],
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -145,31 +149,62 @@ const CreateDaily = () => {
                     <label>Total Hours:</label>
                     <input className='input lg:w-[100px]' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
                     <label>Picked Up Diesel?</label>
-                    <input type='checkbox' onChange={(e) => {
-                        setCheckBoxStatus(e.target.checked)
-                        if (checkBoxStatus === true) {
-                            setDaily({
-                                ...daily,
-                                ['totalHours']: (parseFloat(daily.totalHours) - 0.5).toString()
-                            })
+                    <input type='checkbox' name='pickedUpDiesel' onChange={(e) => {
+                        const { name, value, type, checked } = e.target;
+                        if (type === 'checkbox') {
+                        setDaily((prevDaily) => ({
+                            ...prevDaily,
+                            [name]: checked,
+                        }));
                         } else {
-                            setDaily({
-                                ...daily,
-                                ['totalHours']: (parseFloat(daily.totalHours) + 0.5).toString()
-                            })
-                        }
+                        setDaily((prevDaily) => ({
+                            ...prevDaily,
+                            [name]: value,
+                        }));
+                        };
                     }}/>
                 </div>
-                <input className='input bg-slate-400' disabled value={checkBoxStatus === true ? parseFloat(daily.totalHours) : parseFloat(daily.totalHours) || 0} /> 
-                <label>Equipment on jobsite and hours used:</label>
-                {/* <select className='input' onChange={(e) => console.log(e.target.value)}>
-                    { equipment && equipment.map(item => {
-                        return (
-                            <option>{item.number} {item.name}</option>
-                        )
-                    }) }
-                </select> */}
-                <textarea required value={daily.equipmentDescription} name='equipmentDescription' className='input' onChange={handleChange}/>
+                <input className='input bg-slate-400' disabled value={daily.pickedUpDiesel === true ? parseFloat(daily.totalHours) + 0.5 : parseFloat(daily.totalHours) || 0} /> 
+
+                {/* EQUIPMENT DROPDOWN */}
+                <label>Number of equipment in jobsite:</label>
+                <input required value={daily.equipmentNo} name='equipmentNo' className='input' type='number' min={0} onChange={(e) => {
+                    setDaily({ 
+                        ...daily,
+                        ['equipmentNo']: e.target.value
+                     })
+                    
+                     const newArray = [];
+                     for (let i = 0; i < parseInt(e.target.value); i++) {
+                       newArray.push(i);
+                     }
+
+                     setTempEquipment(newArray);
+                }}/>
+                { tempEquipment.map((equipment, index) => {
+                    return (
+                        <div className='flex items-center w-full p-2' key={equipment._id}>
+                            <select className='input' name={`equipment-${index}-name`} onChange={(e) => {
+                                const newEquipment = [...daily.equipment];
+                                newEquipment[index] = { ...newEquipment[index], name: e.target.value };
+                                setDaily({ ...daily, equipment: newEquipment });
+                            }}>
+                                <option>Choose </option>
+                                { allEquipment && allEquipment.map(equipment => {
+                                    return (
+                                        <option key={equipment._id}>{equipment.number} {equipment.name}</option>
+                                    )
+                                })}
+                            </select>
+                            <label className='ml-2'>Hours:</label>
+                            <input required className='input' name={`equipment-${index}-hours`} onChange={(e) => {
+                                const newEquipment = [...daily.equipment];
+                                newEquipment[index] = { ...newEquipment[index], hours: e.target.value };
+                                setDaily({ ...daily, equipment: newEquipment });
+                            }}/>
+                        </div>
+                    )
+                } )}
                 <label>Description of contract work performed:</label>
                 <textarea required value={daily.workDescription} name='workDescription' className='input h-[150px]' onChange={handleChange}/>
                 <label>Description of extra work performed:</label>
@@ -220,7 +255,7 @@ const CreateDaily = () => {
                 } )}
 
                 {/* TEMPORAL EMPLOYEE INPUT */}
-                {/* <label>Number of rented employees:</label>
+                <label>Number of rented employees:</label>
                 <input required value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
                         ...daily,
@@ -237,13 +272,7 @@ const CreateDaily = () => {
                 { tempRentedArray.map((employee, index) => {
                     return (
                         <div className='flex items-center w-full p-2' key={employee.name}>
-                            <label>Name:</label>
-                            <input className='input' onChange={(e) => {
-                                const newEmployees = [...daily.rentedEmployees];
-                                newEmployees[index] = { ...newEmployees[index], name: e.target.value };
-                                setDaily({ ...daily, rentedEmployees: newEmployees });
-                            }} />
-                            <label className='ml-2'>Hours:</label>
+                            <label className='ml-2'>Hrs:</label>
                             <input required className='input' name={`rentedEmployee-${index}-hours`} onChange={(e) => {
                                 const newEmployees = [...daily.rentedEmployees];
                                 newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
@@ -251,7 +280,7 @@ const CreateDaily = () => {
                             }}/>
                         </div>
                     )
-                } )} */}
+                } )}
 
                 <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
                 { images && images.length > 0 ? 
