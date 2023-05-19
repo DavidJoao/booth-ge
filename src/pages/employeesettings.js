@@ -25,9 +25,9 @@ const Employeesettings = () => {
 	}, [])
 
   return (
-    <div className='h-auto min-h-screen flex flex-col items-center justify-center bg-[#242526] p-5 pt-[80px]'>
+    <div className='h-auto min-h-screen flex flex-col items-center justify-center bg-[#242526] p-3 pt-[80px]'>
         <input className='input mt-[80px] w-[300px] mb-3' placeholder='Filter By Name' onChange={(e) => setSearch(e.target.value)}/>
-        <div className='w-full h-[700px] p-2 overflow-auto rounded bg-[#3A3B3C] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+        <div className='w-full h-[600px] p-2 overflow-auto rounded bg-[#3A3B3C] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         { users && users.filter(user => search === '' || user.name.toLowerCase().includes(search.toLowerCase())).sort(function (a, b) {
 						if (a.name < b.name) {
 							return -1;
