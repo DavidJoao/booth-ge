@@ -11,8 +11,9 @@ const Home = () => {
 
     const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
     const router = useRouter()
-    const [singleJobsite, setSingleJobsite] = useState([])
+    const [singleJobsite, setSingleJobsite] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState('');
     
     useEffect(() => {
         async function fetchData () {
@@ -45,8 +46,11 @@ const Home = () => {
       }
     
   return (
-    <div className='flex flex-col items-start bg-[#242526] min-h-screen h-auto pt-[80px]'>
-        <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name}</h1>
+    <div className='flex flex-col items-start bg-[#242526] lg:h-screen h-auto pt-[80px] pb-2'>
+        <div className='w-full flex items-center justify-around'>
+            <h1 className='font-bold text-2xl m-2 text-white rounded p-1'>Welcome {auth && auth.name}</h1>
+            { auth.isAdmin || auth.isModerator ?  <input className='hidden lg:flex input w-[500px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
+        </div>
         <div className='home-container'>
             <div className='flex flex-col items-center justify-start lg:w-1/2 h-full '>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>
@@ -57,17 +61,22 @@ const Home = () => {
                     { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}
                 </div>
             </div>
+            { auth.isAdmin === true || auth.isModerator === true ? <input className='flex lg:hidden input w-[300px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
             <div className='jobsite-container scroll h-full min-h-[300px]'>
                 { auth.isAdmin || auth.isModerator ? 
-                    jobsites && jobsites.sort(function (a, b) {
-						if (a.name < b.name) {
-							return -1;
-						}
-						if (a.name > b.name) {
-							return 1;
-						}
-						return 0
-					}).map(jobsite => {
+                jobsites
+                .filter(jobsite => search === '' 
+                    || jobsite.equipment.some(items => (`${items.number} ${items.name}`).toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                    || jobsite.employees.some((employee) => (`${employee.name}`).toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                    || jobsite.accessories.some(accessory => (`${accessory.name}`).toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                    || jobsite.address.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+                    || jobsite.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                .sort(function (a, b) {
+					if (a.name < b.name) return -1;
+					if (a.name > b.name) return 1;
+					return 0
+					})
+                .map(jobsite => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :
                     singleJobsite && singleJobsite.map(jobsite => {

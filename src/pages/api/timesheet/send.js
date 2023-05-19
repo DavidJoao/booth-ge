@@ -8,6 +8,9 @@ export default async function sendTimesheet(req, res, next) {
 
     const { timesheet } = req.body
 
+    const dateArr = timesheet && timesheet.days[0].date.split('-');
+    const newDate = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`
+
     const doc = new jsPDF({
         orientation: "landscape",
     })
@@ -30,7 +33,7 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Total Hours: ${totalHrs}`, 150, 10)
 
     doc.rect(5, 15, 260, 35, "S")
-    doc.text(`Date: ${timesheet && timesheet.days[0].date}`, 10, 20)
+    doc.text(`Date: ${newDate}`, 10, 20)
     doc.text(`Monday: ${timesheet && timesheet.days[0].totalHrs} Hrs`, 70, 20)
     doc.text(`Jobsite: ${timesheet && timesheet.days[0].jobsite}`, 105, 20)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[0].additional} `, 170, 20)

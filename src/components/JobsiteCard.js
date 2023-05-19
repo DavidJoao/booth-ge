@@ -57,6 +57,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   
   return (
     <div className='w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' key={jobsite._id}>
+      <div>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
             { auth.isAdmin || auth.isModerator ? 
@@ -68,6 +69,12 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             ''
           }
           </h1>
+          {/* <label class="switch">
+            <input type="checkbox" onClick={(e) => setCheckBoxStatus(e.target.checked)}/>
+            <span class="slider round"></span>
+          </label> */}
+      </div>
+
           {/* MODAL FOR JOBSITE DELETION */}
           <Modal show={showDelete} onHide={() => setShowDelete(false)}>
             <Modal.Header className='text-2xl font-bold bg-[#242526]'>Are you sure you want to delete {jobsite.name}?</Modal.Header>

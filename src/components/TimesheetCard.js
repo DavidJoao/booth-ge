@@ -11,6 +11,17 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
     const mailIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
     <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
     </svg>
+
+    const oneArr = timesheet.days[0].date.split('-');
+    const oneDate = `${oneArr[1]}-${oneArr[2]}-${oneArr[0]}`
+    const twoArr = timesheet.days[1].date.split('-');
+    const twoDate = `${twoArr[1]}-${twoArr[2]}-${twoArr[0]}`
+    const threeArr = timesheet.days[2].date.split('-');
+    const threeDate = `${threeArr[1]}-${threeArr[2]}-${threeArr[0]}`
+    const fourArr = timesheet.days[3].date.split('-');
+    const fourDate = `${fourArr[1]}-${fourArr[2]}-${fourArr[0]}`
+    const fiveArr = timesheet.days[4].date.split('-');
+    const fiveDate = `${fiveArr[1]}-${fiveArr[2]}-${fiveArr[0]}`
   
     const handleDelete = (e) => {
         e.preventDefault();
@@ -37,7 +48,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         doc.text(`Total Hours: ${totalHrs}`, 150, 10);
 
         doc.rect(5, 15, 260, 35, 'S')
-        doc.text(`Date: ${timesheet.days[0].date}`, 10, 20)
+        doc.text(`Date: ${oneDate}`, 10, 20)
         doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 20)
         doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 105, 20)
         doc.text(`Other Jobsite: ${timesheet.days[0].additional} `, 170, 20)
@@ -51,7 +62,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         })
 
         doc.rect(5, 55, 260, 35, 'S')
-        doc.text(`Date: ${timesheet.days[1].date}`, 10, 60)
+        doc.text(`Date: ${twoDate}`, 10, 60)
         doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 60)
         doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 105, 60)
         doc.text(`Other Jobsite: ${timesheet.days[1].additional} `, 155, 60)
@@ -65,7 +76,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         })
 
         doc.rect(5, 95, 260, 35, 'S')
-        doc.text(`Date: ${timesheet.days[2].date}`, 10, 100)
+        doc.text(`Date: ${threeDate}`, 10, 100)
         doc.text(`Tuesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
         doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 105, 100)
         doc.text(`Other Jobsite: ${timesheet.days[2].additional} `, 155, 100)
@@ -79,7 +90,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         })
 
         doc.rect(5, 135, 260, 35, 'S')
-        doc.text(`Date: ${timesheet.days[3].date}`, 10, 140)
+        doc.text(`Date: ${fourDate}`, 10, 140)
         doc.text(`Tuesday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
         doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 105, 140)
         doc.text(`Other Jobsite: ${timesheet.days[3].additional} `, 155, 140)
@@ -93,7 +104,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         })
 
         doc.rect(5, 175, 260, 35, 'S')
-        doc.text(`Date: ${timesheet.days[4].date}`, 10, 180)
+        doc.text(`Date: ${fiveDate}`, 10, 180)
         doc.text(`Tuesday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
         doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 105, 180)
         doc.text(`Other Jobsite: ${timesheet.days[4].additional} `, 155, 180)
@@ -134,12 +145,14 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         </div>
         <Carousel slide={false}>
 
-        { timesheet && timesheet.days.map(day => {
+        { timesheet && timesheet.days.map((day, index) => {
+            const oneArr = day.date.split('-');
+            const oneDate = `${oneArr[1]}-${oneArr[2]}-${oneArr[0]}`
             return(
                 <Carousel.Item className='pl-5 pr-5 lg:pl-[115px] lg:pr-[115px]' key={day.date}>
                     <div className='p-2 rounded m-1 flex flex-col items-start'>
                         <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 lg:flex lg:flex-row lg:items-center lg:justify-evenly'>
-                            <p className='timesheet-item'>Date: {day.date}</p>
+                            <p className='timesheet-item'>Date: {oneDate}</p>
                             <p className='timesheet-item'>Start Time: {day.startTime}</p>
                             <p className='timesheet-item'>Finish Time: {day.finishTime}</p>
                             <p className='timesheet-item'>Total Hrs: {day.totalHrs}</p>

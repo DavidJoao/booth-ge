@@ -6,13 +6,17 @@ import jsPDF from "jspdf"
 
 export default async function sendPDF(req, res, next) {
    const { daily, images } = req.body
+
+   const dateArr = daily.date.split('-');
+   const newDate = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`
+
    const doc = new jsPDF()
    doc.setFontSize(12)
 
    doc.text("Booth Grading and Excavating, Inc.", 10, 10)
    doc.text(`Construction Daily Field Report`, 110, 10)
    doc.text(`Contractor: ${daily.contractor || ""}`, 10, 20)
-   doc.text(`Date: ${daily.date || ""}`, 110, 20)
+   doc.text(`Date: ${newDate|| ""}`, 110, 20)
    doc.text(`Directed By: ${daily.superintendent || ""}`, 10, 30)
    doc.text(`Project: ${daily.name || ""}`, 110, 30)
    doc.text(`Foreman: ${daily.foreman || ""}`, 10, 45)

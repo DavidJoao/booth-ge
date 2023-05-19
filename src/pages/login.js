@@ -56,6 +56,7 @@ const Login = () => {
         .catch(err => {
             if (err.response.status == 400) {
                 setErrorMessage('Wrong password or email')
+                setIsLoading(false)
             }
         })
         setUser(initialUser)

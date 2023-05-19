@@ -39,6 +39,9 @@ const DailyCard = ({ daily, loadAll, auth }) => {
 
    const [deleteModal, setDeleteModal] = useState(false)
 
+   const dateArr = daily.date.split('-');
+   const newDate = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`
+
    return (
       <div id="menu" className="w-full lg:w-[45%] p-3 rounded m-2" key={daily._id}>
          <div className="flex items-center justify-center">
@@ -53,7 +56,7 @@ const DailyCard = ({ daily, loadAll, auth }) => {
             )}
 
             <p className="w-full text-center border-b-[1px]">
-               {daily.date} at {daily.name}
+               {newDate} at {daily.name}
             </p>
 
             {auth.isAdmin ? (
@@ -88,21 +91,34 @@ const DailyCard = ({ daily, loadAll, auth }) => {
             </Modal.Body>
          </Modal>
 
-         <div className="flex justify-evenly">
+         <div className="grid grid-cols-1 sm:grid-cols-2">
             <p>Contractor: {daily.contractor}</p>
             <p>Superintendent: {daily.superintendent}</p>
+            <p>Foreman: {daily.foreman}</p>
+            <p>Submitted: {daily.dateCreated}</p>
          </div>
-         <p>Foreman: {daily.foreman}</p>
-         <p className="w-full text-center border-b-[1px]">
-            Description of equipment and hours used:
-         </p>
+         <p className="w-full border-t-[1px] font-bold"> Equipment and hours used: </p>
+         <ul className="list-disc">
+            {daily &&
+               daily.equipment.map(item => {
+                  return (
+                     <li key={item.name}>
+                        Name: {item.name} - Hours: {item.hours}
+                     </li>
+                  )
+               })}
+         </ul>
          <p>{daily.equipmentDescription}</p>
-         <p className="w-full text-center border-b-[1px]">Description of work performed:</p>
+         <p className="w-full border-t-[1px] font-bold">Description of contract work performed:</p>
          <p>{daily.workDescription}</p>
-         <p className="w-full text-center border-b-[1px]">
+         <p className="w-full border-t-[1px] font-bold">Description of contract extra performed:</p>
+         <p>{daily.extraWorkDescription || 'No extra work'}</p>
+         <p className="w-full text-center border-t-[1px]">
             Number of employees in jobsite: {daily.employeesNo}
          </p>
+         <p>Picked Up Diesel? {daily.pickedUpDiesel === true ? 'Yes' : 'No'}</p>
          <ul className="list-disc">
+            <li>Name: {daily.foreman} - Hours: {daily.totalHours}</li>
             {daily &&
                daily.employees.map(employee => {
                   return (
@@ -112,6 +128,8 @@ const DailyCard = ({ daily, loadAll, auth }) => {
                   )
                })}
          </ul>
+         <p className="w-full border-t-[1px] font-bold">Notes:</p>
+         <p>{daily.notes || 'No notes'}</p>
       </div>
    )
 }
