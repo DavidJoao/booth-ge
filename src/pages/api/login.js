@@ -19,7 +19,8 @@ export default async function login (req, res, next) {
             name: foundUser.name,
             isAdmin: foundUser.isAdmin,
             isModerator: foundUser.isModerator,
-            isForeman: foundUser.isForeman
+            isForeman: foundUser.isForeman,
+            _id: foundUser._id
         }
 
         res.setHeader('Set-Cookie', `token=${token}; Max-Age=1h; Path=/`)

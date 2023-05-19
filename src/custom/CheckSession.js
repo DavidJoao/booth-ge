@@ -15,7 +15,7 @@ const CheckSession = async ( AuthContext, setAuth  ) => {
         if (tokenCookie && emailCookie) {
             await axios.get(`/api/user/${emailCookie}`)
                 .then(res => {
-                    const { name, email, isAdmin, isForeman, isModerator } = res?.data
+                    const { name, email, isAdmin, isForeman, isModerator, _id } = res?.data
             
                     setAuth({
                         name: name,
@@ -23,13 +23,14 @@ const CheckSession = async ( AuthContext, setAuth  ) => {
                         isAdmin: isAdmin,
                         isModerator: isModerator,
                         isForeman: isForeman,
-                        token: tokenCookie
+                        token: tokenCookie,
+                        _id: _id
                     })
                 })
             } else {
                 await axios.get(`/api/user/${emailItem}`)
                 .then(res => {
-                    const { name, email, isAdmin, isForeman, isModerator } = res?.data
+                    const { name, email, isAdmin, isForeman, isModerator, _id } = res?.data
             
                     setAuth({
                         name: name,
@@ -37,7 +38,8 @@ const CheckSession = async ( AuthContext, setAuth  ) => {
                         isAdmin: isAdmin,
                         isModerator: isModerator,
                         isForeman: isForeman,
-                        token: tokenItem
+                        token: tokenItem,
+                        _id: _id
                     })
                 })
             }

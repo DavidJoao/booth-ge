@@ -5,8 +5,8 @@ export default async function findUserByEmail (req, res, next) {
 
     const foundUser = User.findOne({ email: email })
     .then(user => {
-        const { email, isAdmin, isModerator, name, isForeman } = user
-        res.json({ email, isAdmin, isModerator, name, isForeman })
+        const { email, isAdmin, isModerator, name, isForeman, _id } = user
+        res.json({ email, isAdmin, isModerator, name, isForeman, _id })
     })
     .catch(next)
 

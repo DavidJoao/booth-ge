@@ -15,6 +15,7 @@ const EditUserCard = ({ user, auth, loadAll }) => {
     const [userEdit, setUserEdit] = useState(initialEdit)
     const [errorModal, setErrorModal] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [userReset, setUserReset] = useState(false)
 
     const handleEditChange = (e) => {
         const { value, name } = e.target;
@@ -41,6 +42,19 @@ const EditUserCard = ({ user, auth, loadAll }) => {
             })    
     }
 
+    const handleReset = (e) => {
+        e.preventDefault();
+        
+        axios.patch(`/api/user/changepassword/${user._id}`, { password: 'booth123'} , { headers: {  'Content-Type': 'application/json'} })
+            .then(res => {
+                setUserReset(false)
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
   return (
     <>
     <button className='form m-2 w-[90%] mx-auto hover:scale-110 duration-200 bg-[#494A4C] flex items-center' onClick={() => setUserConfiguration(true)}>{user.name}</button>
@@ -58,10 +72,20 @@ const EditUserCard = ({ user, auth, loadAll }) => {
                     <label>Is Foreman? {user.isForeman ? 'Yes' : 'No'}</label>
                     <button type='submit' className='buttons mt-3 mx-auto w-[300px]'>Edit</button>
                 </form>
-                {/* <button className='red-buttons w-[300px]'>Reset {user.name} Password</button>  */}
+                <button className='red-buttons w-[300px]' onClick={() => {
+                    setUserReset(true)
+                    setUserConfiguration(false)
+                    }}>Reset {user.name} Password</button> 
             </div>
         </Modal.Body>
         <ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
+    </Modal>
+    <Modal show={userReset} onHide={() => setUserReset(false)}>
+        <Modal.Header id='modal'>PASSWORD RESET CONFIRMATION</Modal.Header>
+        <Modal.Body className='flex flex-row items-center justify-around' id='modal'>
+            <button className='buttons' onClick={() => setUserReset(false)}>Cancel</button>
+            <button className='red-buttons' onClick={handleReset}>RESET</button>
+        </Modal.Body>
     </Modal>
     </>
   )
