@@ -67,7 +67,7 @@ const CreateDaily = () => {
         setIsLoading(true)
         setStatusMessage('Submitting Daily, Please Wait...')
 
-        await axios.post('/api/email/send', { daily, images})
+        await axios.post('/api/email/daily', { daily, images})
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {

@@ -93,7 +93,7 @@ export default async function (req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "davidsandoval596@gmail.com",
+        to: "bgepayroll@gmail.com",
         subject: `${form.name} - Absence Request Form`,
         text: ``,
         attachments: [

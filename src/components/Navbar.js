@@ -44,7 +44,7 @@ const Navbar = () => {
 			<Dropdown.Menu id='menu'>
 				<div className='flex flex-col items-center w-[350px] p-4 bg-[#3a3b3c]'>
 					<Dropdown.Item onClick={() => router.push('/home')}><button className='nav-buttons' >Home</button></Dropdown.Item>
-					{/* <Dropdown.Item onClick={() => router.push('/absence')}><button className='nav-buttons'>Absence Request</button></Dropdown.Item> */}
+					<Dropdown.Item onClick={() => router.push('/absence')}><button className='nav-buttons'>Absence Request</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/createtimesheet')}><button className='nav-buttons'>Create Timesheet</button></Dropdown.Item>
 					
 					{ auth && auth.isModerator ? 
