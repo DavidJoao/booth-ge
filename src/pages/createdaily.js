@@ -21,10 +21,12 @@ const CreateDaily = () => {
     const [statusMessage, setStatusMessage] = useState('')
     const [imported, setImported] = useState(false)
     const [exported, setExported] = useState(false)
+
     const [importedArray, setImportedArray] = useState([])
-    const importedSet = [...new Set(importedArray)]
-    // const exportedArray = [];
-    // const exportedSet = [...new Set(exportedArray)]
+    const [exportedArray, setExportedArray] = useState([])
+
+    let importedSet = [...new Set(importedArray)]
+    let exportedSet = [...new Set(exportedArray)]
     
     const router = useRouter()
 
@@ -46,6 +48,8 @@ const CreateDaily = () => {
         employees: [],
         rentedEmployees: [],
         equipment: [],
+        imported: [],
+        exported: [],
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -220,33 +224,97 @@ const CreateDaily = () => {
                 <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
-                {/* <div className='p-2 flex flex-row items-center justify-evenly w-[70%] border'>
+                <div className='p-2 flex flex-row items-center justify-evenly w-[70%]'>
                     <label>Imported?</label>
-                    <input type='checkbox' onChange={(e) => setImported(e.target.checked)}/>
+                    <input type='checkbox' onChange={(e) => {
+                        setImported(e.target.checked)
+                        if (e.target.checked === false) {
+                            setImportedArray([])
+                            setTempImported([])
+                        }
+                        }}/>
                     <label>Exported?</label>
-                    <input type='checkbox' onChange={(e) => setExported(e.target.checked)}></input>
+                    <input type='checkbox' onChange={(e) => {
+                        setExported(e.target.checked)
+                        if (e.target.checked === false) {
+                            setExportedArray([])
+                            setTempExported([])
+                        }
+                        }}></input>
                 </div>
                 <div className='p-2 w-[70%]'>
+
                     {imported ? (
-                        <select className='input w-full' onChange={(e) => {
-                            tempImported.push(e.target.value);
-                            setImportedArray([...tempImported, ...importedArray])
-                        }}>
-                            <option>Choose Materials</option>
-                            <option>Gravel</option>
-                            <option>Dirt</option>
-                            <option>D.G.</option>
-                        </select>
+                        <>  
+                            <p className='font-bold text-center'>Import</p>
+                            <select className='input w-full' onChange={(e) => {
+                                tempImported.push(e.target.value);
+                                setImportedArray([...tempImported, ...importedArray])
+                            }}>
+                                <option>Choose Materials</option>
+                                <option>Gravel</option>
+                                <option>Dirt</option>
+                                <option>D.G.</option>
+                            </select>
+                        </>
                     ) : (<></>)}
-                    {importedSet.filter(material => material != 'Choose Materials').map(material => {
+                    {importedSet.filter((material) => material != 'Choose Materials').map((material, index) => {
                         return (
-                            <div className='grid grid-cols-2 flex items-center justify-center'>
+                            <div key={material} className='grid grid-cols-3 gap-2 flex items-center justify-center'>
                                 <p className='my-auto'>{material}</p>
-                                <input placeholder='#' className='input w-full' type='number' min={0}/>
+                                <input placeholder='#' className='input w-full' type='number' min={0} name={`importedMaterial-${index}-loads`} onChange={(e) => {
+                                const newLoads = [...daily.imported];
+                                newLoads[index] = { ...newLoads[index], loads: e.target.value, material: material };
+                                setDaily({ ...daily, imported: newLoads });
+                            }}/>
+                                <button className='bg-red-700 rounded p-1 mt-2' onClick={(e) => {
+                                    e.preventDefault();
+                                    const updatedMaterials = importedSet.filter((_, i) => i !== index);
+                                    setImportedArray(updatedMaterials)
+                                    setTempImported(updatedMaterials)
+                                    const newLoads = daily.imported.filter((_, i) => i !== index);
+                                    setDaily({ ...daily, imported: newLoads });
+                                }}>Remove</button>
                             </div>
                         )
                     })}
-                </div> */}
+
+                    {exported ? (
+                        <>
+                            <p className='font-bold text-center mt-3'>Export</p>
+                            <select className='input w-full' onChange={(e) => {
+                                tempExported.push(e.target.value);
+                                setExportedArray([...tempExported, ...exportedArray])
+                            }}>
+                                <option>Choose Materials</option>
+                                <option>Gravel</option>
+                                <option>Dirt</option>
+                                <option>D.G.</option>
+                            </select>
+                        </>
+                    ) : (<></>)}
+                    {exportedSet.filter(material => material != 'Choose Materials').map((material, index) => {
+                        return (
+                            <div key={material} className='grid grid-cols-3 gap-2 flex items-center justify-center'>
+                                <p className='my-auto'>{material}</p>
+                                <input placeholder='#' className='input w-full' type='number' min={0} name={`exportedMaterial-${index}-loads`} onChange={(e) => {
+                                const newLoads = [...daily.exported];
+                                newLoads[index] = { ...newLoads[index], loads: e.target.value, material: material };
+                                setDaily({ ...daily, exported: newLoads });
+                            }}/>
+                                <button className='bg-red-700 rounded p-1 mt-2' onClick={(e) => {
+                                    e.preventDefault();
+                                    const updatedMaterials = exportedSet.filter((_, i) => i !== index);
+                                    setExportedArray(updatedMaterials)
+                                    setTempExported(updatedMaterials)
+                                    const newLoads = daily.exported.filter((_, i) => i !== index);
+                                    setDaily({ ...daily, exported: newLoads });
+                                }}>Remove</button>
+                            </div>
+                        )
+                    })}
+
+                </div>
                 {/* EMPLOYEE INPUT */}
                 <label>Number of employees in jobsite:</label>
                 <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
@@ -318,9 +386,16 @@ const CreateDaily = () => {
 
                 <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
                 { images && images.length > 0 ? 
-                    <div className='border mt-3 w-[90%] h-[160px] flex flex-row justify-center flex-wrap overflow-auto rounded'>
+                    <div className='w-[80%] rounded mt-2 flex flex-row items-center overflow-x-auto border p-2"'>
                         {images.map((image, index) => (
-                            <img key={index} src={image} alt={`Preview ${index}`} className='w-[200px] m-2' />
+                            <>
+                                <img key={index} src={image} alt={`Preview ${index}`} className='w-[150px] m-2' />
+                                <button className="mr-3 bg-red-600 rounded p-1" onClick={(e) => {
+                                    e.preventDefault();
+                                    const updatedImages = images.filter((_, i) => i !== index);
+                                    setImages(updatedImages);
+                                }}>x</button>
+                            </>
                         ))}
                     </div>
                 :

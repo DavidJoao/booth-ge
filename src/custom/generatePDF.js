@@ -32,29 +32,41 @@ const generatePDF = (daily) => {
       doc.text(line, extrax, extray)
       extray += 5; 
    })
-
-   const extraHalf = daily && daily.pickedUpDiesel ? '.5' : ''
+   
    doc.line(0, 105, doc.internal.pageSize.getWidth(), 105)
-   doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 115)
-   doc.text(`- ${daily.foreman  || ''}`, 10, 125)
-   doc.text(`Hrs: ${daily.totalHours || ''}${extraHalf}`, 70, 125)
-   doc.text(`Picked Up Diesel? ${daily && daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 125)
-   daily.employees.forEach((employee, index) => {
-      doc.text(`- ${employee.name  || ''}`, 10, 130 + index * 5)
-      doc.text(`Hrs ${employee.hours  || ''}`, 70, 130 + index * 5)
-   })
-
-   doc.text(`Rented Employees: ${daily.rentedNo  || ''}`, 150, 115)
-   daily.rentedEmployees.forEach((employee, index) => {
-      doc.text(`- ${employee.hours} Hrs`, 150, 125 + index * 5)
-   })
-
-   doc.line(0, 180, doc.internal.pageSize.getWidth(), 180)
-   doc.text(`Equipment on Jobsite and hours used:`, 10, 190)
+   doc.text(`Equipment on Jobsite and hours used:`, 10, 115)
    daily.equipment.forEach((equipment, index) => {
-      doc.text(`- ${equipment.name || ''}`, 10, 195 + index * 5)
-      doc.text(`- ${equipment.hours || ''} Hrs`, 90, 195 + index * 5 )
+      doc.text(`- ${equipment.name || ''}`, 10, 120 + index * 5)
+      doc.text(`- ${equipment.hours || ''} Hrs`, 90, 120 + index * 5 )
    })
+
+   doc.text('Imported:', 150, 115);
+   daily.imported.forEach((material, index) => {
+      doc.text(`- ${material.material  || ''}:`, 150, 120 + index * 5)
+      doc.text(`${material.loads + ' loads'  || ''}`, 170, 120 + index * 5)
+   })
+   doc.text('Exported:', 150, 150);
+   daily.exported.forEach((material, index) => {
+      doc.text(`- ${material.material  || ''}:`, 150, 155 + index * 5)
+      doc.text(`${material.loads + ' loads'  || ''}`, 170, 155 + index * 5)
+   })
+            
+   const extraHalf = daily && daily.pickedUpDiesel ? '.5' : ''
+   doc.line(0, 180, doc.internal.pageSize.getWidth(), 180)
+   doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 190)
+   doc.text(`- ${daily.foreman  || ''}`, 10, 200)
+   doc.text(`Hrs: ${daily.totalHours || ''}${extraHalf}`, 70, 200)
+   doc.text(`Picked Up Diesel? ${daily && daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 200)
+   daily.employees.forEach((employee, index) => {
+      doc.text(`- ${employee.name  || ''}`, 10, 205 + index * 5)
+      doc.text(`Hrs ${employee.hours  || ''}`, 70, 205 + index * 5)
+   })
+
+   doc.text(`Rented Employees: ${daily.rentedNo  || ''}`, 150, 190)
+   daily.rentedEmployees.forEach((employee, index) => {
+      doc.text(`- ${employee.hours} Hrs`, 150, 200 + index * 5)
+   })
+
 
    doc.line(0, 250, doc.internal.pageSize.getWidth(), 250)
    doc.text('Notes: ', 10, 260)
