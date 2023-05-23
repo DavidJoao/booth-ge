@@ -107,7 +107,7 @@ const CreateTimesheet = () => {
                     <label>Finish Time:</label>
                     <input required name="finishTime" value={form.finishTime} type="time" className="input p-2" placeholder="3:30" onChange={handleChange}/>
                     <label>Total Hrs:</label>
-                    <input required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
+                    <input type="number" required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
                     <label>Description:</label>
                     <textarea required name="description" value={form.description} className="input h-[100px]" placeholder="Description of work performed" onChange={handleChange}></textarea>
                 </div>
@@ -151,7 +151,7 @@ const CreateTimesheet = () => {
                                 <label>Finish Time:</label>
                                 <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Total Hrs:</label>
-                                <input required name="totalHrs" value={days[index].totalHrs} className="input" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
+                                <input type="number" required name="totalHrs" value={days[index].totalHrs} className="input" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
                                 <label>Description:</label>
                                 <textarea required name="description" value={days[index].description} className="input h-[100px]" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
                             </form>

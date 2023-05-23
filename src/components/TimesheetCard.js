@@ -45,12 +45,13 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
 
         doc.setFontSize(12)
         doc.text(`Name: ${timesheet.author}`, 10, 10);
-        doc.text(`Total Hours: ${totalHrs}`, 150, 10);
+        doc.text(`Total Hours: ${totalHrs}`, 105, 10);
+        doc.text(`Date Created: ${timesheet.dateCreated || ''}`, 170, 10);
 
         doc.rect(5, 15, 260, 35, 'S')
         doc.text(`Date: ${oneDate}`, 10, 20)
         doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 20)
-        doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 105, 20)
+        doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 110, 20)
         doc.text(`Other Jobsite: ${timesheet.days[0].additional} `, 170, 20)
         doc.text(`Start Time: ${timesheet.days[0].startTime}`, 10, 30)
         doc.text(`Finish Time: ${timesheet.days[0].finishTime}`, 70, 30)
@@ -64,7 +65,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         doc.rect(5, 55, 260, 35, 'S')
         doc.text(`Date: ${twoDate}`, 10, 60)
         doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 60)
-        doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 105, 60)
+        doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 110, 60)
         doc.text(`Other Jobsite: ${timesheet.days[1].additional} `, 170, 60)
         doc.text(`Start Time: ${timesheet.days[1].startTime}`, 10, 70)
         doc.text(`Finish Time: ${timesheet.days[1].finishTime}`, 70, 70)
@@ -78,7 +79,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         doc.rect(5, 95, 260, 35, 'S')
         doc.text(`Date: ${threeDate}`, 10, 100)
         doc.text(`Wednesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
-        doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 105, 100)
+        doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 110, 100)
         doc.text(`Other Jobsite: ${timesheet.days[2].additional} `, 170, 100)
         doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 110)
         doc.text(`Finish Time: ${timesheet.days[2].finishTime}`, 70, 110)
@@ -92,7 +93,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         doc.rect(5, 135, 260, 35, 'S')
         doc.text(`Date: ${fourDate}`, 10, 140)
         doc.text(`Thursday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
-        doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 105, 140)
+        doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 110, 140)
         doc.text(`Other Jobsite: ${timesheet.days[3].additional} `, 170, 140)
         doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 150)
         doc.text(`Finish Time: ${timesheet.days[3].finishTime}`, 70, 150)
@@ -106,7 +107,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
         doc.rect(5, 175, 260, 35, 'S')
         doc.text(`Date: ${fiveDate}`, 10, 180)
         doc.text(`Friday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
-        doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 105, 180)
+        doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 110, 180)
         doc.text(`Other Jobsite: ${timesheet.days[4].additional} `, 170, 180)
         doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 190)
         doc.text(`Finish Time: ${timesheet.days[4].finishTime}`, 70, 190)
@@ -125,6 +126,9 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
     <div id='menu' className='p-2 rounded mt-5' key={timesheet._id}>
         <div className='flex items-center justify-between border-b-[1px] pb-1'>
             <h4>{timesheet.author}</h4>
+            { timesheet.dateCreated ? (
+                <p>Created: {timesheet.dateCreated}</p>
+            ) : ( <> </> ) }
                 <div className='w-[150px] flex flex-row justify-between'>
                     { auth.isModerator || auth.isAdmin ? (
                     <>
