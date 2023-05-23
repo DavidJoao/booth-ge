@@ -206,7 +206,7 @@ const CreateDaily = () => {
                 } )}
                 <label>Description of contract work performed:</label>
                 <textarea required value={daily.workDescription} name='workDescription' className='input h-[150px]' onChange={handleChange}/>
-                <label>Description of extra work performed:</label>
+                <label>Description of Extra (T&M): </label>
                 <textarea required value={daily.extraWorkDescription} name='extraWorkDescription' className='input h-[150px]' onChange={handleChange}/>
                 <label>Notes:</label>
                 <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
@@ -291,11 +291,8 @@ const CreateDaily = () => {
                 :
                     <></>
                 }
-                { tempArray.length != 0 ? 
-                    <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
-                    :
-                    <></>
-                }
+
+                <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
             </div>
         </form>
          }

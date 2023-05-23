@@ -39,11 +39,12 @@ export default async function sendPDF(req, res, next) {
       extray += 5
    })
 
+   const extraHalf = daily && daily.pickedUpDiesel ? '.5' : ''
    doc.line(0, 105, doc.internal.pageSize.getWidth(), 105)
    doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 115)
    doc.text(`- ${daily.foreman || ""}`, 10, 125)
-   doc.text(`Hrs: ${daily.totalHours || ""}`, 70, 125)
-   doc.text(`Picked Up Diesel? ${daily.pickedUpDiesel === true ? 'Yes' : 'No'}`, 90, 125)
+   doc.text(`Hrs: ${daily.totalHours || ""}${extraHalf}`, 70, 125)
+   doc.text(`Picked Up Diesel? ${daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 125)
    daily.employees.forEach((employee, index) => {
       doc.text(`- ${employee.name || ""}`, 10, 130 + index * 5)
       doc.text(`Hrs ${employee.hours || ""}`, 70, 130 + index * 5)
@@ -110,7 +111,7 @@ export default async function sendPDF(req, res, next) {
 
    const mailOptions = {
       from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
+        to: "davidsandoval596@gmail.com",
         subject: `${daily.date} Daily Report for ${daily.name}`,
         text: `${daily.date} - ${daily.name}`,
         attachments: [

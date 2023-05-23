@@ -109,7 +109,7 @@ const Home = () => {
             <div className='flex flex-col items-center justify-start lg:w-1/2 h-full '>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>
                 <div className='notifications-container bg-[#3a3b3c] w-full h-[400px] '>
-                    { notifications && notifications.map(notification => {
+                    { notifications && notifications.reverse().map(notification => {
                         return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                     }) }
                     { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}

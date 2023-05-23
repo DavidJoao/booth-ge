@@ -116,9 +116,9 @@ const DailyCard = ({ daily, loadAll, auth }) => {
          <p className="w-full text-center border-t-[1px]">
             Number of employees in jobsite: {daily.employeesNo}
          </p>
-         <p>Picked Up Diesel? {daily.pickedUpDiesel === true ? 'Yes' : 'No'}</p>
+         <p>Picked Up Diesel? {daily.pickedUpDiesel ? 'Yes' : 'No'}</p>
          <ul className="list-disc">
-            <li>Name: {daily.foreman} - Hours: {daily.totalHours}</li>
+            <li>Name: {daily.foreman} - Hours: {daily.totalHours}{daily.pickedUpDiesel ? '.5' : ''}</li>
             {daily &&
                daily.employees.map(employee => {
                   return (
