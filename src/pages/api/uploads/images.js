@@ -12,14 +12,6 @@ export default async function sendImages (req, res, next) {
             const image = await Jimp.read(buffer);
 
             image.scale(2)
-            image.brightness(-0.1)
-            image.greyscale()
-            image.contrast(0.7)
-            image.scan(0, 0, image.bitmap.width, image.bitmap.height, (x, y, idx) => {
-                if ((x + y) % 2 === 0) {
-                  image.bitmap.data[idx + 3] = 50;
-                }
-              })
 
             const processedImageBuffer = await image.getBufferAsync(Jimp.MIME_JPEG);
 

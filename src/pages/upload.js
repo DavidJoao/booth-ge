@@ -12,6 +12,7 @@
     const [images, setImages] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         if ( auth.token === undefined) {
@@ -83,6 +84,7 @@
         e.preventDefault()
 
         setIsLoading(true)
+        setErrorMessage("")
         setStatusMessage("Submitting Images, Please Wait...")
 
         const userObj = { name: auth.name }
@@ -91,11 +93,16 @@
             .then(res => {
                 setImages([])
                 setStatusMessage("✓ Successfully Submitted ✓")
+                setErrorMessage("")
                 setTimeout(() => {
                 setIsLoading(false)
                 }, 2000)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setErrorMessage("Internal Error, Please Contact Office");
+                setIsLoading(false)
+            })
     }
 
     return (
@@ -129,6 +136,7 @@
                         {" "}
                         Submit{" "}
                     </button>
+                    <p className="text-red-600 mt-3">{errorMessage}</p>
                     {images.length > 0 ? (
                         <div
                             id="navbar"
