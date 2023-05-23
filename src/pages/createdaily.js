@@ -14,10 +14,18 @@ const CreateDaily = () => {
     const [tempArray, setTempArray] = useState([])
     const [tempRentedArray, setTempRentedArray] = useState([])
     const [tempEquipment, setTempEquipment] = useState([])
+    const [tempImported, setTempImported] = useState([])
+    const [tempExported, setTempExported] = useState([])
     const [images, setImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState('')
-    const [checkBoxStatus, setCheckBoxStatus] = useState(false)
+    const [imported, setImported] = useState(false)
+    const [exported, setExported] = useState(false)
+    const [importedArray, setImportedArray] = useState([])
+    const importedSet = [...new Set(importedArray)]
+    // const exportedArray = [];
+    // const exportedSet = [...new Set(exportedArray)]
+    
     const router = useRouter()
 
     const initialDaily = {
@@ -212,6 +220,33 @@ const CreateDaily = () => {
                 <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
+                {/* <div className='p-2 flex flex-row items-center justify-evenly w-[70%] border'>
+                    <label>Imported?</label>
+                    <input type='checkbox' onChange={(e) => setImported(e.target.checked)}/>
+                    <label>Exported?</label>
+                    <input type='checkbox' onChange={(e) => setExported(e.target.checked)}></input>
+                </div>
+                <div className='p-2 w-[70%]'>
+                    {imported ? (
+                        <select className='input w-full' onChange={(e) => {
+                            tempImported.push(e.target.value);
+                            setImportedArray([...tempImported, ...importedArray])
+                        }}>
+                            <option>Choose Materials</option>
+                            <option>Gravel</option>
+                            <option>Dirt</option>
+                            <option>D.G.</option>
+                        </select>
+                    ) : (<></>)}
+                    {importedSet.filter(material => material != 'Choose Materials').map(material => {
+                        return (
+                            <div className='grid grid-cols-2 flex items-center justify-center'>
+                                <p className='my-auto'>{material}</p>
+                                <input placeholder='#' className='input w-full' type='number' min={0}/>
+                            </div>
+                        )
+                    })}
+                </div> */}
                 {/* EMPLOYEE INPUT */}
                 <label>Number of employees in jobsite:</label>
                 <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {

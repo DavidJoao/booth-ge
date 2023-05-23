@@ -62,7 +62,7 @@ export default async function sendTimesheet(req, res, next) {
 
     doc.rect(5, 95, 260, 35, "S")
     doc.text(`Date: ${timesheet && timesheet.days[2].date}`, 10, 100)
-    doc.text(`Tuesday: ${timesheet && timesheet.days[2].totalHrs} Hrs`, 70, 100)
+    doc.text(`Wednesday: ${timesheet && timesheet.days[2].totalHrs} Hrs`, 70, 100)
     doc.text(`Jobsite: ${timesheet && timesheet.days[2].jobsite}`, 105, 100)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[2].additional} `, 170, 100)
     doc.text(`Start Time: ${timesheet && timesheet.days[2].startTime}`, 10, 110)
@@ -76,7 +76,7 @@ export default async function sendTimesheet(req, res, next) {
 
     doc.rect(5, 135, 260, 35, "S")
     doc.text(`Date: ${timesheet && timesheet.days[3].date}`, 10, 140)
-    doc.text(`Tuesday: ${timesheet && timesheet.days[3].totalHrs} Hrs`, 70, 140)
+    doc.text(`Thursday: ${timesheet && timesheet.days[3].totalHrs} Hrs`, 70, 140)
     doc.text(`Jobsite: ${timesheet && timesheet.days[3].jobsite}`, 105, 140)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[3].additional} `, 170, 140)
     doc.text(`Start Time: ${timesheet && timesheet.days[3].startTime}`, 10, 150)
@@ -90,7 +90,7 @@ export default async function sendTimesheet(req, res, next) {
 
     doc.rect(5, 175, 260, 35, "S")
     doc.text(`Date: ${timesheet && timesheet.days[4].date}`, 10, 180)
-    doc.text(`Tuesday: ${timesheet && timesheet.days[4].totalHrs} Hrs`, 70, 180)
+    doc.text(`Friday: ${timesheet && timesheet.days[4].totalHrs} Hrs`, 70, 180)
     doc.text(`Jobsite: ${timesheet && timesheet.days[4].jobsite}`, 105, 180)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[4].additional} `, 170, 180)
     doc.text(`Start Time: ${timesheet && timesheet.days[4].startTime}`, 10, 190)

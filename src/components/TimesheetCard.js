@@ -77,7 +77,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
 
         doc.rect(5, 95, 260, 35, 'S')
         doc.text(`Date: ${threeDate}`, 10, 100)
-        doc.text(`Tuesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
+        doc.text(`Wednesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
         doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 105, 100)
         doc.text(`Other Jobsite: ${timesheet.days[2].additional} `, 170, 100)
         doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 110)
@@ -91,7 +91,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
 
         doc.rect(5, 135, 260, 35, 'S')
         doc.text(`Date: ${fourDate}`, 10, 140)
-        doc.text(`Tuesday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
+        doc.text(`Thursday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
         doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 105, 140)
         doc.text(`Other Jobsite: ${timesheet.days[3].additional} `, 170, 140)
         doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 150)
@@ -105,7 +105,7 @@ const TimesheetCard = ( {timesheet, loadAll, auth} ) => {
 
         doc.rect(5, 175, 260, 35, 'S')
         doc.text(`Date: ${fiveDate}`, 10, 180)
-        doc.text(`Tuesday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
+        doc.text(`Friday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
         doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 105, 180)
         doc.text(`Other Jobsite: ${timesheet.days[4].additional} `, 170, 180)
         doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 190)
