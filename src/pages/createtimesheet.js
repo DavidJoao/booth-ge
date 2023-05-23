@@ -28,6 +28,7 @@ const CreateTimesheet = () => {
     const timesheet = {
         author: auth.name,
         days: days,
+        dateCreated: Date().split(' ').splice(0, 5).join(' ')
     }
 
     useEffect(() => {
