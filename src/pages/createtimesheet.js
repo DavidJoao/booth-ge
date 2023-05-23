@@ -76,7 +76,7 @@ const CreateTimesheet = () => {
       };
 
   return (
-    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px]">
+    <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[90px]">
             { isLoading ? 
                 <div className='flex flex-col items-center justify-center'>
                     <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
@@ -85,7 +85,7 @@ const CreateTimesheet = () => {
             :  
                 <>
                 <h2>Day {days.length + 1} of 5</h2>
-                <div className="daily-container">
+                <div className="daily-container h-auto pb-[50px]">
                     <label>Date:</label>
                     <input required name="date" value={form.date} type="date" className="input p-2" onChange={handleChange}/>
                     <label>Jobsite:</label>
