@@ -30,12 +30,12 @@ const Reports = () => {
   return (
     <div className='bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-start pt-[80px] lg:p-4 lg:pt-[80px]'>
         <h3 className='mt-2'>Daily Reports</h3>
-        <div className='flex flex-row items-center justify-center pl-2 pr-2'>
-            <h4 className='w-[300px] text-lg my-0'>Search by Foreman</h4>
-            <input className='input my-0' onChange={(e) => setSearch(e.target.value)}/>
+        <div className='flex items-center justify-center w-[350px] pl-2 pr-2'>
+            <h4 className='mr-3 text-lg my-0'>Filter</h4>
+            <input className='input my-0' placeholder='Contractor, Foreman, Equipment, Employee' onChange={(e) => setSearch(e.target.value)}/>
         </div>
-        <div className='flex items-center justify-center pl-3 pr-3 mt-1'>
-            <p className='my-0'>From</p>
+        <div className='flex flex-row items-center justify-center w-[350px] pl-2 pr-2 mt-1'>
+            <p className='my-0 text-lg mr-4'>From</p>
             <input className='input m-1' type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
             <p className='my-0'>to</p>
             <input className='input m-1' type='date' value={finishDate} onChange={(e) => setFinishDate(e.target.value)}/>
@@ -48,8 +48,18 @@ const Reports = () => {
         }}>Clear Filters</button>
         <div id='dropdown' className='rounded w-full lg:w-full min-h-[500px] h-auto lg:p-4 flex flex-col items-center justify-start'>
         {dailies
-            .filter(daily => search === '' || daily.foreman.toLowerCase().includes(search.toLowerCase()))
-            .filter(daily => startDate === '' && finishDate === '' || startDate <= daily.date && daily.date <= finishDate)
+            .filter(
+                daily =>
+                (startDate === '' && finishDate === '') ||
+                (startDate <= daily.date && daily.date <= finishDate)
+            )
+            .filter(
+                daily => search === '' 
+                || daily.foreman.toLowerCase().includes(search.toLowerCase()) 
+                || daily.equipment.some(items => (`${items.name}`).toLowerCase().includes(search.toLowerCase()))
+                || daily.employees.some(employees => (`${employees.name}`).toLocaleLowerCase().includes(search.toLowerCase()))
+                || daily.contractor.toLowerCase().includes(search.toLowerCase())
+            )
             .reverse()
             .map(daily => (
                 <DailyCard key={daily._id} daily={daily} loadAll={loadAll} auth={auth} />

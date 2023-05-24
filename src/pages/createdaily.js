@@ -137,6 +137,7 @@ const CreateDaily = () => {
             <p className="mt-4">{statusMessage}</p>
         </div>
         :
+        ///////////////// MAIN FORM ///////////////////
         <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]'>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Date:</label>
@@ -223,6 +224,9 @@ const CreateDaily = () => {
                 <label>Notes:</label>
                 <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
+
+            {/* ************* IMPORTED/EXPORTED AREA *************/}
+
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <div className='p-2 flex flex-row items-center justify-evenly w-[70%]'>
                     <label>Imported?</label>
@@ -252,9 +256,10 @@ const CreateDaily = () => {
                                 setImportedArray([...tempImported, ...importedArray])
                             }}>
                                 <option>Choose Materials</option>
-                                <option>Gravel</option>
                                 <option>Dirt</option>
-                                <option>D.G.</option>
+                                <option>Sand</option>
+                                <option>Gravel</option>
+                                <option>Base</option>
                             </select>
                         </>
                     ) : (<></>)}
@@ -287,9 +292,11 @@ const CreateDaily = () => {
                                 setExportedArray([...tempExported, ...exportedArray])
                             }}>
                                 <option>Choose Materials</option>
-                                <option>Gravel</option>
                                 <option>Dirt</option>
-                                <option>D.G.</option>
+                                <option>Rock</option>
+                                <option>Concrete</option>
+                                <option>Green</option>
+                                <option>Demo/Trash</option>
                             </select>
                         </>
                     ) : (<></>)}
@@ -315,7 +322,9 @@ const CreateDaily = () => {
                     })}
 
                 </div>
+
                 {/* EMPLOYEE INPUT */}
+
                 <label>Number of employees in jobsite:</label>
                 <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
@@ -357,6 +366,7 @@ const CreateDaily = () => {
                 } )}
 
                 {/* TEMPORAL EMPLOYEE INPUT */}
+
                 <label>Number of rented employees:</label>
                 <input required value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
