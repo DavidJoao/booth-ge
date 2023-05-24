@@ -8,7 +8,8 @@ const jobsiteSchema = new mongoose.Schema({
     accessories: Array,
     superintendent: String,
     startTime: String,
-    contractor: String
+    contractor: String,
+    status: String,
 })
 
 module.exports = mongoose.models.Jobsite || mongoose.model('Jobsite', jobsiteSchema);

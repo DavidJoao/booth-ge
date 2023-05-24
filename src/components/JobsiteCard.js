@@ -54,9 +54,18 @@ const JobsiteCard = ( { jobsite, auth } ) => {
       })
       .catch(err => setErrorMessage(err.response.data.message))
   }
+
+  const switchStatus = (e) => {
+    e.preventDefault();
+    axios.patch(`/api/jobsite/switchstatus/${jobsite._id}`)
+      .then(res => {
+        loadAll()
+        setShowEdit(false)
+      })
+  }
   
   return (
-    <div className='w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' key={jobsite._id}>
+    <div className={jobsite.status === 'active' ? 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' : 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container opacity-30'} key={jobsite._id}>
       <div>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
@@ -69,10 +78,6 @@ const JobsiteCard = ( { jobsite, auth } ) => {
             ''
           }
           </h1>
-          {/* <label class="switch">
-            <input type="checkbox" onClick={(e) => setCheckBoxStatus(e.target.checked)}/>
-            <span class="slider round"></span>
-          </label> */}
       </div>
 
           {/* MODAL FOR JOBSITE DELETION */}
@@ -90,7 +95,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
 
           {/* MODAL FOR JOBSITE EDIT */}
           <Modal show={showEdit} onHide={() => setShowEdit(false)}>
-              <Modal.Header className='text-2xl font-bold bg-[#242526]' closeButton>Edit {jobsite.name}</Modal.Header>
+              <Modal.Header className='text-2xl font-bold bg-[#242526]' closeButton>Edit {jobsite.name} <p className='text-[10px] font-normal'>{jobsite.status}</p></Modal.Header>
               <Modal.Body className='bg-[#242526]'>
                 <form className='flex flex-col items-center justify-between' onSubmit={handleEditSubmit}>
                   <label>Name: </label>
@@ -103,7 +108,14 @@ const JobsiteCard = ( { jobsite, auth } ) => {
                   <input required name='contractor' className='input' value={newEdit.contractor} onChange={handleChange}/>
                   <label>Start Time:</label>
                   <input required name='startTime' className='input' value={newEdit.startTime} type='time' onChange={handleChange}/>
-                  <button type='submit' className='buttons mt-3'>Edit</button>
+                  <div className='w-full flex items-center justify-evenly'>
+                    { jobsite.status === 'active' ? (
+                      <button className='red-buttons mt-3' onClick={switchStatus}>Deactivate</button>
+                      ) : (
+                      <button className='blue-buttons mt-3' onClick={switchStatus}>Activate</button>
+                    ) }
+                    <button type='submit' className='buttons mt-3'>Edit</button>
+                  </div>
                 </form>
                 <p className='text-center mt-3 text-red-600 font-bold'>{errorMessage}</p>
               </Modal.Body>

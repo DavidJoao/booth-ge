@@ -10,7 +10,10 @@
     @apply w-full p-2 rounded-lg text-white font-bold bg-[#494A4C] hover:scale-110 duration-300 text-center border-[1px] border-slate-300 hover:text-white no-underline
   }
   .red-buttons{
-    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-gradient-to-tr from-[#990202] to-[#ad5858] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
+    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-[#990202] hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
+  }
+  .blue-buttons{
+    @apply w-[100px] p-2 rounded-lg text-white font-bold bg-blue-700 hover:scale-125 duration-300 text-center border-[1px] border-white hover:text-white
   }
   .form{
     @apply flex flex-col items-center justify-center w-[350px] lg:w-1/2 bg-[#494A4C] p-4 text-white rounded-lg shadow-xl

@@ -124,8 +124,11 @@ const Home = () => {
                     || jobsite.employees.some((employee) => (`${employee.name}`).toLocaleLowerCase().includes(search.toLocaleLowerCase()))
                     || jobsite.accessories.some(accessory => (`${accessory.name}`).toLocaleLowerCase().includes(search.toLocaleLowerCase()))
                     || jobsite.address.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-                    || jobsite.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                    || jobsite.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+                    || jobsite.status.toLowerCase() === search.toLocaleLowerCase())
                 .sort(function (a, b) {
+                    if (a.status === 'active' && b.status === 'inactive') return -1;
+                    if (a.status === 'inactive' && b.status === 'active') return 1;
 					if (a.name < b.name) return -1;
 					if (a.name > b.name) return 1;
 					return 0
