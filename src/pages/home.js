@@ -26,7 +26,6 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [configurationModal, setConfigurationModal] = useState(false)
-    const [passwordValidation, setPasswordValidation] = useState('')
     const [password, setPassword] = useState(intiialPassword)
 
     useEffect(() => {
@@ -139,8 +138,11 @@ const Home = () => {
                 .map(jobsite => {
                         return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
                 :
-                    singleJobsite && singleJobsite.map(jobsite => {
-                        return( <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/> )})
+                jobsites.filter(jobsite => jobsite.employees.some(employee => employee._id === auth._id)).map(jobsite => {
+                    return (
+                        <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/>
+                    )
+                })
             }
             </div>
         </div>
