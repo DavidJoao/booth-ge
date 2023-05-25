@@ -22,7 +22,7 @@ const Post = () => {
 
     const initialNotification = {
         author: auth.name,
-        date: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+        date: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
         message: '',
         title: '',
     }
