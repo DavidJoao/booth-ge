@@ -143,7 +143,10 @@ const Home = () => {
                         <JobsiteCard key={jobsite._id} jobsite={jobsite} auth={auth}/>
                     )
                 })
-            }
+                }
+                { jobsites.filter(jobsite => jobsite.employees.some(employee => employee._id === auth._id)).length === 0 && auth.isAdmin === false && auth.isModerator === false ? 
+                    <p>No Jobsite Assigned</p> : <></> 
+                }
             </div>
         </div>
     </div>
