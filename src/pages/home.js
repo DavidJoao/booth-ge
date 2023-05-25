@@ -113,6 +113,9 @@ const Home = () => {
                         return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                     }) }
                     { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}
+                    {/* <div>
+                    <iframe src="https://drive.google.com/file/d/1NTmdPyqQBdclSMqZqusc2BPuEllUZVxs/preview" width="640" height="480"></iframe>
+                    </div> */}
                 </div>
             </div>
             { auth.isAdmin === true || auth.isModerator === true ? <input className='flex lg:hidden input w-[300px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }

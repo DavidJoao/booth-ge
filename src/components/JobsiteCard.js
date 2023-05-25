@@ -65,7 +65,7 @@ const JobsiteCard = ( { jobsite, auth } ) => {
   }
   
   return (
-    <div className={jobsite.status === 'active' ? 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container' : 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container opacity-30'} key={jobsite._id}>
+    <div className={jobsite.status === 'inactive' ? 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container opacity-30' : 'w-full lg:w-[500px] h-auto lg:h-[500px] m-2 basic-container'} key={jobsite._id}>
       <div>
           <h1 className='border-t-[1px] border-l-[1px] border-r-[1px] border-white p-2 rounded-tr-lg rounded-tl-lg font-extrabold text-3xl flex items-center justify-between'>
             {jobsite.name}
