@@ -71,14 +71,13 @@ const Login = () => {
             </>
         :
         <>
-            <p className='text-3xl font-extrabold mb-2 mt-2'>Log In</p>
-            <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
             <form className='form' onSubmit={handleLogin}>
+                <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[200px]'/>
                 <label>Email:</label>
-                <input name='email' value={user.email.toLowerCase()} className="input" autoComplete='email' onChange={handleChange}/>
+                <input name='email' value={user.email.toLowerCase()} className="input lg:w-[50%]" autoComplete='email' onChange={handleChange}/>
                 <label>Password:</label>
-                <input name='password' value={user.password} type={'password'} className="input" autoComplete='current-password' onChange={handleChange}/>
-                <button className='buttons mx-auto mt-3'>Login</button>
+                <input name='password' value={user.password} type={'password'} className="input lg:w-[50%]" autoComplete='current-password' onChange={handleChange}/>
+                <button className='buttons mx-auto mt-3 w-[80%] lg:w-[50%]'>Login</button>
             </form>
                 <p className='text-red-600'>{errorMessage}</p>
                 <Link href={'/register'} className="buttons mx-auto mt-3 w-[300px] lg:w-[400px] no-underline">Do not have an account? Register here</Link>

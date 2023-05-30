@@ -109,7 +109,7 @@ const CreateTimesheet = () => {
                     <label>Total Hrs:</label>
                     <input type="number" required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
                     <label>Description:</label>
-                    <textarea required name="description" value={form.description} className="input h-[100px]" placeholder="Description of work performed" onChange={handleChange}></textarea>
+                    <textarea required name="description" value={form.description} className="input min-h-[100px] resize-none" placeholder="Description of work performed" onChange={handleChange}></textarea>
                 </div>
                 <div className="w-full flex items-center justify-evenly p-2">
                    { days && days.length >= 4 ? (
@@ -153,7 +153,7 @@ const CreateTimesheet = () => {
                                 <label>Total Hrs:</label>
                                 <input type="number" required name="totalHrs" value={days[index].totalHrs} className="input" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
                                 <label>Description:</label>
-                                <textarea required name="description" value={days[index].description} className="input h-[100px]" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
+                                <textarea required name="description" value={days[index].description} className="input h-[100px] resize-none" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
                             </form>
                         )
                     })

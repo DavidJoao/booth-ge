@@ -411,8 +411,9 @@ const CreateDaily = () => {
                 :
                     <></>
                 }
-
-                <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
+                { images.length > 0 ? (
+                    <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
+                ) : ( <p className='mt-5 text-red-600 bg-slate-200 rounded p-1'>Cannot send daily report without photos.</p> )}
             </div>
         </form>
          }
