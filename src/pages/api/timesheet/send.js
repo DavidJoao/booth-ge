@@ -9,7 +9,15 @@ export default async function sendTimesheet(req, res, next) {
     const { timesheet } = req.body
 
     const dateArr = timesheet && timesheet.days[0].date.split('-');
+    const dateArrTwo = timesheet && timesheet.days[1].date.split('-');
+    const dateArrThree = timesheet && timesheet.days[2].date.split('-');
+    const dateArrFour = timesheet && timesheet.days[3].date.split('-');
+    const dateArrFive = timesheet && timesheet.days[4].date.split('-');
     const newDate = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`
+    const newDateTwo = `${dateArrTwo[1]}-${dateArrTwo[2]}-${dateArrTwo[0]}`
+    const newDateThree = `${dateArrThree[1]}-${dateArrThree[2]}-${dateArrThree[0]}`
+    const newDateFour = `${dateArrFour[1]}-${dateArrFour[2]}-${dateArrFour[0]}`
+    const newDateFive = `${dateArrFive[1]}-${dateArrFive[2]}-${dateArrFive[0]}`
 
     const doc = new jsPDF({
         orientation: "landscape",
@@ -48,7 +56,7 @@ export default async function sendTimesheet(req, res, next) {
     })
 
     doc.rect(5, 55, 260, 35, "S")
-    doc.text(`Date: ${timesheet && timesheet.days[1].date}`, 10, 60)
+    doc.text(`Date: ${newDateTwo}`, 10, 60)
     doc.text(`Tuesday: ${timesheet && timesheet.days[1].totalHrs} Hrs`, 70, 60)
     doc.text(`Jobsite: ${timesheet && timesheet.days[1].jobsite}`, 110, 60)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[1].additional} `, 170, 60)
@@ -62,7 +70,7 @@ export default async function sendTimesheet(req, res, next) {
     })
 
     doc.rect(5, 95, 260, 35, "S")
-    doc.text(`Date: ${timesheet && timesheet.days[2].date}`, 10, 100)
+    doc.text(`Date: ${newDateThree}`, 10, 100)
     doc.text(`Wednesday: ${timesheet && timesheet.days[2].totalHrs} Hrs`, 70, 100)
     doc.text(`Jobsite: ${timesheet && timesheet.days[2].jobsite}`, 110, 100)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[2].additional} `, 170, 100)
@@ -76,7 +84,7 @@ export default async function sendTimesheet(req, res, next) {
     })
 
     doc.rect(5, 135, 260, 35, "S")
-    doc.text(`Date: ${timesheet && timesheet.days[3].date}`, 10, 140)
+    doc.text(`Date: ${newDateFour}`, 10, 140)
     doc.text(`Thursday: ${timesheet && timesheet.days[3].totalHrs} Hrs`, 70, 140)
     doc.text(`Jobsite: ${timesheet && timesheet.days[3].jobsite}`, 110, 140)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[3].additional} `, 170, 140)
@@ -90,7 +98,7 @@ export default async function sendTimesheet(req, res, next) {
     })
 
     doc.rect(5, 175, 260, 35, "S")
-    doc.text(`Date: ${timesheet && timesheet.days[4].date}`, 10, 180)
+    doc.text(`Date: ${newDateFive}`, 10, 180)
     doc.text(`Friday: ${timesheet && timesheet.days[4].totalHrs} Hrs`, 70, 180)
     doc.text(`Jobsite: ${timesheet && timesheet.days[4].jobsite}`, 110, 180)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[4].additional} `, 170, 180)
