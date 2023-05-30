@@ -21,6 +21,7 @@ const CreateDaily = () => {
     const [statusMessage, setStatusMessage] = useState('')
     const [imported, setImported] = useState(false)
     const [exported, setExported] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const [importedArray, setImportedArray] = useState([])
     const [exportedArray, setExportedArray] = useState([])
@@ -80,7 +81,7 @@ const CreateDaily = () => {
 
         await axios.post('/api/email/daily', { daily, images})
 
-        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '} })
+        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 6000 })
         .then( res => {
             loadAll()
             setDaily(initialDaily)
@@ -92,7 +93,16 @@ const CreateDaily = () => {
             }, 2000)
             
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            if (err.code === 'ECONNABORTED' && err.message.includes('timeout')) {
+                console.log('Request timed out');
+                setErrorMessage('Poor Connection, Please Try Again With Better Connection');
+                setIsLoading(false);
+              } else {
+                console.log('An error occurred', err);
+                setIsLoading(false)
+              }
+        })
         
     }
 
@@ -138,16 +148,16 @@ const CreateDaily = () => {
         </div>
         :
         ///////////////// MAIN FORM ///////////////////
-        <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]'>
+        <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]' onSubmit={handleSubmit}>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
                 <label>Date:</label>
                 <input required value={daily.date} name='date' type='date' className='input' onChange={handleChange}/>
                 <label>General Contractor:</label>
-                <input required value={daily.contractor} name='contractor' className='input' onChange={handleChange}/>
+                <input value={daily.contractor} name='contractor' className='input' onChange={handleChange}/>
                 <label>Superintendent:</label>
-                <input required value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
+                <input value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
                 <label>Job Address / Name</label>
-                <select name='name' value={daily.name} onChange={handleChange} className='input' id='jobsites'>
+                <select required name='name' value={daily.name} onChange={handleChange} className='input' id='jobsites'>
                     <option value="" selected disabled hidden>Choose Jobsite</option>
                     { jobsites && jobsites.map(jobsite => {
                         return (
@@ -180,7 +190,7 @@ const CreateDaily = () => {
 
                 {/* EQUIPMENT DROPDOWN */}
                 <label>Number of equipment in jobsite:</label>
-                <input required value={daily.equipmentNo} name='equipmentNo' className='input' type='number' min={0} onChange={(e) => {
+                <input value={daily.equipmentNo} name='equipmentNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['equipmentNo']: e.target.value
@@ -220,9 +230,9 @@ const CreateDaily = () => {
                 <label>Description of contract work performed:</label>
                 <textarea required value={daily.workDescription} name='workDescription' className='input h-[150px]' onChange={handleChange}/>
                 <label>Description of Extra (T&M): </label>
-                <textarea required value={daily.extraWorkDescription} name='extraWorkDescription' className='input h-[150px]' onChange={handleChange}/>
+                <textarea value={daily.extraWorkDescription} name='extraWorkDescription' className='input h-[150px]' onChange={handleChange}/>
                 <label>Notes:</label>
-                <textarea required value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
+                <textarea value={daily.notes} name='notes' className='input h-[150px]' onChange={handleChange}/>
             </div>
 
             {/* ************* IMPORTED/EXPORTED AREA *************/}
@@ -326,7 +336,7 @@ const CreateDaily = () => {
                 {/* EMPLOYEE INPUT */}
 
                 <label>Number of employees in jobsite:</label>
-                <input required value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
+                <input value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['employeesNo']: e.target.value
@@ -356,7 +366,7 @@ const CreateDaily = () => {
                                 })}
                             </select>
                             <label className='ml-2'>Hours:</label>
-                            <input required className='input' name={`employee-${index}-hours`} onChange={(e) => {
+                            <input className='input' name={`employee-${index}-hours`} onChange={(e) => {
                                 const newEmployees = [...daily.employees];
                                 newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
                                 setDaily({ ...daily, employees: newEmployees });
@@ -368,7 +378,7 @@ const CreateDaily = () => {
                 {/* TEMPORAL EMPLOYEE INPUT */}
 
                 <label>Number of rented employees:</label>
-                <input required value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
+                <input value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['rentedNo']: e.target.value
@@ -385,7 +395,7 @@ const CreateDaily = () => {
                     return (
                         <div className='flex items-center w-full p-2' key={employee.name}>
                             <label className='ml-2'>Hrs:</label>
-                            <input required className='input' name={`rentedEmployee-${index}-hours`} onChange={(e) => {
+                            <input className='input' name={`rentedEmployee-${index}-hours`} onChange={(e) => {
                                 const newEmployees = [...daily.rentedEmployees];
                                 newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
                                 setDaily({ ...daily, rentedEmployees: newEmployees });
@@ -412,8 +422,9 @@ const CreateDaily = () => {
                     <></>
                 }
                 { images.length > 0 ? (
-                    <button type='submit' className='buttons mt-3 w-[200px]' onClick={handleSubmit}>Send</button>
+                    <button type='submit' className='buttons mt-3 w-[200px]'>Send</button>
                 ) : ( <p className='mt-5 text-red-600 bg-slate-200 rounded p-1'>Cannot send daily report without photos.</p> )}
+                <p className='text-red-600'>{errorMessage}</p>
             </div>
         </form>
          }

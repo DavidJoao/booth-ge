@@ -31,7 +31,7 @@ export default async function sendPDF(req, res, next) {
    })
 
    doc.text(`Description of extra work performed:`, 10, 90)
-   const extraLines = doc.splitTextToSize(`- ${daily.workDescription || ""}`, 190)
+   const extraLines = doc.splitTextToSize(`- ${daily.extraWorkDescription || ""}`, 190)
    let extrax = 10
    let extray = 95
    extraLines.forEach(line => {
@@ -100,7 +100,7 @@ export default async function sendPDF(req, res, next) {
       if (index !== 0 && index % 2 === 0) {
          doc.addPage()
       } else if (index !== 0) {
-         y += maxImageHeight + margin // Increase y-coordinate for odd images
+         y += maxImageHeight + margin 
       }
 
       doc.addImage(image, "JPEG", x, y, width, height)
