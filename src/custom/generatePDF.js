@@ -25,7 +25,7 @@ const generatePDF = (daily) => {
    })
 
    doc.text(`Description of extra work performed:`, 10, 90)
-   const extraLines = doc.splitTextToSize(`- ${daily.workDescription || ''}`, 190)
+   const extraLines = doc.splitTextToSize(`- ${daily.extraWorkDescription || ''}`, 190)
    let extrax = 10;
    let extray = 95;
    extraLines.forEach(line => {
@@ -55,11 +55,11 @@ const generatePDF = (daily) => {
    doc.line(0, 180, doc.internal.pageSize.getWidth(), 180)
    doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 190)
    doc.text(`- ${daily.foreman  || ''}`, 10, 200)
-   doc.text(`Hrs: ${daily.totalHours || ''}${extraHalf}`, 70, 200)
+   doc.text(`${daily.totalHours || ''}${extraHalf} Hrs`, 70, 200)
    doc.text(`Picked Up Diesel? ${daily && daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 200)
    daily.employees.forEach((employee, index) => {
       doc.text(`- ${employee.name  || ''}`, 10, 205 + index * 5)
-      doc.text(`Hrs ${employee.hours  || ''}`, 70, 205 + index * 5)
+      doc.text(`${employee.hours  || ''} Hrs`, 70, 205 + index * 5)
    })
 
    doc.text(`Rented Employees: ${daily.rentedNo  || ''}`, 150, 190)

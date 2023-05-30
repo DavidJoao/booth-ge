@@ -24,6 +24,7 @@ const CreateTimesheet = () => {
     const [days, setDays] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState('Submitting Timesheet, Please Wait...')
+    const [disableHours, setDisableHours] = useState(true)
 
     const timesheet = {
         author: auth.name,
@@ -36,13 +37,42 @@ const CreateTimesheet = () => {
         if (auth.token === null || auth.token === undefined ) router.push('/login')
     }, [])
 
+    // HANDLE PRINCIPAL FORM CHANGE
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: value
-        })
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value,
+            totalHrs: calculateTotalHours(value, name)
+        }))
+
+        if (name === 'totalHrs'){
+            setForm({
+                ...form,
+                ['totalHrs']: value
+            })
+        }
     }
+
+    // CALCULATE TOTAL HOURS 
+    const calculateTotalHours = (value, name) => {
+        const { startTime, finishTime } = form;
+        if (name === 'startTime') {
+          const timeDiff = calculateTimeDifference(value, finishTime);
+          return timeDiff / (1000 * 60 * 60) - 0.5;
+        } else if (name === 'finishTime') {
+          const timeDiff = calculateTimeDifference(startTime, value);
+          return timeDiff / (1000 * 60 * 60) - 0.5;
+        }
+        return form.totalHrs;
+      };
+
+    // CALCULATE DIFFERENCE BETWEEN START TIME AND FINISH TIME
+    const calculateTimeDifference = (startTime, finishTime) => {
+        const startDate = new Date(`2000-01-01T${startTime}`);
+        const finishDate = new Date(`2000-01-01T${finishTime}`);
+        return finishDate.getTime() - startDate.getTime();
+    };
 
     const handleNextDay = () => {
         days.push(form)
@@ -71,7 +101,7 @@ const CreateTimesheet = () => {
         const { name, value } = e.target;
       
         const updatedDays = [...days];
-        const updatedDay = { ...updatedDays[index], [name]: value }; 
+        const updatedDay = { ...updatedDays[index], [name]: value, totalHrs: calculateTotalHours(value, name)}; 
         updatedDays[index] = updatedDay; 
         setDays(updatedDays);
       };
@@ -102,12 +132,40 @@ const CreateTimesheet = () => {
                     <input required name="additional" value={form.additional} className="input" onChange={handleChange}/>
                     <label>Foreman:</label>
                     <input required name="foreman" value={form.foreman} className="input" placeholder="Ex. Alfredo" onChange={handleChange}/>
-                    <label>Start Time:</label>
-                    <input required name="startTime" value={form.startTime} type="time" className="input p-2" placeholder="7:00" onChange={handleChange}/>
-                    <label>Finish Time:</label>
-                    <input required name="finishTime" value={form.finishTime} type="time" className="input p-2" placeholder="3:30" onChange={handleChange}/>
+                    { disableHours === true ? (
+                        // IF SELECTED AN OPTION FROM ABSENCE, HIDE START/FINISH TIME, IF NOT SELECTED SHOW START/FINISH TIME
+                        <>
+                            <label>Start Time:</label>
+                            <input required name="startTime" value={form.startTime} type="time" className="input p-2" placeholder="7:00" onChange={handleChange}/>
+                            <label>Finish Time:</label>
+                            <input required name="finishTime" value={form.finishTime} type="time" className="input p-2" placeholder="3:30" onChange={handleChange}/>
+                        </>
+                    ) : ( <> </> ) }
+                    <label>Absence:</label>
+                    <select className="input" onChange={(e) => {
+                        if (e.target.value === 'Choose Option If Necessary' || e.target.value === ''){
+                            setDisableHours(true)
+                        } else {
+                            setDisableHours(false)
+                            setForm({
+                                ...form,
+                              ['description']: e.target.value  
+                            })
+                        }
+                    }}>
+                        <option>Choose Option If Necessary</option>
+                        <option>Sick</option>
+                        <option>Vacation</option>
+                        <option>Time Off Without Pay</option>
+                        <option>Jury Duty</option>
+                    </select>
                     <label>Total Hrs:</label>
-                    <input type="number" required name="totalHrs" value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
+                    { disableHours === false ? (
+                        // IF OPTION IS SELECTED FROM ABSENCE, SHOW EDITABLE INPUT, IF NOT, SHOW DISABLED INPUT THAT WILL BE VALUED DEPENDING ON START/FINISH TIME
+                        <input name="totalHrs" type="number" required value={form.totalHrs} className="input" placeholder="8" onChange={handleChange}/> 
+                    ) : (
+                        <input disabled name="totalHrs" type="number" required value={form.totalHrs} className="input bg-slate-400" placeholder="8" onChange={handleChange}/> 
+                    ) }
                     <label>Description:</label>
                     <textarea required name="description" value={form.description} className="input min-h-[100px] resize-none" placeholder="Description of work performed" onChange={handleChange}></textarea>
                 </div>
@@ -151,7 +209,7 @@ const CreateTimesheet = () => {
                                 <label>Finish Time:</label>
                                 <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Total Hrs:</label>
-                                <input type="number" required name="totalHrs" value={days[index].totalHrs} className="input" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
+                                <input disabled type="number" required value={days[index].totalHrs} className="input bg-slate-400" placeholder="8" onChange={handleEditChange}/> 
                                 <label>Description:</label>
                                 <textarea required name="description" value={days[index].description} className="input h-[100px] resize-none" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
                             </form>
