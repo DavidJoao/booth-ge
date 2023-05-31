@@ -59,10 +59,11 @@ const Navbar = () => {
 							<></>
 						}
 						<Dropdown.Item onClick={() => router.push('/post')}><button className='nav-buttons'>Post</button></Dropdown.Item>
-						<Dropdown.Item onClick={() => router.push('/reports')}><button className='nav-buttons'>Daily Reports</button></Dropdown.Item>
+						
 					</>
 					:
 					<></>}
+					<Dropdown.Item onClick={() => router.push('/reports')}><button className='nav-buttons'>Daily Reports</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/upload')}><button className='nav-buttons'>Upload Docs/Images</button></Dropdown.Item>
 					<Dropdown.Item className='hover:bg-none' onClick={() => setLogoutModal(true)}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
