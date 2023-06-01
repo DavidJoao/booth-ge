@@ -180,7 +180,14 @@ const Settings = () => {
 					<Modal.Body className='bg-[#242526] max-h-[450px] overflow-auto'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard 
+								setUserConfiguration={setUserConfiguration} 
+								setEquipmentConfiguration={setEquipmentConfiguration} 
+								setAccessoryConfiguration={setAccessoryConfiguration}
+								jobsite={jobsite} 
+								setErrorMessage={setErrorMessage} 
+								setErrorModal={setErrorModal} 
+								route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
 							</div> )}
 						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
 					</Modal.Body>

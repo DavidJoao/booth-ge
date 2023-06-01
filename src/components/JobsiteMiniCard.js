@@ -2,7 +2,7 @@ import axios from '@/custom/axios'
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route } ) => {
+const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route, setUserConfiguration, setAccessoryConfiguration, setEquipmentConfiguration } ) => {
 
     const router = useRouter()
 
@@ -11,7 +11,10 @@ const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route } ) =
         try {
             axios.patch(`/api/${route}`)
                 .then(res => {
-                    router.push('/home')
+                    console.log(res)
+                    setUserConfiguration(false)
+                    setEquipmentConfiguration(false)
+                    setAccessoryConfiguration(false)
                 })
                 .catch(err => {
                     setErrorModal(true)

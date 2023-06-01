@@ -17,7 +17,8 @@ const Post = () => {
         superintendent: '',
         employees: [],
         startTime: '',
-        contractor: ''
+        contractor: '',
+        status: 'active'
     }
 
     const initialNotification = {
@@ -25,6 +26,7 @@ const Post = () => {
         date: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
         message: '',
         title: '',
+        link: '',
     }
 
     const initialEquipment = {
@@ -53,6 +55,7 @@ const Post = () => {
             ...model,
             [name]: value
         })
+        console.log(model)
     }
 
     const handleSubmit = (route, model, setX, initialX) => {
@@ -99,6 +102,8 @@ const Post = () => {
                 <input required name='title' className='input' value={notification.title} onChange={(e) => handleChange(e, setNotification, notification)}/>
                 <label>Message:</label>
                 <textarea required name='message' className='input' value={notification.message} onChange={(e) => handleChange(e, setNotification, notification)}/>
+                <label>Link (Google Drive Link For Safety Meetings):</label>
+                <input name='link' value={notification.link} className='input' onChange={(e) => handleChange(e, setNotification, notification)} />
                 <button type='submit' className='buttons mx-auto mt-2'>Post</button>
             </form>
         </div>

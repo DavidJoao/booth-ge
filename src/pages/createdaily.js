@@ -81,7 +81,7 @@ const CreateDaily = () => {
 
         await axios.post('/api/email/daily', { daily, images})
 
-        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 6000 })
+        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 15000 })
         .then( res => {
             loadAll()
             setDaily(initialDaily)

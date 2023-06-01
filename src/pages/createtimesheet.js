@@ -171,11 +171,7 @@ const CreateTimesheet = () => {
                 </div>
                 <div className="w-full flex items-center justify-evenly p-2">
                    { days && days.length >= 4 ? (
-                        <button className="buttons" onClick={(e) => {
-                            e.preventDefault();
-                            days.push(form)
-                            handleSubmit()
-                        }}>Submit</button>
+                        <></>
                         ) : (
                         <button className="buttons w-[150px]" onClick={handleNextDay}>Next Day</button> )
                     }
@@ -218,6 +214,16 @@ const CreateTimesheet = () => {
                 ) : (
                     <></>
                 ) }
+
+                { days && days.length >= 4 ? (
+                    <button className="buttons mb-[100px]" onClick={(e) => {
+                        e.preventDefault();
+                        days.push(form)
+                        handleSubmit()
+                    }}>Submit</button>
+                    ) : (
+                        <></> )
+                    }
             </div>
     </div>
   )
