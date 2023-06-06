@@ -37,6 +37,8 @@ const CreateTimesheet = () => {
         if (auth.token === null || auth.token === undefined ) router.push('/login')
     }, [])
 
+
+
     // HANDLE PRINCIPAL FORM CHANGE
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -200,12 +202,12 @@ const CreateTimesheet = () => {
                                 <input required name="additional" value={days[index].additional} className="input" onChange={handleEditChange}/>
                                 <label>Foreman:</label>
                                 <input required name="foreman" value={days[index].foreman} className="input" placeholder="Ex. Alfredo" onChange={(e) => handleEditChange(e, index)}/>
-                                <label>Start Time:</label>
+                                {/* <label>Start Time:</label>
                                 <input required name="startTime" value={days[index].startTime} type="time" className="input" placeholder="7:00" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Finish Time:</label>
-                                <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/>
+                                <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/> */}
                                 <label>Total Hrs:</label>
-                                <input disabled type="number" required value={days[index].totalHrs} className="input bg-slate-400" placeholder="8" onChange={handleEditChange}/> 
+                                <input disabled type="number" name="totalHrs" value={days[index].totalHrs} className="input bg-slate-400" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
                                 <label>Description:</label>
                                 <textarea required name="description" value={days[index].description} className="input h-[100px] resize-none" placeholder="Description of work performed" onChange={(e) => handleEditChange(e, index)}></textarea>
                             </form>

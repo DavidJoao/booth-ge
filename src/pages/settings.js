@@ -11,6 +11,10 @@ import EquipmentMiniCard from '@/components/EquipmentMiniCard'
 
 const Settings = () => {
 
+	const checkIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-[100px] h-[100px] mx-auto">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+
 	const { auth, setAuth, users, loadAll, equipment, accessories } = useContext(AuthContext)
 	const router = useRouter()
 
@@ -23,6 +27,7 @@ const Settings = () => {
 	const [userDeletion, showUserDeletion] = useState(false)
 	const [accessoryDeletion, showAccessoryDeletion] = useState(false)
 	const [errorModal, setErrorModal] = useState(false)
+	const [successModal, setSuccessModal] = useState(false)
 	
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
@@ -143,7 +148,7 @@ const Settings = () => {
 					<Modal.Body className='bg-[#242526] h-[650px] overflow-auto flex flex-col items-center'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`accessory/add/${selectedAccessory._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setSuccessModal={setSuccessModal} setErrorModal={setErrorModal} route={`accessory/add/${selectedAccessory._id}/${jobsite._id}`}/>
 							</div>
 							) }
 						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
@@ -187,6 +192,7 @@ const Settings = () => {
 								jobsite={jobsite} 
 								setErrorMessage={setErrorMessage} 
 								setErrorModal={setErrorModal} 
+								setSuccessModal={setSuccessModal}
 								route={`user/add/${selectedUser._id}/${jobsite._id}`}/>
 							</div> )}
 						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
@@ -264,7 +270,7 @@ const Settings = () => {
 
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id} onClick={() => setShowDelete(true)} className='w-full'>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard setSuccessModal={setSuccessModal} jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}
@@ -282,6 +288,11 @@ const Settings = () => {
 						</Modal.Footer>	
 						:
 						<></>}
+				</Modal>
+
+				<Modal show={successModal}>
+					<Modal.Header id='success' className='text-2xl '><p className='mx-auto'>Added Successfully</p></Modal.Header>
+					<Modal.Footer id='success'>{checkIcon}</Modal.Footer>
 				</Modal>
 		</div>
 	)

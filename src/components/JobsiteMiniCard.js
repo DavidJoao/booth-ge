@@ -1,8 +1,9 @@
 import axios from '@/custom/axios'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import { Modal } from 'react-bootstrap'
 
-const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route, setUserConfiguration, setAccessoryConfiguration, setEquipmentConfiguration } ) => {
+const JobsiteMiniCard = ( { jobsite, setErrorMessage, setSuccessModal, setErrorModal, route, setUserConfiguration, setAccessoryConfiguration, setEquipmentConfiguration } ) => {
 
     const router = useRouter()
 
@@ -15,6 +16,12 @@ const JobsiteMiniCard = ( { jobsite, setErrorMessage, setErrorModal, route, setU
                     setUserConfiguration(false)
                     setEquipmentConfiguration(false)
                     setAccessoryConfiguration(false)
+
+                    setSuccessModal(true)
+                    setTimeout(() => {
+                        setSuccessModal(false)
+                    }, 2000);
+
                 })
                 .catch(err => {
                     setErrorModal(true)

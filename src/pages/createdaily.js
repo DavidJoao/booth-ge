@@ -25,9 +25,11 @@ const CreateDaily = () => {
 
     const [importedArray, setImportedArray] = useState([])
     const [exportedArray, setExportedArray] = useState([])
-
+    const [jobsitesContractors, setJobsitesContractors] = useState([])
+    
     let importedSet = [...new Set(importedArray)]
     let exportedSet = [...new Set(exportedArray)]
+    const contractorSet = [...new Set(jobsitesContractors)]
     
     const router = useRouter()
 
@@ -62,6 +64,7 @@ const CreateDaily = () => {
             loadAll()
             CheckSession(AuthContext, setAuth)
         }
+        jobsites.forEach(jobsite => jobsitesContractors.push(jobsite.contractor));
     }, [])
 
     const handleChange = (e) => {
@@ -153,7 +156,14 @@ const CreateDaily = () => {
                 <label>Date:</label>
                 <input required value={daily.date} name='date' type='date' className='input' onChange={handleChange}/>
                 <label>General Contractor:</label>
-                <input value={daily.contractor} name='contractor' className='input' onChange={handleChange}/>
+                <select className='input' name='contractor' onChange={handleChange}>
+                    <option>Choose Contractor</option>
+                    { contractorSet?.map(contractor => {
+                        return(
+                            <option key={contractor}>{contractor}</option>
+                        )
+                    }) }
+                </select>
                 <label>Superintendent:</label>
                 <input value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
                 <label>Job Address / Name</label>
@@ -166,7 +176,14 @@ const CreateDaily = () => {
                     })}
                 </select>
                 <label>Foreman:</label>
-                <input required value={daily.foreman} name='foreman' className='input' onChange={handleChange}/>
+                <select className='input' name='foreman' onChange={handleChange}>
+                    <option>Choose Foreman</option>
+                    { users?.filter(user => user.isForeman === true && user.name !== 'Byanka Arceo' && user.name !== 'Veronica Rivera').map(user => {
+                        return (
+                            <option key={user.name}>{user.name}</option>
+                        )
+                    }) }
+                </select>
                 <div className='flex flex-col lg:flex-row items-center justify-around mt-2 w-full lg:w-[80%]'>
                     <label>Total Hours:</label>
                     <input className='input lg:w-[100px]' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>

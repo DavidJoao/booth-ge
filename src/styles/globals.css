@@ -60,6 +60,9 @@
   #modal {
     @apply bg-[#242526]
   }
+  #success {
+    @apply bg-green-700
+  }
   .scroll::-webkit-scrollbar {
 		@apply w-3 h-3;
 	}
