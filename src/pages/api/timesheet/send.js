@@ -31,23 +31,34 @@ export default async function sendTimesheet(req, res, next) {
           if (day.totalHrs === "") {
             totalHrs += 0;
           } else {
-            totalHrs += parseFloat(day.totalHrs);
-          }
+              totalHrs += parseFloat(day.totalHrs);
+            }
         });
+    }
+
+    const finishTimes = [];
+
+    if (timesheet && timesheet.days) {
+      for (let i = 0; i < timesheet.days.length; i++) {
+        const finishTime = timesheet.days[i].finishTime;
+        const formattedFinishTime = new Date(`2000-01-01T${finishTime}`).toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true });
+        finishTimes.push(formattedFinishTime);
       }
+    }
 
     doc.setFontSize(12)
     doc.text(`Name: ${author}`, 10, 10)
     doc.text(`Total Hours: ${totalHrs}`, 110, 10)
     doc.text(`Date Created: ${timesheet && timesheet.dateCreated || ''}`, 170, 10);
 
+
     doc.rect(5, 15, 260, 35, "S")
     doc.text(`Date: ${newDate}`, 10, 20)
     doc.text(`Monday: ${timesheet && timesheet.days[0].totalHrs} Hrs`, 70, 20)
     doc.text(`Jobsite: ${timesheet && timesheet.days[0].jobsite}`, 110, 20)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[0].additional} `, 170, 20)
-    doc.text(`Start Time: ${timesheet && timesheet.days[0].startTime}`, 10, 30)
-    doc.text(`Finish Time: ${timesheet && timesheet.days[0].finishTime}`, 70, 30)
+    doc.text(`Start Time: ${timesheet && timesheet.days[0].startTime} AM`, 10, 30)
+    doc.text(`Finish Time: ${finishTimes[0] || ''}`, 70, 30)
     doc.text(`Foreman: ${timesheet && timesheet.days[0].foreman}`, 130, 30)
     const mondayText = `Description: ${timesheet && timesheet.days[0].description}`
     const mondayLines = doc.splitTextToSize(mondayText, 250)
@@ -60,8 +71,8 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Tuesday: ${timesheet && timesheet.days[1].totalHrs} Hrs`, 70, 60)
     doc.text(`Jobsite: ${timesheet && timesheet.days[1].jobsite}`, 110, 60)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[1].additional} `, 170, 60)
-    doc.text(`Start Time: ${timesheet && timesheet.days[1].startTime}`, 10, 70)
-    doc.text(`Finish Time: ${timesheet && timesheet.days[1].finishTime}`, 70, 70)
+    doc.text(`Start Time: ${timesheet && timesheet.days[1].startTime} AM`, 10, 70)
+    doc.text(`Finish Time: ${finishTimes[1] || ''}`, 70, 70)
     doc.text(`Foreman: ${timesheet && timesheet.days[1].foreman}`, 130, 70)
     const tuesdayText = `Description: ${timesheet && timesheet.days[1].description}`
     const tuesdayLines = doc.splitTextToSize(tuesdayText, 250)
@@ -74,8 +85,8 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Wednesday: ${timesheet && timesheet.days[2].totalHrs} Hrs`, 70, 100)
     doc.text(`Jobsite: ${timesheet && timesheet.days[2].jobsite}`, 110, 100)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[2].additional} `, 170, 100)
-    doc.text(`Start Time: ${timesheet && timesheet.days[2].startTime}`, 10, 110)
-    doc.text(`Finish Time: ${timesheet && timesheet.days[2].finishTime}`, 70, 110)
+    doc.text(`Start Time: ${timesheet && timesheet.days[2].startTime} AM`, 10, 110)
+    doc.text(`Finish Time: ${finishTimes[2] || ''}`, 70, 110)
     doc.text(`Foreman: ${timesheet && timesheet.days[2].foreman}`, 130, 110)
     const wednesdayText = `Description: ${timesheet && timesheet.days[2].description}`
     const wednesdayLines = doc.splitTextToSize(wednesdayText, 250)
@@ -87,9 +98,9 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Date: ${newDateFour}`, 10, 140)
     doc.text(`Thursday: ${timesheet && timesheet.days[3].totalHrs} Hrs`, 70, 140)
     doc.text(`Jobsite: ${timesheet && timesheet.days[3].jobsite}`, 110, 140)
-    doc.text(`Other Jobsite: ${timesheet && timesheet.days[3].additional} `, 170, 140)
-    doc.text(`Start Time: ${timesheet && timesheet.days[3].startTime}`, 10, 150)
-    doc.text(`Finish Time: ${timesheet && timesheet.days[3].finishTime}`, 70, 150)
+    doc.text(`Other Jobsite: ${timesheet && timesheet.days[3].additional}`, 170, 140)
+    doc.text(`Start Time: ${timesheet && timesheet.days[3].startTime} AM`, 10, 150)
+    doc.text(`Finish Time: ${finishTimes[3] || ''}`, 70, 150)
     doc.text(`Foreman: ${timesheet && timesheet.days[3].foreman}`, 130, 150)
     const thursdayText = `Description: ${timesheet && timesheet.days[3].description}`
     const thursdayLines = doc.splitTextToSize(thursdayText, 250)
@@ -102,8 +113,8 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Friday: ${timesheet && timesheet.days[4].totalHrs} Hrs`, 70, 180)
     doc.text(`Jobsite: ${timesheet && timesheet.days[4].jobsite}`, 110, 180)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[4].additional} `, 170, 180)
-    doc.text(`Start Time: ${timesheet && timesheet.days[4].startTime}`, 10, 190)
-    doc.text(`Finish Time: ${timesheet && timesheet.days[4].finishTime}`, 70, 190)
+    doc.text(`Start Time: ${timesheet && timesheet.days[4].startTime} AM`, 10, 190)
+    doc.text(`Finish Time: ${finishTimes[4] || ''}`, 70, 190)
     doc.text(`Foreman: ${timesheet && timesheet.days[4].foreman}`, 130, 190)
     const fridayText = `Description: ${timesheet && timesheet.days[4].description}`
     const fridayLines = doc.splitTextToSize(fridayText, 250)

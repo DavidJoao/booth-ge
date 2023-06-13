@@ -39,6 +39,7 @@ const CreateDaily = () => {
         foreman: '',
         totalHours: '',
         pickedUpDiesel: false,
+        pickedUpMaterial: false,
         contractor: '',
         superintendent: '',
         name: '',
@@ -166,12 +167,12 @@ const CreateDaily = () => {
                 </select>
                 <label>Superintendent:</label>
                 <input value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
-                <label>Job Address / Name</label>
+                <label>Job Address</label>
                 <select required name='name' value={daily.name} onChange={handleChange} className='input' id='jobsites'>
                     <option value="" selected disabled hidden>Choose Jobsite</option>
                     { jobsites && jobsites.map(jobsite => {
                         return (
-                            <option key={jobsite.address} name="name" value={`${jobsite.address} | ${jobsite.name}`}>{jobsite.address} | {jobsite.name}</option>
+                            <option key={jobsite.address} name="name" value={`${jobsite.address}`}>{jobsite.address}</option>
                         )
                     })}
                 </select>
@@ -184,9 +185,9 @@ const CreateDaily = () => {
                         )
                     }) }
                 </select>
-                <div className='flex flex-col lg:flex-row items-center justify-around mt-2 w-full lg:w-[80%]'>
+                <div className='flex items-center justify-center flex-col lg:grid lg:grid-cols-6 mt-2 w-full lg:w-[80%]'>
                     <label>Total Hours:</label>
-                    <input className='input lg:w-[100px]' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
+                    <input className='input' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
                     <label>Picked Up Diesel?</label>
                     <input type='checkbox' name='pickedUpDiesel' onChange={(e) => {
                         const { name, value, type, checked } = e.target;
@@ -202,8 +203,26 @@ const CreateDaily = () => {
                         }));
                         };
                     }}/>
+                    <label>Picked Up Material?</label>
+                    <input type='checkbox' name='pickedUpMaterial' onChange={(e) => {
+                        const { name, value, type, checked } = e.target;
+                        if (type === 'checkbox') {
+                        setDaily((prevDaily) => ({
+                            ...prevDaily,
+                            [name]: checked,
+                        }));
+                        } else {
+                        setDaily((prevDaily) => ({
+                            ...prevDaily,
+                            [name]: value,
+                        }));
+                        };
+                    }}/>
                 </div>
-                <input className='input bg-slate-400' disabled value={daily.pickedUpDiesel === true ? parseFloat(daily.totalHours) + 0.5 : parseFloat(daily.totalHours) || 0} /> 
+                <input className='input bg-slate-400' disabled value={
+                    daily.pickedUpDiesel === true && daily.pickedUpMaterial ? parseFloat(daily.totalHours) + 1 : 
+                    daily.pickedUpDiesel === true || daily.pickedUpMaterial === true ? parseFloat(daily.totalHours) + 0.5 : 
+                    parseFloat(daily.totalHours) || 0} /> 
 
                 {/* EQUIPMENT DROPDOWN */}
                 <label>Number of equipment in jobsite:</label>

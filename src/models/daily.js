@@ -6,6 +6,7 @@ const dailySchema = new mongoose.Schema({
     foreman: String,
     totalHours: String,
     pickedUpDiesel: Boolean,
+    pickedUpMaterial: Boolean,
     exported: Array,
     imported: Array,
     contractor: String,

@@ -148,7 +148,15 @@ const Settings = () => {
 					<Modal.Body className='bg-[#242526] h-[650px] overflow-auto flex flex-col items-center'>
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id}>
-								<JobsiteMiniCard jobsite={jobsite} setErrorMessage={setErrorMessage} setSuccessModal={setSuccessModal} setErrorModal={setErrorModal} route={`accessory/add/${selectedAccessory._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard 
+								setAccessoryConfiguration={setAccessoryConfiguration} 
+								setEquipmentConfiguration={setEquipmentConfiguration} 
+								setUserConfiguration={setUserConfiguration} 
+								jobsite={jobsite} 
+								setErrorMessage={setErrorMessage} 
+								setSuccessModal={setSuccessModal} 
+								setErrorModal={setErrorModal} 
+								route={`accessory/add/${selectedAccessory._id}/${jobsite._id}`}/>
 							</div>
 							) }
 						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
@@ -270,7 +278,15 @@ const Settings = () => {
 
 						{ jobsites.map(jobsite => 
 							<div key={jobsite._id} onClick={() => setShowDelete(true)} className='w-full'>
-								<JobsiteMiniCard setSuccessModal={setSuccessModal} jobsite={jobsite} setErrorMessage={setErrorMessage} setErrorModal={setErrorModal} route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
+								<JobsiteMiniCard 
+								setUserConfiguration={setUserConfiguration} 
+								setAccessoryConfiguration={setAccessoryConfiguration} 
+								setEquipmentConfiguration={setEquipmentConfiguration} 
+								setSuccessModal={setSuccessModal} 
+								jobsite={jobsite} 
+								setErrorMessage={setErrorMessage}
+								setErrorModal={setErrorModal} 
+								route={`equipment/add/${selectedEquipment._id}/${jobsite._id}`}/>
 							</div>
 							) 
 							}

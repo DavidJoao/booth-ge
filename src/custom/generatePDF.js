@@ -4,6 +4,10 @@ const generatePDF = (daily) => {
    const dateArr = daily.date.split('-');
    const newDate = `${dateArr[1]}-${dateArr[2]}-${dateArr[0]}`
 
+   let halfMaterial = daily.pickedUpDiesel ? .5 : 0;
+   let halfDiesel = daily.pickedUpMaterial ? .5 : 0;
+   let totalDailyHours = parseFloat(daily.totalHours) + halfMaterial + halfDiesel;
+
    const doc = new jsPDF()
    doc.setFontSize(12)
 
@@ -50,12 +54,11 @@ const generatePDF = (daily) => {
       doc.text(`- ${material.material  || ''}:`, 150, 155 + index * 5)
       doc.text(`${material.loads + ' loads'  || ''}`, 170, 155 + index * 5)
    })
-            
-   const extraHalf = daily && daily.pickedUpDiesel ? '.5' : ''
+
    doc.line(0, 180, doc.internal.pageSize.getWidth(), 180)
    doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 190)
    doc.text(`- ${daily.foreman  || ''}`, 10, 200)
-   doc.text(`${daily.totalHours || ''}${extraHalf} Hrs`, 70, 200)
+   doc.text(`${totalDailyHours} Hrs`, 70, 200)
    doc.text(`Picked Up Diesel? ${daily && daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 200)
    daily.employees.forEach((employee, index) => {
       doc.text(`- ${employee.name  || ''}`, 10, 205 + index * 5)

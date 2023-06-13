@@ -42,40 +42,58 @@ const CreateTimesheet = () => {
     // HANDLE PRINCIPAL FORM CHANGE
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((prevForm) => ({
-            ...prevForm,
-            [name]: value,
-            totalHrs: calculateTotalHours(value, name)
-        }))
-
-        if (name === 'totalHrs'){
-            setForm({
-                ...form,
-                ['totalHrs']: value
-            })
+        let updatedValue = value;
+        
+        if (name === 'startTime' || name === 'finishTime') {
+          updatedValue = formatTimeTo24Hour(value);
         }
-    }
+        
+        setForm((prevForm) => ({
+          ...prevForm,
+          [name]: updatedValue,
+          totalHrs: calculateTotalHours(updatedValue, name)
+        }));
+      };
 
     // CALCULATE TOTAL HOURS 
     const calculateTotalHours = (value, name) => {
         const { startTime, finishTime } = form;
+        const formattedStartTime = formatTimeTo24Hour(startTime);
+        const formattedFinishTime = formatTimeTo24Hour(finishTime);
+        
         if (name === 'startTime') {
-          const timeDiff = calculateTimeDifference(value, finishTime);
+          const timeDiff = calculateTimeDifference(value, formattedFinishTime);
           return timeDiff / (1000 * 60 * 60) - 0.5;
         } else if (name === 'finishTime') {
-          const timeDiff = calculateTimeDifference(startTime, value);
+          const timeDiff = calculateTimeDifference(formattedStartTime, value);
           return timeDiff / (1000 * 60 * 60) - 0.5;
         }
+        
         return form.totalHrs;
       };
+      
 
-    // CALCULATE DIFFERENCE BETWEEN START TIME AND FINISH TIME
     const calculateTimeDifference = (startTime, finishTime) => {
         const startDate = new Date(`2000-01-01T${startTime}`);
         const finishDate = new Date(`2000-01-01T${finishTime}`);
+        
         return finishDate.getTime() - startDate.getTime();
     };
+      
 
+    const formatTimeTo24Hour = (time) => {
+        const [formattedTime, period] = time.split(' ');
+        let [hours, minutes] = formattedTime.split(':');
+    
+        if (period === 'PM' && parseInt(hours) !== 12) {
+            hours = parseInt(hours) + 12;
+        } else if (period === 'AM' && parseInt(hours) === 12) {
+            hours = '00';
+        }
+    
+        return `${hours}:${minutes}`;
+    };
+      
     const handleNextDay = () => {
         days.push(form)
         setForm(initialForm)
@@ -103,8 +121,13 @@ const CreateTimesheet = () => {
         const { name, value } = e.target;
       
         const updatedDays = [...days];
-        const updatedDay = { ...updatedDays[index], [name]: value, totalHrs: calculateTotalHours(value, name)}; 
-        updatedDays[index] = updatedDay; 
+        const updatedDay = { ...updatedDays[index], [name]: value };
+      
+        if (name === 'startTime' || name === 'finishTime') {
+          updatedDay.totalHrs = calculateTotalHours(value, name);
+        }
+      
+        updatedDays[index] = updatedDay;
         setDays(updatedDays);
       };
 
@@ -138,9 +161,9 @@ const CreateTimesheet = () => {
                         // IF SELECTED AN OPTION FROM ABSENCE, HIDE START/FINISH TIME, IF NOT SELECTED SHOW START/FINISH TIME
                         <>
                             <label>Start Time:</label>
-                            <input required name="startTime" value={form.startTime} type="time" className="input p-2" placeholder="7:00" onChange={handleChange}/>
+                            <input required name="startTime" value={form.startTime} min="05:00" max="11:00" type="time" className="input p-2" placeholder="7:00" onChange={handleChange}/>
                             <label>Finish Time:</label>
-                            <input required name="finishTime" value={form.finishTime} type="time" className="input p-2" placeholder="3:30" onChange={handleChange}/>
+                            <input required name="finishTime" value={form.finishTime}  type="time" min="8:00" max="18:00" className="input p-2" placeholder="3:30" onChange={handleChange}/>
                         </>
                     ) : ( <> </> ) }
                     <label>Absence:</label>
@@ -199,7 +222,7 @@ const CreateTimesheet = () => {
                                     })}
                                 </select>
                                 <label>Additional Jobsite (if any) </label>
-                                <input required name="additional" value={days[index].additional} className="input" onChange={handleEditChange}/>
+                                <input required name="additional" value={days[index].additional} className="input" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Foreman:</label>
                                 <input required name="foreman" value={days[index].foreman} className="input" placeholder="Ex. Alfredo" onChange={(e) => handleEditChange(e, index)}/>
                                 {/* <label>Start Time:</label>
