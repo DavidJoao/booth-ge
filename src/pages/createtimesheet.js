@@ -102,7 +102,7 @@ const CreateTimesheet = () => {
     const handleSubmit = () => {
         setIsLoading(true)
 
-        axios.post('/api/timesheet/send', { timesheet })
+        axios.post('/api/email/timesheet', { timesheet })
 
         axios.post(`/api/timesheet/post`, JSON.stringify(timesheet), { headers: { 'Content-Type': 'application/json '} })
         .then( res => {

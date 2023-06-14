@@ -168,7 +168,7 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
                             className="text-white border p-1 rounded bg-slate-600"
                             onClick={e => {
                             e.preventDefault()
-                            axios.post("/api/timesheet/send", { timesheet })
+                            axios.post("/api/email/timesheet", { timesheet })
                             }}>
                             {mailIcon}
                         </button>
