@@ -76,7 +76,7 @@ export default async function emailMeeting(req, res, next){
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "davidsandoval596@gmail.com",
+        to: "bgepayroll@gmail.com",
         subject: `${signForm?.jobsite} - ${signForm?.title} Signatures`,
         text: ``,
         attachments: [
