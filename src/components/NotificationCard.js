@@ -45,8 +45,6 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
         })
     }
 
-    console.log(signForm)
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -63,19 +61,19 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
 
     return (
         <div className="w-[90%] flex flex-col h-auto mb-3 p-3 rounded-lg shadow-md bg-[#494A4C]">
-            <h1 className="text-xl">{notification.title}</h1>
-            <div className="mb-1">
+            <h1 className="text-xl border-b-[2px]">{notification.title}</h1>
+            <div className="mb-1 flex flex-row justify-between">
             {auth.isAdmin || auth.isModerator ? (
                 <>
+                    <button  className="bg-slate-700 p-1 border float-right rounded mr-2" onClick={() => setShowEdit(true)}>
+                        {editLogo}
+                    </button>
                     <button className="bg-red-700 p-1 border float-right rounded" onClick={() => {
                         axios
                             .delete(`/api/notification/delete/${notification._id}`)
                             .then(() => loadAll())
                         }}>
                         {trashLogo}
-                    </button>
-                    <button  className="bg-slate-700 p-1 border float-right rounded mr-2" onClick={() => setShowEdit(true)}>
-                        {editLogo}
                     </button>
                 </>
             ) : (
@@ -113,7 +111,7 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
             {notification.message === "" ? (
             <></>
             ) : (
-            <p className="break-words overflow-auto border-[1px] border-white rounded p-2 bg-[rgba(255,255,255,0.3)]"> {notification.message} </p>
+            <p className="break-words overflow-auto shadow-xl rounded p-2 bg-[rgba(255,255,255,0.3)] text-lg"> {notification.message} </p>
             )}
             {notification.link !== "" ? (
             <iframe className="mt-3" src={`${notification.link.split("view")[0]}preview`} height={500}></iframe>

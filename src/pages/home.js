@@ -82,7 +82,7 @@ const Home = () => {
     
   return (
     <div className='flex flex-col items-start bg-[#242526] lg:h-screen h-auto pt-[80px] pb-2'>
-        <div className='w-full flex items-center justify-around'>
+        <div className='w-full flex items-center justify-around bg-[rgba(58,59,60,0.4)]'>
             <h1 className='font-bold text-2xl m-2 text-white rounded p-1 flex'>Welcome {auth && auth.name} <button className='ml-5' onClick={() => setConfigurationModal(true)}>{settingsIcon}</button> </h1>
             { auth.isAdmin || auth.isModerator ?  <input className='hidden lg:flex input w-[500px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
         </div>
@@ -105,9 +105,9 @@ const Home = () => {
             </form>
         </Modal>
         <div className='home-container'>
-            <div className='flex flex-col items-center justify-start lg:w-1/2 h-full '>
+            <div className='flex flex-col items-center justify-start lg:w-1/2 h-full pt-2'>
                 <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>Administration Notifications</h1>
-                <div className='notifications-container bg-[#3a3b3c] w-full h-[400px] '>
+                <div className='notifications-container bg-[#3a3b3c] w-full h-[400px] lg:h-[700px] pt-3' >
                     { notifications && notifications.reverse().map(notification => {
                         return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                     }) }

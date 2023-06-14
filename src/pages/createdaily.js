@@ -189,7 +189,7 @@ const CreateDaily = () => {
                     <label>Total Hours:</label>
                     <input className='input' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
                     <label>Picked Up Diesel?</label>
-                    <input type='checkbox' name='pickedUpDiesel' onChange={(e) => {
+                    <input type='checkbox' name='pickedUpDiesel' className='mb-2' onChange={(e) => {
                         const { name, value, type, checked } = e.target;
                         if (type === 'checkbox') {
                         setDaily((prevDaily) => ({

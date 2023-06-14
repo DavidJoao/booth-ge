@@ -121,7 +121,7 @@ const Settings = () => {
 			</div>
 
 			{/* CONTAINER FOR ACCESSORIES */}
-			<div className='w-[350px] md:w-1/2 h-[500px] lg:h-[700px] flex flex-col items-center m-2 pb-5'>
+			<div className='w-[350px] md:w-1/2 h-[500px] lg:h-[700px] flex flex-col items-center m-2'>
 				<h3>Manage Accessories</h3>
 				<div className='w-full h-full overflow-auto rounded bg-[#3A3B3C]'>
 
