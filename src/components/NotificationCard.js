@@ -120,14 +120,14 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
             ) : (
             <></>
             )}
-            <button
-            className="blue-buttons w-3/4 mx-auto mt-4 mb-4"
-            onClick={e => {
-                e.preventDefault()
-                setShowSign(true)
-            }}>
-            Sign Safety Meeting
-            </button>
+            {notification.link !== "" ? (
+                <button className="blue-buttons w-3/4 mx-auto mt-4 mb-4" onClick={e => {
+                    e.preventDefault()
+                    setShowSign(true)
+                }}> Sign Safety Meeting </button>
+                ) : (
+                <></>
+            )}
             {/* MEETING SIGNING SHEET MODAL */}
             <Modal show={showSign} onHide={() => {
                 setShowSign(false)
