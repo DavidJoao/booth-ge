@@ -2,6 +2,7 @@ import axios from "@/custom/axios"
 import { useState, useContext } from "react"
 import { Modal } from "react-bootstrap"
 import AuthContext from "@/custom/AuthProvider"
+import { PuffLoader } from "react-spinners"
 
 const NotificationCard = ( { notification, auth, loadAll } ) => {
 
@@ -19,6 +20,8 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
     const [showSign, setShowSign] = useState(false)
     const [employeesNoArray, setEmployeesNoArray] = useState([])
     const [rentalNoArray, setRentalNoArray] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [statusMessage, setStatusMessage] = useState('Submitting Meeting, Please Wait...')
 
     const initialEdit = {
         title: notification.title || '',
@@ -48,15 +51,27 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        setIsLoading(true)
+        setStatusMessage('Submitting Meeting, Please Wait...')
+
         axios.post('/api/email/meeting', JSON.stringify(signForm), { headers: { 'Content-Type': 'application/json' } })
             .then(res => {
                 console.log(res)
-                setShowSign(false);
                 setRentalNoArray([]);
                 setEmployeesNoArray([]);
                 setSignForm(initialSignSheet)
+                setStatusMessage('✓ Meeting Submitted Successfully ✓')
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 2000)
+                setTimeout(() => {
+                    setShowSign(false)
+                }, 1000)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setIsLoading(false)
+            })
     }
 
     return (
@@ -126,85 +141,95 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
                 ) : (
                 <></>
             )}
+
             {/* MEETING SIGNING SHEET MODAL */}
             <Modal show={showSign} onHide={() => {
                 setShowSign(false)
                 setEmployeesNoArray([])
                 setRentalNoArray([])
             }}>
-                <Modal.Header id="modal" className="font-bold text-2xl" closeButton>{notification.title}</Modal.Header>
-                <Modal.Body id="modal">
-                    <form className="grid p-3" onSubmit={handleSubmit}>
-                        <label>Number of Booth Grading Employees:</label>
-                        <input required name="rentalNo" type="number" min={0} className="input" onChange={(e) => {
-                            const newArray = [];
-                            for (let i = 0; i < parseInt(e.target.value); i++) {
-                                newArray.push(i);
-                            }
-                            setEmployeesNoArray(newArray);
-                        }}/>
-                        <label>Number of Rental Laborers:</label>
-                        <input name="rentalNo" type="number" min={0} className="input" onClick={(e) => {
-                            const newArray = [];
-                            for (let i = 0; i < parseInt(e.target.value); i++) {
-                                newArray.push(i);
-                            }
-                            setRentalNoArray(newArray);
-                        }}/>
-                        <label>Date:</label>
-                        <input value={signForm.date} name="date" disabled className="input bg-slate-400"/>
-                        <label>Jobsite Location: </label>
-                        <select required name="jobsite" className="input" onChange={(e) => {
-                            const { value, name } = e.target
-                            setSignForm({
-                                ...signForm,
-                                [name]: value
-                            })
-                        }}>
-                            <option>Choose Jobsite Address</option>
-                            { jobsites && jobsites.map(jobsite => {
-                                return (<option key={jobsite.address}>{jobsite.address}</option>)
-                            })}
-                        </select>
-
-                        { employeesNoArray.map((employee, index) => {
-                        return (
-                        <div className='grid w-full p-2' key={employee.name}>
-                            <label className="mr-1">Booth Employe {index + 1} Name:</label>
-                            <select className='input' onChange={(e) => {
-                                const newEmployees = [...signForm.employees];
-                                newEmployees[index] = { ...newEmployees[index], name: e.target.value };
-                                setSignForm({ ...signForm, employees: newEmployees });
-                            }}>
-                                <option>Choose Employee</option>
-                                    { users && users.filter((user) => user.name !== 'Byanka Arceo' && user.name !== 'Alfredo Sandoval' && user.name !== 'Roger Booth' && user.name !== 'Veronica Rivera').map(user => {
-                                        return (
-                                            <option key={user._id}>{user.name}</option>
-                                        )
-                                    })}
-                            </select>
-                        </div>
-                            )
-                        } )}
-                        { rentalNoArray.map((employee, index) => {
-                        return (
-                        <div className='grid w-full p-2' key={employee.name}>
-                            <label className="mr-1">Rental Employe {index + 1} Name:</label>
-                            <input className="input"  onChange={(e) => {
-                                const newEmployees = [...signForm.rentedEmployees];
-                                newEmployees[index] = { ...newEmployees[index], name: e.target.value };
-                                setSignForm({ ...signForm, rentedEmployees: newEmployees });
+                { isLoading ? (
+                    <Modal.Body id="modal" className='flex flex-col items-center justify-center'>
+                        <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
+                        <p className="mt-4">{statusMessage}</p>
+                    </Modal.Body>
+                ) : (
+                    <>
+                    <Modal.Header id="modal" className="font-bold text-2xl" closeButton>{notification.title}</Modal.Header>
+                    <Modal.Body id="modal">
+                        <form className="grid p-3" onSubmit={handleSubmit}>
+                            <label>Number of Booth Grading Employees:</label>
+                            <input required name="rentalNo" type="number" min={0} className="input" onChange={(e) => {
+                                const newArray = [];
+                                for (let i = 0; i < parseInt(e.target.value); i++) {
+                                    newArray.push(i);
+                                }
+                                setEmployeesNoArray(newArray);
                             }}/>
-                        </div>
-                            )
-                        } )}
+                            <label>Number of Rental Laborers:</label>
+                            <input name="rentalNo" type="number" min={0} className="input" onClick={(e) => {
+                                const newArray = [];
+                                for (let i = 0; i < parseInt(e.target.value); i++) {
+                                    newArray.push(i);
+                                }
+                                setRentalNoArray(newArray);
+                            }}/>
+                            <label>Date:</label>
+                            <input value={signForm.date} name="date" disabled className="input bg-slate-400"/>
+                            <label>Jobsite Location: </label>
+                            <select required name="jobsite" className="input" onChange={(e) => {
+                                const { value, name } = e.target
+                                setSignForm({
+                                    ...signForm,
+                                    [name]: value
+                                })
+                            }}>
+                                <option>Choose Jobsite Address</option>
+                                { jobsites && jobsites.map(jobsite => {
+                                    return (<option key={jobsite.address}>{jobsite.address}</option>)
+                                })}
+                            </select>
 
-                        <button type="submit" className="blue-buttons mx-auto mt-2">Submit</button>
+                            { employeesNoArray.map((employee, index) => {
+                            return (
+                            <div className='grid w-full p-2' key={employee.name}>
+                                <label className="mr-1">Booth Employe {index + 1} Name:</label>
+                                <select className='input' onChange={(e) => {
+                                    const newEmployees = [...signForm.employees];
+                                    newEmployees[index] = { ...newEmployees[index], name: e.target.value };
+                                    setSignForm({ ...signForm, employees: newEmployees });
+                                }}>
+                                    <option>Choose Employee</option>
+                                        { users && users.filter((user) => user.name !== 'Byanka Arceo' && user.name !== 'Alfredo Sandoval' && user.name !== 'Roger Booth' && user.name !== 'Veronica Rivera').map(user => {
+                                            return (
+                                                <option key={user._id}>{user.name}</option>
+                                            )
+                                        })}
+                                </select>
+                            </div>
+                                )
+                            } )}
+                            { rentalNoArray.map((employee, index) => {
+                            return (
+                            <div className='grid w-full p-2' key={employee.name}>
+                                <label className="mr-1">Rental Employe {index + 1} Name:</label>
+                                <input className="input"  onChange={(e) => {
+                                    const newEmployees = [...signForm.rentedEmployees];
+                                    newEmployees[index] = { ...newEmployees[index], name: e.target.value };
+                                    setSignForm({ ...signForm, rentedEmployees: newEmployees });
+                                }}/>
+                            </div>
+                                )
+                            } )}
 
-                    </form>
-                </Modal.Body>
-                <Modal.Footer id="modal">
-                </Modal.Footer>
+                            <button type="submit" className="blue-buttons mx-auto mt-2">Submit</button>
+
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer id="modal">
+                    </Modal.Footer>
+                    </>
+                )}
             </Modal>
             <p>Posted By: {notification.author}</p>
             <p>Date: {notification.date}</p>

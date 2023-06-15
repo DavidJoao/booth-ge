@@ -110,7 +110,7 @@ const Home = () => {
         </Modal>
         <div className='home-container'>
             <div className='flex flex-col items-center justify-start lg:w-1/2 h-full pt-2'>
-                <h1 className='text-[25px] border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>
+                <h1 className='text-[20px] lg:text-[25px] p-1 border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>
                     Administration Notifications 
                     <span className='ml-3 bg-yellow-600 rounded p-[2px] flex items-center font-normal text-sm'>{notificationIcon} • {notifications.length}</span>
                 </h1>
