@@ -3,6 +3,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession';
 import axios from '@/custom/axios';
 import { PuffLoader } from 'react-spinners';
+import CCSection from '@/components/CCSection';
 
 const Absence = () => {
 
@@ -63,7 +64,7 @@ const Absence = () => {
     }
 
   return (
-    <div className='flex flex-col items-center bg-[#242526] h-screen pt-[85px] pb-2'>
+    <div className='flex flex-col items-center bg-[#242526] h-[1200px] lg:h-screen pt-[85px] pb-2'>
         { isLoading ? (
             <div className='h-screen bg-[#242526] flex flex-col items-center justify-center'>
                 <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
@@ -112,6 +113,7 @@ const Absence = () => {
                 <button type='submit' className='buttons mx-auto w-[150px]'>Send Request</button>
             </form>
         ) }
+        <CCSection />
     </div>
   )
 }

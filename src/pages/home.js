@@ -7,6 +7,7 @@ import axios from '@/custom/axios'
 import NotificationCard from '@/components/NotificationCard'
 import { PuffLoader } from 'react-spinners'
 import { Modal } from 'react-bootstrap'
+import CCSection from '@/components/CCSection'
 
 const Home = () => {
 
@@ -156,6 +157,7 @@ const Home = () => {
                 }
             </div>
         </div>
+        <CCSection />
     </div>
   )
 }

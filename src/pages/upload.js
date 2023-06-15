@@ -4,6 +4,7 @@
     import imageCompression from "browser-image-compression"
     import { PuffLoader } from "react-spinners"
     import { useRouter } from "next/router"
+import CCSection from "@/components/CCSection"
 
     const Upload = () => {
     const router = useRouter()
@@ -164,6 +165,7 @@
                 </form>
                 </>
             )}
+        <CCSection />
         </div>
    )
 }

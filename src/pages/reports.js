@@ -4,6 +4,7 @@ import AuthContext from '@/custom/AuthProvider'
 import DailyCard from '@/components/DailyCard'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
+import CCSection from '@/components/CCSection'
 
 const Reports = () => {
 
@@ -76,6 +77,7 @@ const Reports = () => {
             <></>
         )}
         </div>
+        <CCSection />
     </div>
   )
 }

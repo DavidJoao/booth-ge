@@ -4,6 +4,7 @@ import axios from '@/custom/axios'
 import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
+import CCSection from '@/components/CCSection'
 
 
 const Post = () => {
@@ -132,6 +133,7 @@ const Post = () => {
             </form>
 
         </div>
+        <CCSection />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { PuffLoader } from 'react-spinners'
 import imageCompression from 'browser-image-compression';
 import generatePDF from '@/custom/generatePDF'
+import CCSection from '@/components/CCSection'
 
 const CreateDaily = () => {
     
@@ -464,6 +465,7 @@ const CreateDaily = () => {
             </div>
         </form>
          }
+    <CCSection />
     </div>
   )
 }

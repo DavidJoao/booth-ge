@@ -5,6 +5,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import TimesheetCard from '@/components/TimesheetCard'
 import Link from 'next/link'
+import CCSection from '@/components/CCSection'
 
 const Timesheets = () => {
 
@@ -40,6 +41,7 @@ const Timesheets = () => {
         <Link className='buttons' href="/home">Redirect Home</Link>
       </>
        }
+    <CCSection />
     </div>
   )
 }

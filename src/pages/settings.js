@@ -8,6 +8,7 @@ import { Modal } from 'react-bootstrap'
 import JobsiteMiniCard from '@/components/JobsiteMiniCard'
 import ErrorModal from '@/components/ErrorModal'
 import EquipmentMiniCard from '@/components/EquipmentMiniCard'
+import CCSection from '@/components/CCSection'
 
 const Settings = () => {
 

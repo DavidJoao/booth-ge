@@ -3,6 +3,7 @@ import AuthContext from '@/custom/AuthProvider'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import EditUserCard from '@/components/EditUserCard'
+import CCSection from '@/components/CCSection'
 
 const Employeesettings = () => {
 
@@ -42,6 +43,7 @@ const Employeesettings = () => {
 						</div>
 					)}
         </div>
+        <CCSection />
     </div>
   )
 }

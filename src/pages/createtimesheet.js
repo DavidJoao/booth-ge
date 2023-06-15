@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import axios from "@/custom/axios"
 import { PuffLoader } from "react-spinners"
+import CCSection from "@/components/CCSection"
 
 const CreateTimesheet = () => {
 
@@ -250,6 +251,7 @@ const CreateTimesheet = () => {
                         <></> )
                     }
             </div>
+            <CCSection />
     </div>
   )
 }
