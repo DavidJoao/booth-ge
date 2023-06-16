@@ -25,40 +25,41 @@ export default async function sendPDF(req, res, next) {
    doc.text(`Project: ${daily.name || ""}`, 110, 30)
    doc.text(`Foreman: ${daily.foreman || ""}`, 10, 45)
    doc.text(`Submitted ${daily.dateCreated || ""}`, 110, 45)
-   doc.text(`Description for contract work performed:`, 10, 65)
+
+   doc.text(`Description for contract work performed:`, 10, 55)
    const workLines = doc.splitTextToSize(`- ${daily.workDescription || ""}`, 190)
    let workx = 10
-   let worky = 70
+   let worky = 60
    workLines.forEach(line => {
       doc.text(line, workx, worky)
       worky += 5
    })
 
-   doc.text(`Description of extra work performed:`, 10, 90)
+   doc.text(`Description of extra work performed:`, 10, 80)
    const extraLines = doc.splitTextToSize(`- ${daily.extraWorkDescription || ""}`, 190)
    let extrax = 10
-   let extray = 95
+   let extray = 85
    extraLines.forEach(line => {
       doc.text(line, extrax, extray)
       extray += 5
    })
 
-   doc.line(0, 105, doc.internal.pageSize.getWidth(), 105)
-   doc.text(`Equipment on Jobsite and hours used:`, 10, 115)
+   doc.line(0, 120, doc.internal.pageSize.getWidth(), 120)
+   doc.text(`Equipment on Jobsite and hours used:`, 10, 125)
    daily.equipment.forEach((equipment, index) => {
-      doc.text(`- ${equipment.name || ""}`, 10, 120 + index * 5)
-      doc.text(`- ${equipment.hours || ""} Hrs`, 90, 120 + index * 5)
+      doc.text(`- ${equipment.name || ""}`, 10, 130 + index * 5)
+      doc.text(`- ${equipment.hours || ""} Hrs`, 90, 130 + index * 5)
    })
 
-   doc.text('Imported:', 150, 115);
+   doc.text('Imported:', 150, 125);
    daily.imported.forEach((material, index) => {
-      doc.text(`- ${material.material  || ''}:`, 150, 120 + index * 5)
-      doc.text(`${material.loads + ' loads'  || ''}`, 170, 120 + index * 5)
+      doc.text(`- ${material.material  || ''}:`, 150, 130 + index * 5)
+      doc.text(`${material.loads + ' loads'  || ''}`, 175, 130 + index * 5)
    })
-   doc.text('Exported:', 150, 150);
+   doc.text('Exported:', 150, 155);
    daily.exported.forEach((material, index) => {
-      doc.text(`- ${material.material  || ''}:`, 150, 155 + index * 5)
-      doc.text(`${material.loads + ' loads'  || ''}`, 170, 155 + index * 5)
+      doc.text(`- ${material.material  || ''}:`, 150, 160 + index * 5)
+      doc.text(`${material.loads + ' loads'  || ''}`, 175, 160 + index * 5)
    })
    
    doc.line(0, 180, doc.internal.pageSize.getWidth(), 180)
