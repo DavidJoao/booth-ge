@@ -43,17 +43,25 @@ const CreateTimesheet = () => {
     // HANDLE PRINCIPAL FORM CHANGE
     const handleChange = (e) => {
         const { name, value } = e.target;
-        let updatedValue = value;
-        
+
         if (name === 'startTime' || name === 'finishTime') {
-          updatedValue = formatTimeTo24Hour(value);
+          const updatedValue = formatTimeTo24Hour(value);
+          setForm((prevForm) => ({
+            ...prevForm,
+            [name]: updatedValue,
+            totalHrs: calculateTotalHours(updatedValue, name),
+          }));
+        } else if (name === 'totalHrs') {
+          setForm((prevForm) => ({
+            ...prevForm,
+            totalHrs: value,
+          }));
+        } else {
+          setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value,
+          }));
         }
-        
-        setForm((prevForm) => ({
-          ...prevForm,
-          [name]: updatedValue,
-          totalHrs: calculateTotalHours(updatedValue, name)
-        }));
       };
 
     // CALCULATE TOTAL HOURS 
@@ -120,12 +128,15 @@ const CreateTimesheet = () => {
 
     const handleEditChange = (e, index) => {
         const { name, value } = e.target;
-      
+
         const updatedDays = [...days];
         const updatedDay = { ...updatedDays[index], [name]: value };
       
         if (name === 'startTime' || name === 'finishTime') {
-          updatedDay.totalHrs = calculateTotalHours(value, name);
+          const formattedStartTime = formatTimeTo24Hour(updatedDay.startTime);
+          const formattedFinishTime = formatTimeTo24Hour(updatedDay.finishTime);
+          const timeDiff = calculateTimeDifference(formattedStartTime, formattedFinishTime);
+          updatedDay.totalHrs = (timeDiff / (1000 * 60 * 60) - 0.5).toString();
         }
       
         updatedDays[index] = updatedDay;
@@ -226,10 +237,10 @@ const CreateTimesheet = () => {
                                 <input required name="additional" value={days[index].additional} className="input" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Foreman:</label>
                                 <input required name="foreman" value={days[index].foreman} className="input" placeholder="Ex. Alfredo" onChange={(e) => handleEditChange(e, index)}/>
-                                {/* <label>Start Time:</label>
+                                <label>Start Time:</label>
                                 <input required name="startTime" value={days[index].startTime} type="time" className="input" placeholder="7:00" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Finish Time:</label>
-                                <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/> */}
+                                <input required name="finishTime" value={days[index].finishTime} type="time" className="input" placeholder="3:30" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Total Hrs:</label>
                                 <input disabled type="number" name="totalHrs" value={days[index].totalHrs} className="input bg-slate-400" placeholder="8" onChange={(e) => handleEditChange(e, index)}/> 
                                 <label>Description:</label>
