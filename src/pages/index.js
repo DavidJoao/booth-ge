@@ -20,7 +20,7 @@ export default function Home() {
     <div className='bg-white'>
       <div className='h-screen relative'> 
         <div className='w-full h-[60vh] flex justify-center absolute z-10'>
-          <img src='https://media.gettyimages.com/id/157481411/photo/construction-machines-ready-to-work.jpg?s=1024x1024&w=gi&k=20&c=jq_jqvT1U5E7pZOYn8yfCIeotrQHJzLgAjk2EmSyfzc=' />
+          <img src='https://i.ibb.co/pXXMrvC/IMG-0927.jpg' />
         </div>
         <div className='w-full h-[60vh] flex flex-col items-center justify-center relative z-20 bg-[rgba(58,59,60,0.8)] p-3'>
             <h1 className='w-[360px] md:w-[700px] font-extrabold text-5xl'>Welcome to Booth Grading and Excavating</h1>
