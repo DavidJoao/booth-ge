@@ -8,10 +8,9 @@ import CCSection from '@/components/CCSection';
 const Absence = () => {
 
     const { auth, setAuth, loadAll } = useContext(AuthContext)
-    const [personName, setPersonName] = useState('')
     
     const initialForm = {
-        name: personName,
+        name: auth.name,
         foreman: '',
         type: '',
         from: '',
@@ -20,19 +19,17 @@ const Absence = () => {
         reason: '',
         date: Date().split(' ').splice(1, 3).join(' '),
     }
-
+    
     const [form, setForm] = useState(initialForm);
     const [isLoading, setIsLoading] = useState(false);
     const [statusMessage, setStatusMessage] = useState('Submitting Absence Request, Please Wait...');
+    
+    form.name = auth?.name;
 
     useEffect(() => {
         CheckSession(AuthContext, setAuth)
             .then(() => {
                 loadAll()
-                setForm({
-                    ...form,
-                    ['name']: localStorage.getItem('name')
-                })
             })
     }, [])
 

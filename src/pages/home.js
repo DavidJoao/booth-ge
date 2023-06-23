@@ -24,6 +24,7 @@ const Home = () => {
         password: '',
         confirmPassword: '',
     }
+    
     const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([]);
@@ -33,7 +34,6 @@ const Home = () => {
     const [password, setPassword] = useState(intiialPassword)
 
     useEffect(() => {
-        localStorage.setItem('name', auth.name)
         async function fetchData () {
             if (auth.isAdmin === true || auth.isModerator === true) {
                 axios.get('/api/jobsite/all') 
