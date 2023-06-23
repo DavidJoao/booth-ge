@@ -86,7 +86,7 @@ const CreateDaily = () => {
 
         await axios.post('/api/email/daily', { daily, images})
 
-        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 15000 })
+        await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 150000 })
         .then( res => {
             loadAll()
             setDaily(initialDaily)
@@ -103,7 +103,7 @@ const CreateDaily = () => {
                 console.log('Request timed out');
                 setErrorMessage('Poor Connection, Please Try Again With Better Connection');
                 setIsLoading(false);
-              } else {
+            } else {
                 console.log('An error occurred', err);
                 setIsLoading(false)
               }
