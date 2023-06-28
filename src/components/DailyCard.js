@@ -5,7 +5,7 @@ import { PuffLoader } from "react-spinners"
 import generatePDF from "@/custom/generatePDF"
 
 const DailyCard = ({ daily, loadAll, auth }) => {
-   console.log(daily)
+   
    const trashLogo = (
       <svg
          xmlns="http://www.w3.org/2000/svg"

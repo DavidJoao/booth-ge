@@ -299,8 +299,9 @@ const Settings = () => {
 							<button className='bg-red-600 p-2 rounded' onClick={(e) => {
 								e.preventDefault()
 								axios.delete(`/api/equipment/delete/${selectedEquipment._id}`)
+								.then(() => loadAll())
+								.catch(err => loadAll())
 								setEquipmentConfiguration(false)
-								loadAll()
 							}}>Delete Equipment</button>
 						</Modal.Footer>	
 						:
