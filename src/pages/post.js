@@ -151,7 +151,7 @@ const Post = () => {
                     <option>Select an equipment</option>
                     { equipment && equipment.map((equipment => {
                         return (
-                            <option>{equipment.number} {equipment.name}</option>
+                            <option key={equipment.number}>{equipment.number} {equipment.name}</option>
                         )
                     })) }
                 </select>
