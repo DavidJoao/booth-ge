@@ -60,6 +60,7 @@ const generatePDF = (daily) => {
    doc.text(`Number of employees in jobsite: ${parseInt(daily.employeesNo) + 1}`, 10, 190)
    doc.text(`- ${daily.foreman  || ''}`, 10, 200)
    doc.text(`${totalDailyHours} Hrs`, 70, 200)
+   doc.text(`Picked Up Material? ${daily.pickedUpMaterial ? 'Yes' : 'No'}`, 90, 195)
    doc.text(`Picked Up Diesel? ${daily && daily.pickedUpDiesel ? 'Yes' : 'No'}`, 90, 200)
    daily.employees.forEach((employee, index) => {
       doc.text(`- ${employee.name  || ''}`, 10, 205 + index * 5)
