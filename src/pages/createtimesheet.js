@@ -38,8 +38,6 @@ const CreateTimesheet = () => {
         if (auth.token === null || auth.token === undefined ) router.push('/login')
     }, [])
 
-
-
     // HANDLE PRINCIPAL FORM CHANGE
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -152,7 +150,7 @@ const CreateTimesheet = () => {
                 </div>
             :  
                 <>
-                <h2>Day {days.length + 1} of 5</h2>
+                <h2>Day {days.length + 1} of 6</h2>
                 <div className="daily-container h-auto pb-[50px]">
                     <label>Date:</label>
                     <input required name="date" value={form.date} type="date" className="input p-2" onChange={handleChange}/>
@@ -207,7 +205,7 @@ const CreateTimesheet = () => {
                     <textarea required name="description" value={form.description} className="input min-h-[100px] resize-none" placeholder="Description of work performed" onChange={handleChange}></textarea>
                 </div>
                 <div className="w-full flex items-center justify-evenly p-2">
-                   { days && days.length >= 4 ? (
+                   { days && days.length >= 5 ? (
                         <></>
                         ) : (
                         <button className="buttons w-[150px]" onClick={handleNextDay}>Next Day</button> )
@@ -221,7 +219,7 @@ const CreateTimesheet = () => {
                     days.map((day, index) => {
                         return (
                             <form className="form mb-3" key={index}>
-                                <p>Day {index + 1} of 5</p>
+                                <p>Day {index + 1} of 6</p>
                                 <label>Date:</label>
                                 <input required name="date" value={days[index].date} className="input" type="date" onChange={(e) => handleEditChange(e, index)}/>
                                 <label>Jobsite:</label>
@@ -252,7 +250,7 @@ const CreateTimesheet = () => {
                     <></>
                 ) }
 
-                { days && days.length >= 4 ? (
+                { days && days.length >= 5 ? (
                     <button className="buttons mb-[100px]" onClick={(e) => {
                         e.preventDefault();
                         days.push(form)
