@@ -45,6 +45,8 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
     const fourDate = `${fourArr[1]}-${fourArr[2]}-${fourArr[0]}`
     const fiveArr = timesheet.days[4].date.split("-")
     const fiveDate = `${fiveArr[1]}-${fiveArr[2]}-${fiveArr[0]}`
+    const sixArr = timesheet.days[5].date.split("-")
+    const sixDate = `${sixArr[1]}-${sixArr[2]}-${sixArr[0]}`
 
     const handleDelete = e => {
         e.preventDefault()
@@ -55,6 +57,13 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
         const doc = new jsPDF({
             orientation: "landscape",
         })
+
+        doc.line(0, 29, doc.internal.pageSize.getWidth(), 29)
+        doc.line(0, 58, doc.internal.pageSize.getWidth(), 58)
+        doc.line(0, 87, doc.internal.pageSize.getWidth(), 87)
+        doc.line(0, 116, doc.internal.pageSize.getWidth(), 116)
+        doc.line(0, 145, doc.internal.pageSize.getWidth(), 145)
+        doc.line(0, 6, doc.internal.pageSize.getWidth(), 6)
 
         let totalHrs = 0
         timesheet.days.map(day => {
@@ -79,78 +88,87 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
         }
 
         doc.setFontSize(12)
-        doc.text(`Name: ${timesheet.author}`, 10, 10)
-        doc.text(`Total Hours: ${totalHrs}`, 105, 10)
-        doc.text(`Date Created: ${timesheet.dateCreated || ""}`, 170, 10)
+        doc.text(`Name: ${timesheet.author}`, 5, 5)
+        doc.text(`Total Hours: ${totalHrs}`, 115, 5)
+        doc.text(`Date Created: ${timesheet.dateCreated || ""}`, 190, 5)
+        doc.setFontSize(10)
 
-        doc.rect(5, 15, 260, 35, "S")
-        doc.text(`Date: ${oneDate}`, 10, 20)
-        doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 20)
-        doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 110, 20)
-        doc.text(`Other Jobsite: ${timesheet.days[0].additional} `, 170, 20)
-        doc.text(`Start Time: ${timesheet.days[0].startTime}`, 10, 30)
-        doc.text(`Finish Time: ${finishTimes[0] || ''}`, 70, 30)
-        doc.text(`Foreman: ${timesheet.days[0].foreman}`, 130, 30)
+        doc.text(`Date: ${oneDate}`, 10, 10)
+        doc.text(`Monday: ${timesheet.days[0].totalHrs} Hrs`, 70, 10)
+        doc.text(`Jobsite: ${timesheet.days[0].jobsite}`, 115, 10)
+        doc.text(`Other Jobsite: ${timesheet.days[0].additional} `, 190, 10)
+        doc.text(`Start Time: ${timesheet.days[0].startTime}`, 10, 15)
+        doc.text(`Finish Time: ${finishTimes[0] || ''}`, 70, 15)
+        doc.text(`Foreman: ${timesheet.days[0].foreman}`, 130, 15)
         const mondayText = `Description: ${timesheet.days[0].description}`
         const mondayLines = doc.splitTextToSize(mondayText, 250)
         mondayLines.forEach((line, index) => {
-            doc.text(line, 10, 40 + index * 7)
+            doc.text(line, 10, 20 + index * 4)
         })
 
-        doc.rect(5, 55, 260, 35, "S")
-        doc.text(`Date: ${twoDate}`, 10, 60)
-        doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 60)
-        doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 110, 60)
-        doc.text(`Other Jobsite: ${timesheet.days[1].additional} `, 170, 60)
-        doc.text(`Start Time: ${timesheet.days[1].startTime}`, 10, 70)
-        doc.text(`Finish Time: ${finishTimes[1] || ''}`, 70, 70)
-        doc.text(`Foreman: ${timesheet.days[1].foreman}`, 130, 70)
+        doc.text(`Date: ${twoDate}`, 10, 33)
+        doc.text(`Tuesday: ${timesheet.days[1].totalHrs} Hrs`, 70, 33)
+        doc.text(`Jobsite: ${timesheet.days[1].jobsite}`, 115, 33)
+        doc.text(`Other Jobsite: ${timesheet.days[1].additional} `, 190, 33)
+        doc.text(`Start Time: ${timesheet.days[1].startTime}`, 10, 38)
+        doc.text(`Finish Time: ${finishTimes[1] || ''}`, 70, 38)
+        doc.text(`Foreman: ${timesheet.days[1].foreman}`, 130, 38)
         const tuesdayText = `Description: ${timesheet.days[1].description}`
         const tuesdayLines = doc.splitTextToSize(tuesdayText, 250)
         tuesdayLines.forEach((line, index) => {
-            doc.text(line, 10, 80 + index * 7)
+            doc.text(line, 10, 48 + index * 4)
         })
 
-        doc.rect(5, 95, 260, 35, "S")
-        doc.text(`Date: ${threeDate}`, 10, 100)
-        doc.text(`Wednesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 100)
-        doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 110, 100)
-        doc.text(`Other Jobsite: ${timesheet.days[2].additional} `, 170, 100)
-        doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 110)
-        doc.text(`Finish Time: ${finishTimes[2] || ''}`, 70, 110)
-        doc.text(`Foreman: ${timesheet.days[2].foreman}`, 130, 110)
+        doc.text(`Date: ${threeDate}`, 10, 62)
+        doc.text(`Wednesday: ${timesheet.days[2].totalHrs} Hrs`, 70, 62)
+        doc.text(`Jobsite: ${timesheet.days[2].jobsite}`, 115, 62)
+        doc.text(`Other Jobsite: ${timesheet.days[2].additional} `, 190, 62)
+        doc.text(`Start Time: ${timesheet.days[2].startTime}`, 10, 67)
+        doc.text(`Finish Time: ${finishTimes[2] || ''}`, 70, 67)
+        doc.text(`Foreman: ${timesheet.days[2].foreman}`, 130, 67)
         const wednesdayText = `Description: ${timesheet.days[2].description}`
         const wednesdayLines = doc.splitTextToSize(wednesdayText, 250)
         wednesdayLines.forEach((line, index) => {
-            doc.text(line, 10, 120 + index * 7)
+            doc.text(line, 10, 77 + index * 4)
         })
 
-        doc.rect(5, 135, 260, 35, "S")
-        doc.text(`Date: ${fourDate}`, 10, 140)
-        doc.text(`Thursday: ${timesheet.days[3].totalHrs} Hrs`, 70, 140)
-        doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 110, 140)
-        doc.text(`Other Jobsite: ${timesheet.days[3].additional} `, 170, 140)
-        doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 150)
-        doc.text(`Finish Time: ${finishTimes[3] || ''}`, 70, 150)
-        doc.text(`Foreman: ${timesheet.days[3].foreman}`, 130, 150)
+        doc.text(`Date: ${fourDate}`, 10, 91)
+        doc.text(`Thursday: ${timesheet.days[3].totalHrs} Hrs`, 70, 91)
+        doc.text(`Jobsite: ${timesheet.days[3].jobsite}`, 115, 91)
+        doc.text(`Other Jobsite: ${timesheet.days[3].additional} `, 190, 91)
+        doc.text(`Start Time: ${timesheet.days[3].startTime}`, 10, 96)
+        doc.text(`Finish Time: ${finishTimes[3] || ''}`, 70, 96)
+        doc.text(`Foreman: ${timesheet.days[3].foreman}`, 130, 96)
         const thursdayText = `Description: ${timesheet.days[3].description}`
         const thursdayLines = doc.splitTextToSize(thursdayText, 250)
         thursdayLines.forEach((line, index) => {
-            doc.text(line, 10, 160 + index * 7)
+            doc.text(line, 10, 106 + index * 4)
         })
 
-        doc.rect(5, 175, 260, 35, "S")
-        doc.text(`Date: ${fiveDate}`, 10, 180)
-        doc.text(`Friday: ${timesheet.days[4].totalHrs} Hrs`, 70, 180)
-        doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 110, 180)
-        doc.text(`Other Jobsite: ${timesheet.days[4].additional} `, 170, 180)
-        doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 190)
-        doc.text(`Finish Time: ${finishTimes[4] || ''}`, 70, 190)
-        doc.text(`Foreman: ${timesheet.days[4].foreman}`, 130, 190)
+        doc.text(`Date: ${fiveDate}`, 10, 120)
+        doc.text(`Friday: ${timesheet.days[4].totalHrs} Hrs`, 70, 120)
+        doc.text(`Jobsite: ${timesheet.days[4].jobsite}`, 115, 120)
+        doc.text(`Other Jobsite: ${timesheet.days[4].additional} `, 190, 120)
+        doc.text(`Start Time: ${timesheet.days[4].startTime}`, 10, 125)
+        doc.text(`Finish Time: ${finishTimes[4] || ''}`, 70, 125)
+        doc.text(`Foreman: ${timesheet.days[4].foreman}`, 130, 125)
         const fridayText = `Description: ${timesheet.days[4].description}`
         const fridayLines = doc.splitTextToSize(fridayText, 250)
         fridayLines.forEach((line, index) => {
-            doc.text(line, 10, 200 + index * 7)
+            doc.text(line, 10, 135 + index * 4)
+        })
+
+        doc.text(`Date: ${sixDate}`, 10, 150)
+        doc.text(`Saturday: ${timesheet.days[5].totalHrs} Hrs`, 70, 150)
+        doc.text(`Jobsite: ${timesheet.days[5].jobsite}`, 115, 150)
+        doc.text(`Other Jobsite: ${timesheet.days[5].additional} `, 190, 150)
+        doc.text(`Start Time: ${timesheet.days[5].startTime}`, 10, 155)
+        doc.text(`Finish Time: ${finishTimes[5] || ''}`, 70, 155)
+        doc.text(`Foreman: ${timesheet.days[5].foreman}`, 130, 155)
+        const satText = `Description: ${timesheet.days[5].description}`
+        const satLines = doc.splitTextToSize(satText, 250)
+        satLines.forEach((line, index) => {
+            doc.text(line, 10, 165 + index * 4)
         })
 
         doc.save(`${timesheet.author}${timesheet.days[0].date}.pdf`)
