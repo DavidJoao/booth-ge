@@ -45,8 +45,16 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
     const fourDate = `${fourArr[1]}-${fourArr[2]}-${fourArr[0]}`
     const fiveArr = timesheet.days[4].date.split("-")
     const fiveDate = `${fiveArr[1]}-${fiveArr[2]}-${fiveArr[0]}`
-    const sixArr = timesheet.days[5].date.split("-")
-    const sixDate = `${sixArr[1]}-${sixArr[2]}-${sixArr[0]}`
+    let sixArr;
+    let sixDate;
+
+    // const sixArr = timesheet.days[5].date.split("-");
+    // const sixDate = `${sixArr[1]}-${sixArr[2]}-${sixArr[0]}`
+
+    if (timesheet.days[5]) {
+        sixArr = timesheet.days[5].date.split("-");
+        sixDate = `${sixArr[1]}-${sixArr[2]}-${sixArr[0]}`
+    }
 
     const handleDelete = e => {
         e.preventDefault()
