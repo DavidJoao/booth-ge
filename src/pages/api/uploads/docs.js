@@ -11,7 +11,7 @@ export default async function sendDocuments(req, res) {
     } else {
       const file = req.file;
       const buffer = file.buffer;
-      const filename = file.originalname
+      const filename = file.originalname;
 
       const transporter = nodemailer.createTransport({
         service: 'hotmail',
