@@ -21,6 +21,7 @@ export default async function sendPDF(req, res, next) {
    doc.text(`Construction Daily Field Report`, 110, 10)
    doc.text(`Contractor: ${daily.contractor || ""}`, 10, 20)
    doc.text(`Date: ${newDate|| ""}`, 110, 20)
+   doc.text(`Start Time: ${daily.startTime}`, 150, 20)
    doc.text(`Directed By: ${daily.superintendent || ""}`, 10, 30)
    doc.text(`Project: ${daily.name || ""}`, 110, 30)
    doc.text(`Foreman: ${daily.foreman || ""}`, 10, 45)
