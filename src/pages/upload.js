@@ -107,7 +107,7 @@ import CCSection from "@/components/CCSection"
     }
 
     return (
-        <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-center pt-[80px] lg:p-4 lg:pt-[80px]">
+        <div className="bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:p-5 gap-5 items-center justify-center pt-[80px] lg:p-4 lg:pt-[80px]">
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center">
                 <PuffLoader color="#ffffff" loading={isLoading} size={120} />
@@ -116,11 +116,11 @@ import CCSection from "@/components/CCSection"
             ) : (
                 <>
                 <form
-                    className="flex flex-col items-center justify-center p-4 rounded"
+                    className="flex flex-col items-center justify-center p-4 rounded mt-5 md:h-[250px]"
                     id="menu"
                     onSubmit={handleDocsSubmit}>
                     <label>Upload PDF Document (No Images) </label>
-                    <input required type="file" className="input" onChange={handleFileUpload} />
+                    <input required type="file" className="input" onChange={handleFileUpload} accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf" />
                     <button type="submit" className="buttons mt-3 w-[80%]">
                         {" "}
                         Submit{" "}
@@ -128,11 +128,11 @@ import CCSection from "@/components/CCSection"
                 </form>
 
                 <form
-                    className="flex flex-col items-center justify-center p-4 rounded mt-5"
+                    className="flex flex-col items-center justify-center p-4 rounded mt-5 md:h-[250px]"
                     id="menu"
                     onSubmit={handleImagesSubmit}>
                     <label> Upload Images</label>
-                    <input required type="file" className="input" onChange={handleImageUpload} multiple />
+                    <input required type="file" className="input" onChange={handleImageUpload} multiple accept="image/png, image/jpeg" />
                     <button type="submit" className="buttons mt-3 w-[80%]">
                         {" "}
                         Submit{" "}
@@ -165,7 +165,9 @@ import CCSection from "@/components/CCSection"
                 </form>
                 </>
             )}
-        <CCSection />
+            <div className="col-span-2">
+                <CCSection />
+            </div>
         </div>
    )
 }
