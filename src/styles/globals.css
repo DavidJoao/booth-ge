@@ -154,6 +154,10 @@ input:checked + .slider:before {
   color: #E4E6EB;
 }
 
+.main-body {
+  font-family: 'Barlow', sans-serif;
+}
+
 :root {
 	--scroll-thumb: #494A4C;
   --primary-bg: #242526;
