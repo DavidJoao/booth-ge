@@ -55,6 +55,7 @@ const CreateDaily = () => {
         equipment: [],
         imported: [],
         exported: [],
+        startTime: ''
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -69,6 +70,8 @@ const CreateDaily = () => {
         jobsites.forEach(jobsite => jobsitesContractors.push(jobsite.contractor));
     }, [])
 
+
+    // CHANGE HANDLER /////////////////////////////////////////////////////
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -76,8 +79,19 @@ const CreateDaily = () => {
             ...daily,
             [name]: value
         })
+
+        if (name === 'name') {
+            const foundJobsite = jobsites && jobsites.find((jobsite) => jobsite.address == value)
+            setDaily({
+                ...daily,
+                ['startTime']: foundJobsite.startTime,
+                ['name']: value
+            })
+        }
     }
      
+
+    // DAILY SUBMISSION HANDLER ///////////////////////////////////////////
     const handleSubmit = async (e) => {
         e.preventDefault()
 
