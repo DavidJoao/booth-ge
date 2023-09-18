@@ -1,7 +1,6 @@
 import axios from "@/custom/axios"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Modal } from "react-bootstrap"
-import { PuffLoader } from "react-spinners"
 import generatePDF from "@/custom/generatePDF"
 
 const DailyCard = ({ daily, loadAll, auth }) => {
