@@ -30,7 +30,7 @@ const Reports = () => {
             <>
                 <div className='flex items-center justify-center w-[350px] pl-2 pr-2'>
                     <h4 className='mr-3 text-lg my-0'>Filter</h4>
-                    <input className='input my-0' placeholder='Contractor, Foreman, Equipment, Employee' onChange={(e) => setSearch(e.target.value)}/>
+                    <input className='input my-0' placeholder='Jobsite, Foreman, Equipment, Employee' onChange={(e) => setSearch(e.target.value)}/>
                 </div>
                 <div className='flex flex-row items-center justify-center w-[350px] pl-2 pr-2 mt-1'>
                     <p className='my-0 text-lg mr-4'>From</p>
@@ -61,7 +61,7 @@ const Reports = () => {
                 || daily.foreman.toLowerCase().includes(search.toLowerCase()) 
                 || daily.equipment.some(items => (`${items.name}`).toLowerCase().includes(search.toLowerCase()))
                 || daily.employees.some(employees => (`${employees.name}`).toLocaleLowerCase().includes(search.toLowerCase()))
-                || daily.contractor.toLowerCase().includes(search.toLowerCase())
+                || daily.name.toLowerCase().includes(search.toLowerCase())
             )
             .reverse()
             .map(daily => (
