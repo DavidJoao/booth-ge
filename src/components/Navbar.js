@@ -66,7 +66,11 @@ const Navbar = () => {
 					<Dropdown.Item onClick={() => router.push('/reports')}><button className='nav-buttons'>Daily Reports</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/createdaily')}><button className='nav-buttons'>Create Daily Report</button></Dropdown.Item>
 					{/* WAITING FOR TESTERS */}
-					{/* <Dropdown.Item onClick={() => router.push('/equipmentstatus')}><button className='nav-buttons'>Report Equipment</button></Dropdown.Item> */}
+					{ auth && auth.name === 'David Sandoval' ? (
+						<Dropdown.Item onClick={() => router.push('/equipmentstatus')}><button className='nav-buttons'>Report Equipment</button></Dropdown.Item>
+					) : (
+						<></>
+					) }
 					<Dropdown.Item onClick={() => router.push('/upload')}><button className='nav-buttons'>Upload Docs/Images</button></Dropdown.Item>
 					<Dropdown.Item className='hover:bg-none' onClick={() => setLogoutModal(true)}><button className='nav-buttons'>Log Out</button></Dropdown.Item>
 					<Modal show={logoutModal} onHide={() => setLogoutModal(false)}>
