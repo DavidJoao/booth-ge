@@ -113,8 +113,6 @@ const Settings = () => {
 			...editEquipment,
 			[name]: value
 		})
-
-		console.log(editEquipment)
 	}
 
 	return (
