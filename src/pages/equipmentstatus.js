@@ -68,7 +68,7 @@ const EquipmentStatus = () => {
           <label className='font-extrabold text-xl mb-5'>Booth Grading and Excavating Equipment Report</label>
           <div className='rounded-lg w-full sm:w-[600px] mx-auto mb-5 flex flex-col items-center justify-center'>
             <label>Equipment:</label>
-            <select name='equipment' value={report.equipment} className='input w-full' onChange={handleChange}>
+            <select required name='equipment' value={report.equipment} className='input w-full' onChange={handleChange}>
               <option>Select Equipment:</option>
               {/* EQUIPMENT MAPPING */}
               { equipment && equipment.map(equipment => {
@@ -78,9 +78,7 @@ const EquipmentStatus = () => {
               }) }
             </select>
             <label>Foreman Description:</label>
-            <textarea className='input h-[200px] w-full' name='description' value={report.description} onChange={handleChange}>
-
-            </textarea>
+            <textarea required className='input h-[200px] w-full' name='description' value={report.description} onChange={handleChange} />
             <button type='submit' className='buttons mt-3 w-full'>Submit</button>
           </div>
           <label>Report by {auth?.name}</label>
