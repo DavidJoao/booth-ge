@@ -33,12 +33,29 @@ const Settings = () => {
 	const [accessoryDeletion, showAccessoryDeletion] = useState(false)
 	const [errorModal, setErrorModal] = useState(false)
 	const [successModal, setSuccessModal] = useState(false)
+	const [editEquipmentModal, setEditEquipmentModal] = useState(false)
+	const [editAccessoryModal, setEditAccesoryModal] = useState(false)
 	
+	// GENERAL STATES
 	const [jobsites, setJobsites] = useState([])
 	const [selectedUser, setSelectedUser] = useState({})
 	const [selectedEquipment, setSelectedEquipment] = useState({})
 	const [selectedAccessory, setSelectedAccessory] = useState({})
 	const [errorMessage, setErrorMessage] = useState('')
+
+
+	const initialEquipmentEdit = {
+		number: selectedEquipment?.number || '',
+		name: selectedEquipment?.name || ''
+	}
+
+	const initialAccessoryEdit = {
+		name: ''
+	}	
+
+
+	const [editEquipment, setEditEquipment] = useState(initialEquipmentEdit)
+	const [editAccessory, setEditAccessory] = useState(initialAccessoryEdit)
 
 	useEffect(() => {
 		if (auth.isAdmin == false && auth.isModerator === false) router.push('/login')
@@ -49,6 +66,13 @@ const Settings = () => {
             CheckSession(AuthContext, setAuth)
         }
     }, [])
+
+	useEffect(() => {
+		setEditEquipment({
+		  number: selectedEquipment?.number || '',
+		  name: selectedEquipment?.name || ''
+		});
+	  }, [selectedEquipment]);
 
 	useEffect(() => {
 		loadAll()
@@ -82,6 +106,17 @@ const Settings = () => {
 			})
 	}
 
+	const handleEquipmentChange = (e) => {
+		const { value, name } = e.target;
+		
+		setEditEquipment({
+			...editEquipment,
+			[name]: value
+		})
+
+		console.log(editEquipment)
+	}
+
 	return (
 		// CONTAINER FOR EMPLOYEES
 		<div className='h-auto min-h-screen flex flex-col md:flex-row items-center bg-[#242526] pt-[80px]'>
@@ -106,6 +141,8 @@ const Settings = () => {
 					)}
 				</div>
 			</div>
+
+
 			{/* CONTAINER FOR EQUIPMENT */}
 			<div className='w-[350px] md:w-1/2 h-[500px] lg:h-[700px] flex flex-col items-center m-2'>
 				<h3>Manage Equipment</h3>
@@ -124,6 +161,7 @@ const Settings = () => {
 					{ equipment && equipment.length === 0 ? <p className='text-center'>No equipment yet</p> : <></> }
 				</div>
 			</div>
+
 
 			{/* CONTAINER FOR ACCESSORIES */}
 			<div className='w-[350px] md:w-1/2 h-[500px] lg:h-[700px] flex flex-col items-center m-2'>
@@ -144,6 +182,7 @@ const Settings = () => {
 				</div>
 			</div>
 				
+
 				{/* ACCESSORIES CONFIGURATION MODAL */}
 				<Modal show={accessoryConfiguration} onHide={() => {
 					setAccessoryConfiguration(false)
@@ -172,6 +211,9 @@ const Settings = () => {
 							showAccessoryDeletion(true)
 						}}> DELETE ACCESORY </button>
 					</Modal.Footer>
+
+
+
 					{/* ACCESSORY DELETION */}
 					<Modal show={accessoryDeletion} onHide={() => showAccessoryDeletion(false)}>
 						<Modal.Header closeButton id="dropdown">Are you sure you want to delete {selectedAccessory.name}</Modal.Header>
@@ -188,6 +230,8 @@ const Settings = () => {
 						</Modal.Body>
 					</Modal>
 				</Modal>
+
+
 
 				{/* USER CONFIGURATION MODAL */}
 				<Modal show={userConfiguration} onHide={() => {
@@ -210,6 +254,8 @@ const Settings = () => {
 							</div> )}
 						<ErrorModal errorMessage={errorMessage} setErrorMessage={setErrorMessage} errorModal={errorModal} setErrorModal={setErrorModal}/>
 					</Modal.Body>
+
+
 
 					{/* DOES NOT SHOW THIS PART OF MODAL FOR LOGGED IN USERS */}
 					{ selectedUser.name === auth.name ? <></> :
@@ -270,6 +316,7 @@ const Settings = () => {
 				</Modal>
 
 
+
 				{/* EQUIPMENT CONFIGURATION MODAL */}
 				<Modal className='overflow-auto' show={equipmentConfiguration} onHide={() => {
 					setEquipmentConfiguration(false)
@@ -307,10 +354,46 @@ const Settings = () => {
 								.catch(err => loadAll())
 								setEquipmentConfiguration(false)
 							}}>Delete Equipment</button>
+							<button className='buttons mt-4' onClick={() => setEditEquipmentModal(true)}>Edit</button>
+
+							{/* /////////////////////////// EDIT EQUIPMENT MODAL ////////////////////////////// */}
+							<Modal show={editEquipmentModal} onHide={() => {
+								setEditEquipmentModal(false)
+								setErrorMessage('')
+								setSelectedEquipment({})
+							}}>
+								<Modal.Header className='bg-[#414345]' closeButton> Edit {selectedEquipment.name} </Modal.Header>
+								<Modal.Body className='bg-[#414345]'>
+									<form className='p-3 flex flex-col items-center'>
+										<label>Number:</label>
+										<input name='number' value={editEquipment?.number} className='input' onChange={handleEquipmentChange}></input>
+										<label>Name:</label>
+										<input name='name' value={editEquipment?.name} className='input' onChange={handleEquipmentChange}></input>
+										<button className='buttons mt-4' onClick={(e) => {
+											e.preventDefault();
+
+											axios.patch(`/api/equipment/edit/${selectedEquipment._id}`, JSON.stringify(editEquipment), { headers: { 'Content-Type': 'application/json' }})
+											.then(() => {
+												loadAll();
+												setEditEquipmentModal(false)
+												setEquipmentConfiguration(false)
+											})
+											.catch((err) => {
+												setErrorModal(true)
+												setErrorMessage(err.response.data.message)
+											})
+										}}>EDIT</button>
+									</form>
+								</Modal.Body>
+							</Modal>
+
+
 						</Modal.Footer>	
 						:
 						<></>}
 				</Modal>
+
+
 
 				<Modal show={successModal}>
 					<Modal.Header id='success' className='text-2xl '><p className='mx-auto'>Added Successfully</p></Modal.Header>
