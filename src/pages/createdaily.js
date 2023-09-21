@@ -358,6 +358,7 @@ const CreateDaily = () => {
                                 <option>Concrete</option>
                                 <option>Green</option>
                                 <option>Demo/Trash</option>
+                                <option>Steel</option>
                             </select>
                         </>
                     ) : (<></>)}
