@@ -109,6 +109,9 @@ const Home = () => {
                 </Modal.Footer>
             </form>
         </Modal>
+
+        {/* NOTIFICATIONS AREA */}
+
         <div className='home-container'>
             <div className='flex flex-col items-center justify-start lg:w-1/2 h-full pt-2'>
                 <h1 className='text-[20px] lg:text-[25px] p-1 border-[1px] border-black w-full h-[15%] lg:h-[7%] flex items-center justify-center rounded-lg bg-[#494A4C]'>
@@ -116,14 +119,17 @@ const Home = () => {
                     <span className='ml-3 bg-yellow-600 rounded p-[2px] flex items-center font-normal text-sm'>{notificationIcon} • {notifications.length}</span>
                 </h1>
                 <div className='notifications-container bg-[#3a3b3c] w-full h-[400px] lg:h-[700px] pt-3' >
-                    { notifications && notifications.reverse().map(notification => {
+                    { notifications && notifications.map(notification => {
                         return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                     }) }
                     { notifications && notifications.length === 0 ? <p>No notifications</p> : <></>}
                 </div>
             </div>
             { auth.isAdmin === true || auth.isModerator === true ? <input className='flex lg:hidden input w-[300px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
-            <div className='jobsite-container scroll h-full min-h-[300px] lg:ml-[50px]'>
+
+            {/* JOBSITES AREA */}
+
+            <div className='jobsite-container scroll h-full min-h-[300px] lg:ml-[50px] lg:border-l-[1px]'>
                 { auth.isAdmin || auth.isModerator ? 
                 jobsites
                 .filter(jobsite => search === '' 
