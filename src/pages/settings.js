@@ -34,7 +34,7 @@ const Settings = () => {
 	const [errorModal, setErrorModal] = useState(false)
 	const [successModal, setSuccessModal] = useState(false)
 	const [editEquipmentModal, setEditEquipmentModal] = useState(false)
-	const [editAccessoryModal, setEditAccesoryModal] = useState(false)
+	const [editAccessoryModal, setEditAccessoryModal] = useState(false)
 	
 	// GENERAL STATES
 	const [jobsites, setJobsites] = useState([])
@@ -44,18 +44,22 @@ const Settings = () => {
 	const [errorMessage, setErrorMessage] = useState('')
 
 
+	//  INITIAL EDIT OBJECTS
+
 	const initialEquipmentEdit = {
 		number: selectedEquipment?.number || '',
 		name: selectedEquipment?.name || ''
 	}
 
 	const initialAccessoryEdit = {
-		name: ''
+		name: selectedAccessory.name || ''
 	}	
 
 
 	const [editEquipment, setEditEquipment] = useState(initialEquipmentEdit)
 	const [editAccessory, setEditAccessory] = useState(initialAccessoryEdit)
+
+	// CHECK AUTHENTICATION USE EFFECT
 
 	useEffect(() => {
 		if (auth.isAdmin == false && auth.isModerator === false) router.push('/login')
@@ -67,12 +71,21 @@ const Settings = () => {
         }
     }, [])
 
+	// TRACK CURRENT SELECTION OF EQUIPMENT/ACCESSORY
+	
 	useEffect(() => {
 		setEditEquipment({
 		  number: selectedEquipment?.number || '',
 		  name: selectedEquipment?.name || ''
 		});
-	  }, [selectedEquipment]);
+
+		setEditAccessory({
+			name: selectedAccessory?.name || ''
+		});
+
+	  }, [selectedEquipment, selectedAccessory]);
+
+	// LOAD ALL ON LOAD USE EFFECT
 
 	useEffect(() => {
 		loadAll()
@@ -82,6 +95,8 @@ const Settings = () => {
 		axios.get('/api/jobsite/all')
 			.then(res => setJobsites(res.data))
 	}, [])
+
+	//  UPDATE ROLES FUNCTION (ADMINISTRATORS, MODERATORS, FOREMANS)
 
 	const handleRoles = (role, action) => {
 		axios.patch(`/api/user/${role}/${action}/${selectedUser._id}`)
@@ -95,6 +110,8 @@ const Settings = () => {
 			})
 	}
 
+	// DELETE USERS FUNCTION
+
 	const handleDelete = (e) => {
 		e.preventDefault();
 
@@ -106,11 +123,13 @@ const Settings = () => {
 			})
 	}
 
-	const handleEquipmentChange = (e) => {
+	// CHANGE HANDLER FOR EDITS
+
+	const handleEditChange = (e, setEditX, editX) => {
 		const { value, name } = e.target;
 		
-		setEditEquipment({
-			...editEquipment,
+		setEditX({
+			...editX,
 			[name]: value
 		})
 	}
@@ -208,6 +227,40 @@ const Settings = () => {
 							e.preventDefault()
 							showAccessoryDeletion(true)
 						}}> DELETE ACCESORY </button>
+						<button className='buttons mt-4' onClick={() => setEditAccessoryModal(true)}>Edit</button>
+
+						{/* ////////////////////////////////////// ACCESSORY EDIT MODAL /////////////////////////////////// */}
+						<Modal show={editAccessoryModal} onHide={() => {
+							setEditAccessoryModal(false)
+							setAccessoryConfiguration(false)
+							setErrorMessage('')
+							setSelectedAccessory({})
+							}}>
+							<Modal.Header className='bg-[#414345]' closeButton> Edit {selectedAccessory.name} </Modal.Header>
+							<Modal.Body className='bg-[#414345]'>
+								<form className='p-3 flex flex-col items-center'>
+									<label>Name:</label>
+									<input name='name' value={editAccessory?.name} className='input' onChange={(e) => {
+										handleEditChange(e, setEditAccessory, editAccessory)
+									}}></input>
+									<button className='buttons mt-4' onClick={(e) => {
+										e.preventDefault();
+
+										axios.patch(`/api/accessory/edit/${selectedAccessory._id}`, JSON.stringify(editAccessory), { headers: { 'Content-Type': 'application/json' }})
+											.then(() => {
+												loadAll();
+												setEditAccessoryModal(false)
+												setAccessoryConfiguration(false)
+											})
+											.catch((err) => {
+												setErrorModal(true)
+												setErrorMessage(err.response.data.message)
+											})
+										}}>EDIT</button>
+								</form>
+							</Modal.Body>
+						</Modal>
+						
 					</Modal.Footer>
 
 
@@ -357,6 +410,7 @@ const Settings = () => {
 							{/* /////////////////////////// EDIT EQUIPMENT MODAL ////////////////////////////// */}
 							<Modal show={editEquipmentModal} onHide={() => {
 								setEditEquipmentModal(false)
+								setAccessoryConfiguration(false)
 								setErrorMessage('')
 								setSelectedEquipment({})
 							}}>
@@ -364,9 +418,9 @@ const Settings = () => {
 								<Modal.Body className='bg-[#414345]'>
 									<form className='p-3 flex flex-col items-center'>
 										<label>Number:</label>
-										<input name='number' value={editEquipment?.number} className='input' onChange={handleEquipmentChange}></input>
+										<input name='number' value={editEquipment?.number} className='input' onChange={(e) => { handleEditChange(e, setEditEquipment, editEquipment) }}></input>
 										<label>Name:</label>
-										<input name='name' value={editEquipment?.name} className='input' onChange={handleEquipmentChange}></input>
+										<input name='name' value={editEquipment?.name} className='input' onChange={(e) => { handleEditChange(e, setEditEquipment, editEquipment)}}></input>
 										<button className='buttons mt-4' onClick={(e) => {
 											e.preventDefault();
 
