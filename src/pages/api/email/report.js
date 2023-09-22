@@ -4,15 +4,12 @@ const Equipment = require('../../../models/equipment')
 import jsPDF from "jspdf";
 
 export default async function sendReport (req, res, next) {
-    const form = req.body;
     
-    const equipmentNumber = form.equipment.split(' ')[0]
-    const equipmentName = form.equipment.split(' ').slice(1).join(' ')
+    const form = req.body;
 
-
-    const foundEquipment = await Equipment.findOne({ name: equipmentName, number: equipmentNumber })
-    const foundJobsite = await Jobsite.findOne({ "equipment._id": foundEquipment._id })
-
+    const foundEquipment = await Equipment.findOne({ $expr: { $eq: [{$concat: ["$number", " ", "$name"]}, `${form?.equipment}` ]} });
+    const foundJobsite = await Jobsite.findOne({ "equipment._id": foundEquipment?._id });
+    const foundJobsiteAlt = await Jobsite.findOne({ "equipment": { $elemMatch: { "number": foundEquipment.number, "name": foundEquipment.name }} });
 
     const doc = new jsPDF();
 
@@ -28,7 +25,7 @@ export default async function sendReport (req, res, next) {
     doc.rect(0, 25, doc.internal.pageSize.getWidth(), 7, 'F');
     
     doc.text(`Report Submitted By: ${form.author}`, (doc.internal.pageSize.getWidth()/2) + 15, 10)
-    doc.text(`Jobsite: ${foundJobsite.address || 'No Jobsite Assigned'}`, 10, 20)
+    doc.text(`Jobsite: ${foundJobsite?.address || foundJobsiteAlt?.address ||  'No Jobsite Assigned'}`, 10, 20)
     doc.text(`Date: ${form.date}`, (doc.internal.pageSize.getWidth()/2) + 15, 20);
     
     doc.setFont(undefined, 'bold');
@@ -121,7 +118,7 @@ export default async function sendReport (req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "davidsandoval596@gmail.com",
+        to: "bgepayroll@gmail.com",
         subject: `${form.author} - Report for ${form.equipment}`,
         text: ``,
         attachments: [
