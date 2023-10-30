@@ -130,7 +130,7 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Saturday: ${timesheet && timesheet.days[5].totalHrs} Hrs`, 70, 180)
     doc.text(`Jobsite: ${timesheet && timesheet.days[5].jobsite}`, 115, 180)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[5].additional} `, 190, 180)
-    doc.text(`Start Time: ${timesheet && timesheet.days[4].startTime} AM`, 10, 185)
+    doc.text(`Start Time: ${timesheet && timesheet.days[5].startTime} AM`, 10, 185)
     doc.text(`Finish Time: ${finishTimes[5] || ''}`, 70, 185)
     doc.text(`Foreman: ${timesheet && timesheet.days[5].foreman}`, 130, 185)
     const satText = `Description: ${timesheet && timesheet.days[5].description}`
@@ -155,7 +155,7 @@ export default async function sendTimesheet(req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
+        to: "davidsandoval596@gmail.com",
         subject: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         text: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         attachments: [
