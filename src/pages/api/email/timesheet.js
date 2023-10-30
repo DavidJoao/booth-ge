@@ -92,7 +92,7 @@ export default async function sendTimesheet(req, res, next) {
     doc.text(`Jobsite: ${timesheet && timesheet.days[2].jobsite}`, 115, 82)
     doc.text(`Other Jobsite: ${timesheet && timesheet.days[2].additional} `, 190, 82)
     doc.text(`Start Time: ${timesheet && timesheet.days[2].startTime} AM`, 10, 87)
-    doc.text(`Finish Time: ${finishTimes[2] || ''}`, 70, 67)
+    doc.text(`Finish Time: ${finishTimes[2] || ''}`, 70, 87)
     doc.text(`Foreman: ${timesheet && timesheet.days[2].foreman}`, 130, 87)
     const wednesdayText = `Description: ${timesheet && timesheet.days[2].description}`
     const wednesdayLines = doc.splitTextToSize(wednesdayText, 250)
