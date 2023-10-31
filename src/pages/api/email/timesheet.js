@@ -155,7 +155,7 @@ export default async function sendTimesheet(req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "davidsandoval596@gmail.com",
+        to: "bgepayroll@gmail.com",
         subject: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         text: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         attachments: [
