@@ -183,7 +183,7 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
     }
 
     return (
-        <div id="menu" className="p-2 rounded mt-5" key={timesheet._id}>
+        <div id="menu" className="p-2 rounded mt-5" key={`${timesheet._id}${timesheet.author}`}>
             <div className="flex items-center justify-between border-b-[1px] pb-1">
                 <h4>{timesheet.author}</h4>
                 {timesheet.dateCreated ? <p>Created: {timesheet.dateCreated}</p> : <> </>}
@@ -226,7 +226,7 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
                     return (
                         <Carousel.Item
                             className="pl-5 pr-5 lg:pl-[115px] lg:pr-[115px]"
-                            key={day.date}>
+                            key={`${day.date}${day.description}`}>
                             <div className="p-2 rounded m-1 flex flex-col items-start">
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 lg:flex lg:flex-row lg:items-center lg:justify-evenly">
                                 <p className="timesheet-item">Date: {oneDate}</p>
