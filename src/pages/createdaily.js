@@ -55,7 +55,8 @@ const CreateDaily = () => {
         equipment: [],
         imported: [],
         exported: [],
-        startTime: ''
+        startTime: '',
+        submittedBy: auth && auth.name
     }
 
     const [ daily, setDaily ] = useState(initialDaily)
@@ -169,10 +170,10 @@ const CreateDaily = () => {
         ///////////////// MAIN FORM ///////////////////
         <form id='dropdown' className='w-[300px] w-full lg:w-[70%] min-h-[600px] h-auto rounded flex flex-col lg:flex-row items-center lg:items-start justify-center pb-[150px]' onSubmit={handleSubmit}>
             <div className='w-full lg:w-1/2 h-auto p-2 flex flex-col items-center'>
-                <label>Date:</label>
-                <input required value={daily.date} name='date' type='date' className='input' onChange={handleChange}/>
-                <label>General Contractor:</label>
-                <select className='input' name='contractor' onChange={handleChange}>
+                <label for="date">Date:</label>
+                <input id='date' required value={daily.date} name='date' type='date' className='input' onChange={handleChange}/>
+                <label for="contractor">General Contractor:</label>
+                <select id='contractor' className='input' name='contractor' onChange={handleChange}>
                     <option>Choose Contractor</option>
                     { contractorSet?.map(contractor => {
                         return(
@@ -180,9 +181,9 @@ const CreateDaily = () => {
                         )
                     }) }
                 </select>
-                <label>Superintendent:</label>
-                <input value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
-                <label>Job Address</label>
+                <label for="superintendent">Superintendent:</label>
+                <input id='superintendent' value={daily.superintendent} name='superintendent' className='input' onChange={handleChange}/>
+                <label for="jobsites">Job Address</label>
                 <select required name='name' value={daily.name} onChange={handleChange} className='input' id='jobsites'>
                     <option value="" selected disabled hidden>Choose Jobsite</option>
                     { jobsites && jobsites.map((jobsite, index) => {
@@ -202,7 +203,7 @@ const CreateDaily = () => {
                 </select>
                 <div className='flex items-center justify-center flex-col lg:grid lg:grid-cols-6 mt-2 w-full lg:w-[80%]'>
                     <label>Total Hours:</label>
-                    <input className='input' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
+                    <input pattern="[0-9.]*" title="Only numbers and dots are allowed" className='input' type='number' name='totalHours' value={daily.totalHours} onChange={handleChange}/>
                     <label>Picked Up Diesel?</label>
                     <input type='checkbox' name='pickedUpDiesel' className='mb-2' onChange={(e) => {
                         const { name, value, type, checked } = e.target;
@@ -388,7 +389,7 @@ const CreateDaily = () => {
                 {/* EMPLOYEE INPUT */}
 
                 <label>Number of employees in jobsite:</label>
-                <input value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} onChange={(e) => {
+                <input value={daily.employeesNo} name='employeesNo' className='input' type='number' min={0} max={15} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['employeesNo']: e.target.value
@@ -403,7 +404,7 @@ const CreateDaily = () => {
                 }}/>
                 { tempArray.map((employee, index) => {
                     return (
-                        <div className='flex items-center w-full p-2' key={employee.name}>
+                        <div className='flex items-center w-full p-2' key={`${employee.name}${index}`}>
                             <label>Name:</label>
                             <select className='input' onChange={(e) => {
                                 const newEmployees = [...daily.employees];
@@ -418,7 +419,7 @@ const CreateDaily = () => {
                                 })}
                             </select>
                             <label className='ml-2'>Hours:</label>
-                            <input className='input' name={`employee-${index}-hours`} onChange={(e) => {
+                            <input pattern="[0-9.]*" title="Only numbers and dots are allowed"  className='input' name={`employee-${index}-hours`} onkeyp onChange={(e) => {
                                 const newEmployees = [...daily.employees];
                                 newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
                                 setDaily({ ...daily, employees: newEmployees });
@@ -430,7 +431,7 @@ const CreateDaily = () => {
                 {/* TEMPORAL EMPLOYEE INPUT */}
 
                 <label>Number of rented employees:</label>
-                <input value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} onChange={(e) => {
+                <input value={daily.rentedNo} name='rentedNo' className='input' type='number' min={0} max={15} onChange={(e) => {
                     setDaily({ 
                         ...daily,
                         ['rentedNo']: e.target.value
