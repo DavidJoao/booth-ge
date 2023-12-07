@@ -226,7 +226,7 @@ const TimesheetCard = ({ timesheet, loadAll, auth }) => {
                     return (
                         <Carousel.Item
                             className="pl-5 pr-5 lg:pl-[115px] lg:pr-[115px]"
-                            key={`${day.date}${day.description}`}>
+                            key={`${day.date}${day.description}${index}`}>
                             <div className="p-2 rounded m-1 flex flex-col items-start">
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 lg:flex lg:flex-row lg:items-center lg:justify-evenly">
                                 <p className="timesheet-item">Date: {oneDate}</p>
