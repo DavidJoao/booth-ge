@@ -100,9 +100,9 @@ const DailyCard = ({ daily, loadAll, auth }) => {
          <p className="w-full border-t-[1px] font-bold"> Equipment and hours used: </p>
          <ul className="list-disc">
             {daily &&
-               daily.equipment.map(item => {
+               daily.equipment.map((item, index) => {
                   return (
-                     <li key={item.name}>
+                     <li key={`${item.name}${index}`}>
                         Name: {item.name} - Hours: {item.hours}
                      </li>
                   )
@@ -120,9 +120,9 @@ const DailyCard = ({ daily, loadAll, auth }) => {
          <ul className="list-disc">
             <li>Name: {daily.foreman} - Hours: {daily.totalHours}{daily.pickedUpDiesel ? '.5' : ''}</li>
             {daily &&
-               daily.employees.map(employee => {
+               daily.employees.map((employee, index) => {
                   return (
-                     <li key={employee.name}>
+                     <li key={`${employee.name}${index}`}>
                         Name: {employee.name} - Hours: {employee.hours}
                      </li>
                   )
