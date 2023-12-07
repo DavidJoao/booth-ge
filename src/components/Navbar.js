@@ -39,10 +39,10 @@ const Navbar = () => {
 			{ auth.token ? <img src="https://i.ibb.co/XJKs479/boothimg.jpg"  className='m-2 rounded-xl w-[50px]'/> : <></>}
 		</div>
     { auth.token ? 
-		<Dropdown>
+		<Dropdown className='border'>
 			<Dropdown.Toggle id='dropdown'><p className='pr-5 pl-5 h-[5px] text-white'>{menuIcon}</p></Dropdown.Toggle>
 			<Dropdown.Menu id='menu'>
-				<div className='flex flex-col items-center w-[350px] p-4 bg-[#3a3b3c]'>
+				<div className='flex flex-col items-center w-[350px] p-4 bg-[#3a3b3c] overflow-y-auto h-[500px]'>
 					<Dropdown.Item onClick={() => router.push('/home')}><button className='nav-buttons' >Home</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/absence')}><button className='nav-buttons'>Absence Request</button></Dropdown.Item>
 					<Dropdown.Item onClick={() => router.push('/createtimesheet')}><button className='nav-buttons'>Create Timesheet</button></Dropdown.Item>
