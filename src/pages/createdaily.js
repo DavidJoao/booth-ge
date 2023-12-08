@@ -89,6 +89,8 @@ const CreateDaily = () => {
                 ['name']: value
             })
         }
+
+        console.log(daily)
     }
      
 
@@ -195,6 +197,7 @@ const CreateDaily = () => {
                 <label>Foreman:</label>
                 <select className='input' name='foreman' onChange={handleChange}>
                     <option>Choose Foreman</option>
+                    <option>No Foreman</option>
                     { users?.filter(user => user.isForeman === true && user.name !== 'Byanka Arceo' && user.name !== 'Veronica Rivera').map(user => {
                         return (
                             <option key={user.name}>{user.name}</option>
@@ -419,7 +422,7 @@ const CreateDaily = () => {
                                 })}
                             </select>
                             <label className='ml-2'>Hours:</label>
-                            <input pattern="[0-9.]*" title="Only numbers and dots are allowed"  className='input' name={`employee-${index}-hours`} onkeyp onChange={(e) => {
+                            <input pattern="[0-9.]*" title="Only numbers and dots are allowed"  className='input' name={`employee-${index}-hours`} onChange={(e) => {
                                 const newEmployees = [...daily.employees];
                                 newEmployees[index] = { ...newEmployees[index], hours: e.target.value };
                                 setDaily({ ...daily, employees: newEmployees });
