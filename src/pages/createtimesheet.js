@@ -157,9 +157,9 @@ const CreateTimesheet = () => {
                     <label>Jobsite:</label>
                     <select name='jobsite' value={form.jobsite} onChange={handleChange} className='input' id='jobsites'>
                         <option value="" selected disabled hidden>Choose Jobsite</option>
-                        { jobsites && jobsites.map(jobsite => {
+                        { jobsites && jobsites.map((jobsite, index) => {
                             return (
-                                <option key={jobsite.address} name="name" value={jobsite.address}>{jobsite.address}</option>
+                                <option key={`${jobsite.address}${index}`} name="name" value={jobsite.address}>{jobsite.address}</option>
                             )
                         })}
                     </select>
