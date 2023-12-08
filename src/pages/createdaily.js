@@ -457,7 +457,7 @@ const CreateDaily = () => {
                     )
                 } )}
 
-                <input className='input mt-3' type="file" onChange={handleFileUpload} multiple />
+                <input className='input mt-3' type="file" onChange={handleFileUpload} multiple accept="image/png, image/jpeg"/>
                 { images && images.length > 0 ? 
                     <div className='w-[80%] rounded mt-2 flex flex-row items-center overflow-x-auto border p-2"'>
                         {images.map((image, index) => (
