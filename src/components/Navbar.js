@@ -51,6 +51,8 @@ const Navbar = () => {
 					<>
 						<Dropdown.Item onClick={() => router.push('/timesheets')}><button className='nav-buttons'>Timesheets</button></Dropdown.Item>
 						<Dropdown.Item onClick={() => router.push('/employeesettings')}><button className='nav-buttons'>Employees Settings</button></Dropdown.Item>
+						<Dropdown.Item onClick={() => router.push('/warnings')}><button className='nav-buttons'>Warnings</button></Dropdown.Item>
+						<Dropdown.Item onClick={() => router.push('/incidents')}><button className='nav-buttons'>Incident Report</button></Dropdown.Item>
 
 						{/* ONLY ALLOW SETTINGS TO ADMINS */}
 						{ auth.isAdmin ? 
