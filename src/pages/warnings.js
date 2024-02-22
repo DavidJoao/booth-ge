@@ -31,6 +31,8 @@ const Warnings = () => {
 
     // STATES
     const { auth, setAuth, users } = useContext(AuthContext)
+    const [isLoading, setIsLoading] = useState(false);
+    const [statusMessage, setStatusMessage] = useState('Submitting Warning, Please Wait...');
     const [type, setType] = useState('')
 
     const initialWarning = {
@@ -55,12 +57,35 @@ const Warnings = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        setIsLoading(true)
+        setStatusMessage('Submitting Warning, Please Wait...')
+
+        axios.post('/api/email/warning', warning, { headers: { 'Content-Type': 'application/json ' } })
+            .then(res => {
+                setStatusMessage('✓ Warning Submitted Successfully ✓')
+                // setWarning(initialWarning)
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, "2000");
+            })
+            .catch(err => {
+                console.log(err)
+                setIsLoading(false)
+            })
     }
 
   return (
-    <div className='flex flex-col items-center bg-[#242526] h-[1200px] lg:h-screen pt-[85px] pb-2'>
+    <div className='flex flex-col items-center bg-[#242526] min-h-[1200px] h-auto lg:h-screen pt-[85px] pb-2'>
+        { isLoading ? (
+            <div className='h-screen bg-[#242526] flex flex-col items-center justify-center'>
+                <PuffLoader color='#ffffff' loading={isLoading} size={120}/>
+                <p className="mt-4">{statusMessage}</p>
+            </div>
+        ) : (
+        <div>
         <p className='text-xl font-bold'>Employee Discipline Form</p>
-        <form className='border w-full md:w-[800px] lg:w-[900px] p-2'>
+        <form className='lg:border rounded w-full md:w-[800px] lg:w-[900px] p-2 flex flex-col' onSubmit={handleSubmit}>
             {/* SELECT EMPLOYEE */}
             <p className='mb-0'>Employee Name:</p>
             <select name='employee' value={warning.employee} onChange={handleChange} className='input w-full'>
@@ -95,8 +120,8 @@ const Warnings = () => {
             {/* CONDITIONAL RENDERING IF VERBAL/WRITTEN WARNING */}
             { type && type === 'Written' ? (
                 // WRITTEN FORM
-                <div>
-                    <div className='grid grid-cols-2 md:grid-cols-4 mt-2'>
+                <div className='flex flex-col'>
+                    <div className='grid grid-cols-2 md:grid-cols-4 gap-2 mt-2'>
                         { violations && violations.map((violation, index) => {
                             return(
                                 <div key={index} className='flex flex-row items-center justify-start gap-2'>
@@ -114,7 +139,7 @@ const Warnings = () => {
                         }) }   
                     </div>
                     <p className='mt-5 mb-5'>Checked Violations: { checkedViolations.length !== 0 ? checkedViolations.join(', ') : 'Checked Options Empty' }</p>
-                    <textarea name='description' value={warning.description} className='input resize-none h-[150px]' placeholder='Description of violation(s)' onChange={handleChange}/>   
+                    <textarea name='description' value={warning.description} className='input resize-none h-[150px] mx-auto mb-4' placeholder='Description of violation(s)' onChange={handleChange}/>   
                 </div>
             ) : type === 'Verbal' ? (
                 // VERBAL FORM
@@ -124,9 +149,12 @@ const Warnings = () => {
             ) : (
                 <p>Please, select type of warning</p>
             ) }
+            <button type='submit' className='buttons w-[200px] mx-auto'>Send Warning</button>
             <p className='text-[rgba(255,255,255,0.4)]'>Warning will be submitted by: {auth?.name}</p>
         </form>
-        <p onClick={handleSubmit}>click</p>
+        <CCSection />
+        </div>
+        ) }
     </div>
   )
 }
