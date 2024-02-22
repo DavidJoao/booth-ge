@@ -22,13 +22,20 @@ const warnings = () => {
         }
     }, [])
 
+    useEffect(() => {
+        setWarning({
+            ...warning,
+            ['violations']: checkedViolations.join(', ')
+        })
+    }, [checkedViolations])
+
     // STATES
     const { auth, setAuth, users } = useContext(AuthContext)
     const [type, setType] = useState('')
 
     const initialWarning = {
         submittedBy: auth?.name,
-        violations: [],
+        violations: '',
         description: '',
         date: '',
         employee: '',
@@ -48,9 +55,6 @@ const warnings = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        console.log(warning)
-
     }
 
   return (
