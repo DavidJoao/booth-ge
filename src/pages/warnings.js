@@ -7,7 +7,7 @@ import AuthContext from '@/custom/AuthProvider'
 import { useRouter } from 'next/router'
 import CheckSession from '@/custom/CheckSession'
 
-const warnings = () => {
+const Warnings = () => {
 
     const router = useRouter()
     const violations = ['Attendance', 'Breach of Company Policy', 'Carelessness', 'Conduct', 'Creating a Disturbance', 'Failure to Follow Instructions', 'Insubordination', 'Performance', 'Personal Work', 'Safety', 'Tardiness', 'Unauthorized Absence', 'Work Quality / Accuracy', 'Work Quantity / Output', 'Willful Damage to Company Property']
@@ -131,4 +131,4 @@ const warnings = () => {
   )
 }
 
-export default warnings
+export default Warnings
