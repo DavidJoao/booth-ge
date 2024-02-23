@@ -64,7 +64,9 @@ const Warnings = () => {
         axios.post('/api/email/warning', warning, { headers: { 'Content-Type': 'application/json ' } })
             .then(res => {
                 setStatusMessage('✓ Warning Submitted Successfully ✓')
-                // setWarning(initialWarning)
+                setCheckedViolations([])
+                setType('')
+                setWarning(initialWarning)
                 setTimeout(() => {
                     setIsLoading(false)
                 }, "2000");
@@ -88,7 +90,7 @@ const Warnings = () => {
         <form className='lg:border rounded w-full md:w-[800px] lg:w-[900px] p-2 flex flex-col' onSubmit={handleSubmit}>
             {/* SELECT EMPLOYEE */}
             <p className='mb-0'>Employee Name:</p>
-            <select name='employee' value={warning.employee} onChange={handleChange} className='input w-full'>
+            <select required name='employee' value={warning.employee} onChange={handleChange} className='input w-full'>
                 <option>Select Employee</option>
                 { users && users.filter((user) => user.name !== 'Byanka Arceo' && user.name !== 'Alfredo Sandoval' && user.name !== 'Roger Booth' && user.name !== 'Veronica Rivera').map((user) => {
                     return (
@@ -97,7 +99,7 @@ const Warnings = () => {
                 }) }
             </select>
             <p className='mb-0'>Date:</p>
-            <input type='date' className='input w-full mb-1' onChange={(e) => {
+            <input required type='date' className='input w-full mb-1' onChange={(e) => {
                 let [day, month, year] = e.target.value.split('-').reverse()
                 setWarning({
                     ...warning,
@@ -106,7 +108,7 @@ const Warnings = () => {
 
             }} />
             {/* CHECK TYPE OF WARNING */}
-            <select name='type' value={warning.type} className='input w-full' onChange={(e) => {
+            <select required name='type' value={warning.type} className='input w-full' onChange={(e) => {
                 setType(e.target.value)
                 setWarning({
                     ...warning,
@@ -139,12 +141,12 @@ const Warnings = () => {
                         }) }   
                     </div>
                     <p className='mt-5 mb-5'>Checked Violations: { checkedViolations.length !== 0 ? checkedViolations.join(', ') : 'Checked Options Empty' }</p>
-                    <textarea name='description' value={warning.description} className='input resize-none h-[150px] mx-auto mb-4' placeholder='Description of violation(s)' onChange={handleChange}/>   
+                    <textarea required name='description' value={warning.description} className='input resize-none h-[150px] mx-auto mb-4' placeholder='Description of violation(s)' onChange={handleChange}/>   
                 </div>
             ) : type === 'Verbal' ? (
                 // VERBAL FORM
                 <div>
-                    VERBAL
+                    <textarea required name='description' value={warning.description} className='input resize-none h-[150px] mx-auto mb-4 w-full mt-3' placeholder='Description of violation(s)' onChange={handleChange}/>   
                 </div>
             ) : (
                 <p>Please, select type of warning</p>
