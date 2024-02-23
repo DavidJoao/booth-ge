@@ -27,7 +27,7 @@ export default async function sendWarning (req, res, next) {
     doc.text("Violation(s): ", 10, 60)
     doc.setFontSize(10)
     doc.setFont(undefined, 'normal')
-    doc.text(`-${form?.violations}`, 10, 65)
+    doc.text(`-${form?.type === 'Written' ? `${form?.violations}` : 'Verbal Warning; Read description below'}`, 10, 65)
 
     doc.setFont(undefined, 'bold');
     doc.setFontSize(14)
