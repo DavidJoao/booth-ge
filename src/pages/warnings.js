@@ -16,7 +16,7 @@ const Warnings = () => {
     // CHECK SESSION
     useEffect(() => {
         if ( auth.token === undefined) {
-            // router.push('/login')
+            router.push('/login')
         } else {
             CheckSession(AuthContext, setAuth)
         }
