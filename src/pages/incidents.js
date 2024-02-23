@@ -30,6 +30,8 @@ const incidents = () => {
 		location: "",
 		submittedBy: "",
 		supervisor: "",
+		role: "",
+		employeeType: "",
 		witnesses: "",
 		description: "",
 		injuriesOrLosses: "",
@@ -37,7 +39,7 @@ const incidents = () => {
 		physicianRequired: "",
 		facilityName: "",
 		involved: [],
-		enforcementRequied: "",
+		enforcementRequired: "",
 		enforcementTime: "",
 		enforcementName: "",
 		reportId: "",
@@ -62,9 +64,7 @@ const incidents = () => {
 		setStatusMessage("Submitting Report, Please Wait...")
 
 		axios
-			.post("/api/email/incident", report, {
-				headers: { "Content-Type": "application/json" },
-			})
+			.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
 			.then(res => {
 				setStatusMessage("✓ Report Submitted Successfully ✓")
 				// setReport(initialReport)
@@ -79,7 +79,7 @@ const incidents = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center bg-[#242526] h-[1200px] lg:h-screen pt-[85px] pb-2">
+		<div className="flex flex-col items-center bg-[#242526] h-[1200px] min-h-screen h-auto pt-[85px] pb-5">
 			{isLoading ? (
 				<div className="h-screen bg-[#242526] flex flex-col items-center justify-center">
 					<PuffLoader color="#ffffff" loading={isLoading} size={120} />
@@ -88,10 +88,10 @@ const incidents = () => {
 			) : (
 				<div>
 					<p className="text-xl font-bold">Incident Report Form</p>
-					<form>
+					<form className="w-screen border xl:w-[1200px] flex items-center justify-center flex-col gap-2 lg:grid lg:grid-cols-4 p-2" onSubmit={handleSubmit}>
 
 						<label>Type of Incident:</label>
-						<select name="type" required className="input">
+						<select value={report.type} name="type" required className="input">
 							<option>Select Type</option>
 							<option>Injury</option>
 							<option>Property Damage</option>
@@ -101,72 +101,79 @@ const incidents = () => {
 						</select>
 
 						<label>Date of Incident:</label>
-						<input type="date" />
+						<input value={report.date} name="date" type="date" className="input"/>
 
 						<label>Time of Incident:</label> 
-						<input type="time" />
+						<input value={report.time} name="time" type="time" className="input"/>
 
 						<label>Location of Incident:</label>
-						<input placeholder="" />
+						<input value={report.location} name="location" placeholder="" className="input"/>
 
 						<label>Involved Individual</label>
-						<input />
+						<input value={report.name} name="name" className="input"/>
 
 						<label>Employee or Visitor?</label>
-						<select required>
+						<select value={report.employeeType} name="employeeType" required className="input">
+							<option>Select Answer</option>
 							<option>Employee</option>
 							<option>Rental</option>
 						</select>
 
 						<label>Role:</label>
-						<input placeholder="Ex: Foreman, Laborer" />
+						<input value={report.role} name="role" placeholder="Ex: Foreman, Laborer" className="input"/>
 
 						<label>Supervisor:</label>
-						<input />
+						<input value={report.supervisor} name="supervisor" className="input"/>
 
 						{/* USE TYPE -> BUTTON -> PUSH TO ARRAY  */}
 						{/* MORE INVOLVED PEOPLE */}
 						{/* WITNESSES */}
 
 						<label>Description of Incident:</label>
-						<textarea />
+						<textarea value={report.description} name="description" className="input h-[150px] resize-none"/>
 
 						<label>Injuries/Losses:</label>
-						<textarea />
+						<textarea value={report.injuriesOrLosses} name="injuriesOrLosses" className="input h-[150px] resize-none"/>
 
 						<label>Hospitalization Required? </label>
-						<select>
+						<select value={report.hospitalRequired} name="hospitalRequired" className="input">
+							<option>Select Answer</option>
 							<option>Yes</option>
 							<option>No</option>
 						</select>
 
 						<label>Physician Required? </label>
-						<select>
+						<select value={report.physicianRequired} name="physicianRequired" required className="input">
+							<option>Select Answer</option>
 							<option>Yes</option>
 							<option>No</option>
 						</select>
 
 						<label>Facility Name:</label>
-						<input />
+						<input value={report.facilityName} name="facilityName" className="input" />
 
 						<label>Law Enforcement Required?</label>
-						<select>
+						<select value={report.enforcementRequired} name="enforcementRequired" className="input">
+							<option>Select Answer</option>
 							<option>Yes</option>
 							<option>No</option>
 						</select>
 
 						<label>Date and Time of Contact:</label>
-						<input type="datetime-local" />
+						<input value={report.enforcementTime} name="enforcementTime" type="datetime-local" className="input" />
 
 						<label>Law Enforcement Agency Name:</label>
-						<input />
+						<input value={report.enforcementName} name="enforcementName" className="input" />
 
 						<label>Report Number:</label>
-						<input />
+						<input value={report.reportId} name="reportId" className="input" />
 
 						<label>Other Notes:</label>
-						<textarea />
+						<textarea value={report.otherNotes} name="otherNotes" className="input resize-none" />
 
+						<div className="col-span-4 flex items-center justify-center p-2">
+							<button type="submit" className="buttons mt-3 w-[150px] mx-auto">Submit Form</button>
+						</div>
 
 					</form>
 				</div>
