@@ -10,6 +10,7 @@ import CheckSession from "@/custom/CheckSession"
 const incidents = () => {
 	const router = useRouter()
 
+	// CHECK AUTH
 	useEffect(() => {
 		if (auth.token === undefined) {
 			// router.push('/login')
@@ -18,6 +19,7 @@ const incidents = () => {
 		}
 	}, [])
 
+	// STATES
 	const { auth, setAuth, users } = useContext(AuthContext)
 	const [isLoading, setIsLoading] = useState(false)
 	const [statusMessage, setStatusMessage] = useState("Submitting Report, Please Wait...")
@@ -25,6 +27,9 @@ const incidents = () => {
 	const [involved, setInvolved] = useState([])
 	const [witnesses, setWitnesses] = useState([])
 	const [tempWitness, setTempWitness] = useState('')
+
+
+	//////////////////////////////////////////////////// INITIAL OBJECTS
 
 	const initialReport = {
 		name: "",
@@ -57,8 +62,12 @@ const incidents = () => {
 		supervisor: ''
 	}
 
+	//////////////////////////////////////////////////// STATE FOR REPORT
+
 	const [report, setReport] = useState(initialReport)
 	const [tempInvolved, setTempInvolved] = useState(initialTempInvolved)
+
+	//////////////////////////////////////////////////// CHANGE HANDLERS
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -66,9 +75,7 @@ const incidents = () => {
 		setReport({
 			...report,
 			[name]: value,
-		})	
-		console.log(report)
-		console.log(involved)
+		})
 	}
 
 	const handleTempChange = (e) => {
@@ -92,30 +99,32 @@ const incidents = () => {
 		setReport({ ...report, ['witnesses']: witnesses.join(', ') })
 	}, [involved, witnesses])
 
+	//////////////////////////////////////////////////// SUBMISSION
+
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		console.log(report)
-		// setIsLoading(true)
-		// setStatusMessage("Submitting Report, Please Wait...")
+		setIsLoading(true)
+		setStatusMessage("Submitting Report, Please Wait...")
 
-		// axios
-		// 	.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
-		// 	.then(res => {
-		// 		setStatusMessage("✓ Report Submitted Successfully ✓")
-		// 		// setReport(initialReport)
-		// 		setTimeout(() => {
-		// 			setIsLoading(false)
-		// 		}, "2000")
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err)
-		// 		setIsLoading(false)
-		// 	})
+		axios
+			.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
+			.then(res => {
+				setStatusMessage("✓ Report Submitted Successfully ✓")
+				// setReport(initialReport)
+				setTimeout(() => {
+					setIsLoading(false)
+				}, "2000")
+			})
+			.catch(err => {
+				console.log(err)
+				setIsLoading(false)
+			})
 	}
 
 	return (
 		<div className="flex flex-col items-center bg-[#242526] h-[1200px] min-h-screen h-auto pt-[85px] pb-5">
+			{/* ////////////////////////////////////////////////////////////////////////////////////// LOADER */}
 			{isLoading ? (
 				<div className="h-screen bg-[#242526] flex flex-col items-center justify-center">
 					<PuffLoader color="#ffffff" loading={isLoading} size={120} />
@@ -124,8 +133,8 @@ const incidents = () => {
 			) : (
 				<div>
 					<p className="text-xl font-bold">Incident Report Form</p>
+					{/* ////////////////////////////////////////////////////////////////////////////////////// BEGINNING OF FORM */}
 					<form className="w-screen border rounded xl:w-[900px] flex items-start pl-5 justify-center flex-col gap-2" onSubmit={handleSubmit}>
-
 						<label>Type of Incident:</label>
 						<select value={report.type} name="type" required className="input" onChange={handleChange}>
 							<option>Select Type</option>
@@ -145,26 +154,24 @@ const incidents = () => {
 						<label>Location of Incident:</label>
 						<input value={report.location} name="location" placeholder="" className="input" onChange={handleChange}/>
 
-
-						{/* MAKE THIS EDITABLE */}
+						{/* ////////////////////////////////////////////////////////////////////////////////////// INVOLVED INDIVIDUAL EDITABLE */}
 						<label>Involved Individual</label>
 						<select id="name" value={report.name} name="name" className='input' onChange={(e) => {
 							handleChange(e)
 							if(e.target.value === 'Other') {
 								setTempName('Other')
-							}
-							
+								}
 							}}>
 							<option>Choose Employee/Other</option>
 							<option>Other</option>
 							{ users && users.map((user) => {
 								return (
 									<option key={user._id}>{user.name}</option>
-								)
-							}) }
+								)})}
 						</select>
 						<input value={report.name} placeholder="Specify" name="name" className={tempName === 'Other' ? 'input' : 'hidden'} onChange={handleChange}/>
-
+						
+						{/* ////////////////////////////////////////////////////////////////////////////////////// TYPE OF EMPLOYEE */}			
 						<label>Employee or Visitor?</label>
 						<select value={report.employeeType} name="employeeType" required className="input" onChange={handleChange}>
 							<option>Select Answer</option>
@@ -217,6 +224,7 @@ const incidents = () => {
 						) : (
 							<></>
 						)}
+
 						{/* WITNESSES */}
 						<label>Witnesses:</label>
 						<input className="input" required value={tempWitness} placeholder="Name" onChange={(e) => setTempWitness(e.target.value)}/>
