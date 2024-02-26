@@ -27,6 +27,7 @@ const incidents = () => {
 	const [involved, setInvolved] = useState([])
 	const [witnesses, setWitnesses] = useState([])
 	const [tempWitness, setTempWitness] = useState('')
+	const [date, setDate] = useState('')
 
 
 	//////////////////////////////////////////////////// INITIAL OBJECTS
@@ -59,7 +60,6 @@ const incidents = () => {
 		name: '',
 		employeeOrVisitor: '',
 		role: '',
-		supervisor: ''
 	}
 
 	//////////////////////////////////////////////////// STATE FOR REPORT
@@ -76,6 +76,8 @@ const incidents = () => {
 			...report,
 			[name]: value,
 		})
+
+		console.log(report)
 	}
 
 	const handleTempChange = (e) => {
@@ -99,18 +101,23 @@ const incidents = () => {
 		setReport({ ...report, ['witnesses']: witnesses.join(', ') })
 	}, [involved, witnesses])
 
+	useEffect(() => {
+		const [year, month, day] = date.split('-')
+		setReport({ ...report, ['date']: `${month}-${day}-${year}`})
+	}, [date])
+
 	//////////////////////////////////////////////////// SUBMISSION
 
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		setIsLoading(true)
-		setStatusMessage("Submitting Report, Please Wait...")
+		// setIsLoading(true)
+		// setStatusMessage("Submitting Report, Please Wait...")
 
-		axios
-			.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
+		axios.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
 			.then(res => {
 				setStatusMessage("✓ Report Submitted Successfully ✓")
+				// setDate('')
 				// setReport(initialReport)
 				setTimeout(() => {
 					setIsLoading(false)
@@ -146,7 +153,9 @@ const incidents = () => {
 						</select>
 
 						<label>Date of Incident:</label>
-						<input value={report.date} name="date" type="date" className="input" onChange={handleChange}/>
+						<input value={date} name="date" type="date" format="MM/DD/YYYY" className="input" onChange={(e) => {
+							setDate(e.target.value)
+						}}/>
 
 						<label>Time of Incident:</label> 
 						<input value={report.time} name="time" type="time" className="input" onChange={handleChange}/>
@@ -204,8 +213,6 @@ const incidents = () => {
 								<option>Foreman</option>
 								<option>Rental Labor</option>
 							</select>
-							<label>Supervisor:</label>
-							<input name="supervisor" value={tempInvolved.supervisor} className="input" onChange={handleTempChange}/>
 							<button className="buttons w-[150px]" onClick={(e) => {
 								e.preventDefault();
 								setInvolved(prevInvolved => [...prevInvolved, tempInvolved])
@@ -227,7 +234,7 @@ const incidents = () => {
 
 						{/* WITNESSES */}
 						<label>Witnesses:</label>
-						<input className="input" required value={tempWitness} placeholder="Name" onChange={(e) => setTempWitness(e.target.value)}/>
+						<input className="input" value={tempWitness} placeholder="Name" onChange={(e) => setTempWitness(e.target.value)}/>
 						<button onClick={(e) => {
 							if(tempWitness !== '') addToList(e, witnesses, setWitnesses, tempWitness)
 							}} className="buttons w-[150px]">Add Witness</button>
