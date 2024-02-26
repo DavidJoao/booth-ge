@@ -32,7 +32,7 @@ const incidents = () => {
 		date: "",
 		time: "",
 		location: "",
-		submittedBy: "",
+		submittedBy: auth && auth.name,
 		supervisor: "",
 		role: "",
 		employeeType: "",
@@ -68,6 +68,7 @@ const incidents = () => {
 			[name]: value,
 		})	
 		console.log(report)
+		console.log(involved)
 	}
 
 	const handleTempChange = (e) => {
@@ -84,29 +85,33 @@ const incidents = () => {
 
 		setList(prevArray => [...prevArray, value])
 		setTempWitness('')
-
-		console.log(list)
 	}
+
+	useEffect(() => {
+		setReport({ ...report, ['involved']: [...involved, tempInvolved] })
+		setReport({ ...report, ['witnesses']: witnesses.join(', ') })
+	}, [involved, witnesses])
 
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		setIsLoading(true)
-		setStatusMessage("Submitting Report, Please Wait...")
+		console.log(report)
+		// setIsLoading(true)
+		// setStatusMessage("Submitting Report, Please Wait...")
 
-		axios
-			.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
-			.then(res => {
-				setStatusMessage("✓ Report Submitted Successfully ✓")
-				// setReport(initialReport)
-				setTimeout(() => {
-					setIsLoading(false)
-				}, "2000")
-			})
-			.catch(err => {
-				console.log(err)
-				setIsLoading(false)
-			})
+		// axios
+		// 	.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
+		// 	.then(res => {
+		// 		setStatusMessage("✓ Report Submitted Successfully ✓")
+		// 		// setReport(initialReport)
+		// 		setTimeout(() => {
+		// 			setIsLoading(false)
+		// 		}, "2000")
+		// 	})
+		// 	.catch(err => {
+		// 		console.log(err)
+		// 		setIsLoading(false)
+		// 	})
 	}
 
 	return (
@@ -119,7 +124,7 @@ const incidents = () => {
 			) : (
 				<div>
 					<p className="text-xl font-bold">Incident Report Form</p>
-					<form className="w-screen border xl:w-[900px] flex items-start pl-5 justify-center flex-col gap-2" onSubmit={handleSubmit}>
+					<form className="w-screen border rounded xl:w-[900px] flex items-start pl-5 justify-center flex-col gap-2" onSubmit={handleSubmit}>
 
 						<label>Type of Incident:</label>
 						<select value={report.type} name="type" required className="input" onChange={handleChange}>
@@ -178,18 +183,40 @@ const incidents = () => {
 						<label>More Involved Individuals</label>
 						<div className="grid grid-cols-2 gap-2 items-center mt-4 mb-4">
 							<label>Name:</label>
-							<input className="input"/>
+							<input name="name" value={tempInvolved.name} className="input" onChange={handleTempChange}/>
 							<label>Employee or Visitor?</label>
-							<select className="input" >
-								<option>Yes</option>
-								<option>No</option>
+							<select name="employeeOrVisitor" value={tempInvolved.employeeOrVisitor} className="input" onChange={handleTempChange}>
+								<option>Select One</option>
+								<option>Employee</option>
+								<option>Visitor</option>
 							</select>
-							<label>Role</label>
-							<input className="input" />
-							<label>Supervisor</label>
-							<input className="input" />
-							<button className="buttons w-[150px]">Add</button>
+							<label>Role:</label>
+							<select name="role" value={tempInvolved.role} className="input" onChange={handleTempChange}>
+								<option>Select One</option>
+								<option>Laborer</option>
+								<option>Foreman</option>
+								<option>Rental Labor</option>
+							</select>
+							<label>Supervisor:</label>
+							<input name="supervisor" value={tempInvolved.supervisor} className="input" onChange={handleTempChange}/>
+							<button className="buttons w-[150px]" onClick={(e) => {
+								e.preventDefault();
+								setInvolved(prevInvolved => [...prevInvolved, tempInvolved])
+								setReport({ ...report, ['involved']: [...involved, tempInvolved] })
+								setTempInvolved(initialTempInvolved)
+							}}>Add</button>
 						</div>
+						{ involved && involved.length > 0 ? (
+							<div>
+								{ involved && involved.map((individual, index) => {
+									return (
+										<p key={index}>{`${individual.name} | ${individual.employeeOrVisitor} | ${individual.role} | Supervisor: ${individual.supervisor}`}</p>
+									)
+								}) }
+							</div>
+						) : (
+							<></>
+						)}
 						{/* WITNESSES */}
 						<label>Witnesses:</label>
 						<input className="input" required value={tempWitness} placeholder="Name" onChange={(e) => setTempWitness(e.target.value)}/>
@@ -197,9 +224,9 @@ const incidents = () => {
 							if(tempWitness !== '') addToList(e, witnesses, setWitnesses, tempWitness)
 							}} className="buttons w-[150px]">Add Witness</button>
 						<ol className="list-decimal">
-							{ witnesses && witnesses.map((witness) => {
+							{ witnesses && witnesses.map((witness, index) => {
 								return (
-									<li>{witness}</li>
+									<li key={index}>{witness}</li>
 								)
 							}) }
 						</ol>
