@@ -75,7 +75,7 @@ const NotificationCard = ( { notification, auth, loadAll } ) => {
     }
 
     return (
-        <div className="w-[90%] flex flex-col h-auto mb-3 p-3 rounded-lg shadow-md bg-[#494A4C]">
+        <div className="w-[90%] flex flex-col h-auto mb-3 p-3 rounded-lg shadow-md bg-[#494A4C] mx-auto">
             <h1 className="text-xl border-b-[2px]">{notification.title}</h1>
             <div className="mb-1 flex flex-row justify-between">
             {auth.isAdmin || auth.isModerator ? (
