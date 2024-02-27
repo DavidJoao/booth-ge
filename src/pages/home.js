@@ -6,7 +6,7 @@ import JobsiteCard from '@/components/JobsiteCard'
 import axios from '@/custom/axios'
 import NotificationCard from '@/components/NotificationCard'
 import { PuffLoader } from 'react-spinners'
-import { Modal } from 'react-bootstrap'
+import { Carousel, Modal } from 'react-bootstrap'
 import CCSection from '@/components/CCSection'
 
 const Home = () => {
@@ -26,12 +26,14 @@ const Home = () => {
     }
     
     const { auth, setAuth, jobsites, loadAll, notifications } = useContext(AuthContext)
+
     const router = useRouter()
     const [singleJobsite, setSingleJobsite] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [configurationModal, setConfigurationModal] = useState(false)
     const [password, setPassword] = useState(intiialPassword)
+    const [important, setImportant] = useState(true)
 
     useEffect(() => {
         async function fetchData () {
@@ -87,6 +89,24 @@ const Home = () => {
     
   return (
     <div className='flex flex-col items-start bg-[#242526] lg:h-screen h-auto pt-[80px] pb-2'>
+        <Modal show={important}>
+            <Modal.Header id='modal'>Please, read notifications before closing.</Modal.Header>
+            <Modal.Body id='modal'>
+                <Carousel>
+                    { notifications && notifications.map((notification, index) => {
+                        return (
+                            <Carousel.Item key={index} className='grid place-items-center'>
+                                <NotificationCard notification={notification} auth={auth} loadAll={loadAll}/>
+                                { index === notifications?.length - 1 ? 
+                                <button className='buttons mt-4 mb-5 w-[150px] float-right mr-6' onClick={(e) => setImportant(false)}>Close</button> 
+                                :
+                                <></>}
+                            </Carousel.Item>
+                        )
+                    }) }
+                </Carousel>
+            </Modal.Body>
+        </Modal>
         <div className='w-full flex items-center justify-around bg-[rgba(58,59,60,0.4)]'>
             <h1 className='font-bold text-2xl m-2 text-white rounded p-1 flex'>Welcome {auth && auth.name} <button className='ml-5' onClick={() => setConfigurationModal(true)}>{settingsIcon}</button> </h1>
             { auth.isAdmin || auth.isModerator ?  <input className='hidden lg:flex input w-[500px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
