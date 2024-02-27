@@ -111,14 +111,14 @@ const incidents = () => {
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		// setIsLoading(true)
-		// setStatusMessage("Submitting Report, Please Wait...")
+		setIsLoading(true)
+		setStatusMessage("Submitting Report, Please Wait...")
 
 		axios.post("/api/email/incident", report, { headers: { "Content-Type": "application/json" }})
 			.then(res => {
 				setStatusMessage("✓ Report Submitted Successfully ✓")
-				// setDate('')
-				// setReport(initialReport)
+				setDate('')
+				setReport(initialReport)
 				setTimeout(() => {
 					setIsLoading(false)
 				}, "2000")
@@ -141,7 +141,7 @@ const incidents = () => {
 				<div>
 					<p className="text-xl font-bold">Incident Report Form</p>
 					{/* ////////////////////////////////////////////////////////////////////////////////////// BEGINNING OF FORM */}
-					<form className="w-screen border rounded xl:w-[900px] flex items-start pl-5 justify-center flex-col gap-2" onSubmit={handleSubmit}>
+					<form className="w-screen border rounded xl:w-[900px] flex items-start pl-5 pt-4 justify-center flex-col gap-2 bg-[#3a3b3c]" onSubmit={handleSubmit}>
 						<label>Type of Incident:</label>
 						<select value={report.type} name="type" required className="input" onChange={handleChange}>
 							<option>Select Type</option>
@@ -224,7 +224,7 @@ const incidents = () => {
 							<div>
 								{ involved && involved.map((individual, index) => {
 									return (
-										<p key={index}>{`${individual.name} | ${individual.employeeOrVisitor} | ${individual.role} | Supervisor: ${individual.supervisor}`}</p>
+										<p key={index}>{`${individual.name} | ${individual.employeeOrVisitor} | ${individual.role}`}</p>
 									)
 								}) }
 							</div>
