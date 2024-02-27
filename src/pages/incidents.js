@@ -7,7 +7,7 @@ import AuthContext from "@/custom/AuthProvider"
 import { useRouter } from "next/router"
 import CheckSession from "@/custom/CheckSession"
 
-const incidents = () => {
+const Incidents = () => {
 	const router = useRouter()
 
 	// CHECK AUTH
@@ -297,4 +297,4 @@ const incidents = () => {
 	)
 }
 
-export default incidents
+export default Incidents
