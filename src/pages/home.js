@@ -105,6 +105,8 @@ const Home = () => {
 
         {/* READ NOTIFICATIONS MODAL */}
 
+        { notifications && notifications.length > 0 ? (
+
         <Modal show={important}>
             <Modal.Header id='modal'>Please, read notifications before closing.</Modal.Header>
             <Modal.Body id='modal'>
@@ -123,6 +125,10 @@ const Home = () => {
                 </Carousel>
             </Modal.Body>
         </Modal>
+        ) : (
+            <></>
+        )}
+
         <div className='w-full flex items-center justify-around bg-[rgba(58,59,60,0.4)]'>
             <h1 className='font-bold text-2xl m-2 text-white rounded p-1 flex'>Welcome {auth && auth.name} <button className='ml-5' onClick={() => setConfigurationModal(true)}>{settingsIcon}</button> </h1>
             { auth.isAdmin || auth.isModerator ?  <input className='hidden lg:flex input w-[500px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
