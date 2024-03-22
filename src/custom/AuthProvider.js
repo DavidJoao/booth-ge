@@ -14,27 +14,29 @@ export const AuthProvider = ( { children } ) => {
     const [accessories, setAccessories] = useState([])
     const [timesheets, setTimesheets] = useState([])
     const [dailies, setDailies] = useState([])
+    const [timesheetCount, setTimesheetCount] = useState(5)
+    const [dailyCount, setDailyCount] = useState(5)
 
-    const loadAll = () => {
-        axios.get('/api/jobsite/all')
+    const loadAll = async () => {
+        await axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
 
-        axios.get('/api/notification/all')
+        await axios.get('/api/notification/all')
         .then(res => setNotifications(res.data))
         
-        axios.get('/api/user/all')
+        await axios.get('/api/user/all')
         .then(res => setUsers(res.data))
         
-        axios.get('/api/accessory/all')
+        await axios.get('/api/accessory/all')
         .then(res => setAccessories(res.data))
         
-        axios.get('/api/equipment/all')
+        await axios.get('/api/equipment/all')
         .then(res => setEquipment(res.data))
 
-        axios.get('/api/timesheet/all')
+        await axios.get(`/api/timesheet/all/${timesheetCount}`)
         .then(res => setTimesheets(res.data))
 
-        axios.get('/api/daily/all')
+        await axios.get(`/api/daily/all/${dailyCount}`)
         .then(res => setDailies(res.data))
     }
     
@@ -43,9 +45,11 @@ export const AuthProvider = ( { children } ) => {
             auth, setAuth, 
             current, setCurrent, 
             tokenCookie, setTokenCookie, 
+            timesheetCount, setTimesheetCount,
+            dailyCount, setDailyCount,
             setJobsites, 
             loadAll, 
-            jobsites, users, notifications, equipment, accessories, timesheets, dailies }}>
+            jobsites, users, notifications, equipment, accessories, timesheets, setTimesheets, dailies, setDailies }}>
             {children}
         </AuthContext.Provider>
     )
