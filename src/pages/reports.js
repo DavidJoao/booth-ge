@@ -5,10 +5,11 @@ import DailyCard from '@/components/DailyCard'
 import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import CCSection from '@/components/CCSection'
+import axios from '@/custom/axios'
 
 const Reports = () => {
 
-    const { auth, setAuth, loadAll, dailies } = useContext(AuthContext)
+    const { auth, setAuth, loadAll, dailies, setDailyCount, dailyCount, setDailies } = useContext(AuthContext)
     const [search, setSearch] = useState('')
     const router = useRouter()
     const [startDate, setStartDate] = useState('')
@@ -22,6 +23,17 @@ const Reports = () => {
             CheckSession(AuthContext, setAuth)
         }
     }, [])
+
+    const handleMoreResults = async (e) => {
+        e.preventDefault();
+  
+        setDailyCount(prevCount => {
+          const newCount = prevCount + 5;
+          axios.get(`/api/daily/all/${newCount}`)
+            .then(res => setDailies(res.data));
+          return newCount;
+        });
+      }
 
   return (
     <div className='bg-[#242526] min-h-screen h-auto lg:h-screen flex flex-col items-center justify-start pt-[80px] lg:p-4 lg:pt-[80px]'>
@@ -63,20 +75,19 @@ const Reports = () => {
                 || daily.employees.some(employees => (`${employees.name}`).toLocaleLowerCase().includes(search.toLowerCase()))
                 || daily.name.toLowerCase().includes(search.toLowerCase())
             )
-            .reverse()
             .map(daily => (
                 <DailyCard key={daily._id} daily={daily} loadAll={loadAll} auth={auth} />
         )) : auth.isAdmin === false && auth.isModerator === false ?
         dailies
             .filter(
                 daily => auth.name.toLowerCase().includes(daily.foreman.toLowerCase()))
-            .reverse()
             .map(daily => (
                 <DailyCard key={daily._id} daily={daily} loadAll={loadAll} auth={auth} />
         )) : (
             <></>
         )}
         </div>
+        <button className='buttons w-[300px]' onClick={handleMoreResults}> Load 5 more results | Currently {dailyCount} </button>
         <CCSection />
     </div>
   )
