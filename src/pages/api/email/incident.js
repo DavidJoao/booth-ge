@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 import jsPDF from 'jspdf';
-// const fs = require('fs')
+const fs = require('fs')
 
 export default async function sendIncidentReport (req, res, next) {
 
@@ -13,9 +13,9 @@ export default async function sendIncidentReport (req, res, next) {
     doc.line(doc.internal.pageSize.getWidth() / 2, 15, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight())
 
     // IN CASE OF REQUIRED LOGO
-    // const imageBuffer = fs.readFileSync('assets/boothimg.jpeg')
-    // const imageArray = new Uint8Array(imageBuffer)
-    // doc.addImage(imageArray, 'JPEG', doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 20, 10, 10);
+    const imageBuffer = fs.readFileSync('assets/boothimg.jpeg')
+    const imageArray = new Uint8Array(imageBuffer)
+    doc.addImage(imageArray, 'JPEG', doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 20, 10, 10);
 
     doc.setFont(undefined, 'bold')
     doc.setFontSize(14)
@@ -99,7 +99,7 @@ export default async function sendIncidentReport (req, res, next) {
     const pdfBuffer = doc.output("arraybuffer")
     const buffer = Buffer.from(pdfBuffer)
 
-    const transporter = nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
         service: "hotmail",
         auth: {
             user: "boothpaperwork@hotmail.com",
