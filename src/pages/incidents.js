@@ -4,23 +4,13 @@ import { PuffLoader } from "react-spinners"
 import CCSection from "@/components/CCSection"
 import axios from "@/custom/axios"
 import AuthContext from "@/custom/AuthProvider"
-import { useRouter } from "next/router"
 import CheckSession from "@/custom/CheckSession"
 
 const Incidents = () => {
-	const router = useRouter()
-
-	// CHECK AUTH
-	useEffect(() => {
-		if (auth.token === undefined) {
-			// router.push('/login')
-		} else {
-			CheckSession(AuthContext, setAuth)
-		}
-	}, [])
 
 	// STATES
-	const { auth, setAuth, users } = useContext(AuthContext)
+	const { auth, setAuth, users, loadAll } = useContext(AuthContext)
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [statusMessage, setStatusMessage] = useState("Submitting Report, Please Wait...")
 	const [tempName, setTempName] = useState('')
@@ -28,10 +18,10 @@ const Incidents = () => {
 	const [witnesses, setWitnesses] = useState([])
 	const [tempWitness, setTempWitness] = useState('')
 	const [date, setDate] = useState('')
-
-
+	
+	
 	//////////////////////////////////////////////////// INITIAL OBJECTS
-
+	
 	const initialReport = {
 		name: "",
 		type: "",
@@ -55,43 +45,50 @@ const Incidents = () => {
 		reportId: "",
 		otherNotes: "",
 	}
-
+	
 	const initialTempInvolved = {
 		name: '',
 		employeeOrVisitor: '',
 		role: '',
 	}
-
+	
 	//////////////////////////////////////////////////// STATE FOR REPORT
-
+	
 	const [report, setReport] = useState(initialReport)
 	const [tempInvolved, setTempInvolved] = useState(initialTempInvolved)
-
+	
 	//////////////////////////////////////////////////// CHANGE HANDLERS
 
+    useEffect(() => {
+        CheckSession(AuthContext, setAuth)
+            .then(() => {
+                loadAll()
+            })
+    }, [])
+	
 	const handleChange = (e) => {
 		const { name, value } = e.target
-
+		
 		setReport({
 			...report,
 			[name]: value,
 		})
-
+		
 		console.log(report)
 	}
-
+	
 	const handleTempChange = (e) => {
 		const { name, value } = e.target;
-
+		
 		setTempInvolved({
 			...tempInvolved,
 			[name]: value
 		})
 	}
-
+	
 	const addToList = (e, list, setList, value) => {
 		e.preventDefault();
-
+		
 		setList(prevArray => [...prevArray, value])
 		setTempWitness('')
 	}
@@ -293,7 +290,9 @@ const Incidents = () => {
 					</form>
 				</div>
 			)}
+			<CCSection />
 		</div>
+		
 	)
 }
 
