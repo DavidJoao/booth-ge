@@ -140,7 +140,7 @@ export default async function sendTimesheet(req, res, next) {
     })
 
     const pdfBuffer = doc.output("arraybuffer")
-    const buffer = Buffer.from(pdfBuffer)
+    const buffer = await Buffer.from(pdfBuffer)
 
     const dataURI = bufferToDataUrl(pdfBuffer, "application/pdf")
 
@@ -155,7 +155,7 @@ export default async function sendTimesheet(req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
+        to: "davidsandoval596@gmail.com",
         subject: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         text: `${timesheet && timesheet.author} - ${timesheet && timesheet.days[0].date} Timesheet`,
         attachments: [
@@ -167,7 +167,7 @@ export default async function sendTimesheet(req, res, next) {
         ],
     }
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    await transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(error)
             res.status(500).end("Failed to send the email")

@@ -93,7 +93,7 @@ export default async function sendIncidentReport (req, res, next) {
     /////////////////////////////////////////////////////////
 
     const pdfBuffer = doc.output("arraybuffer")
-    const buffer = Buffer.from(pdfBuffer)
+    const buffer = await Buffer.from(pdfBuffer)
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",
@@ -105,7 +105,7 @@ export default async function sendIncidentReport (req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
+        to: "davidsandoval596@gmail.com",
         subject: `Incident Report Form`,
         text: ``,
         attachments: [
@@ -117,7 +117,7 @@ export default async function sendIncidentReport (req, res, next) {
         ],
     }
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    await transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(error)
             res.status(500).end("Failed to send the email")
