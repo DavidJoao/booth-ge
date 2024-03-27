@@ -95,7 +95,7 @@ export default async function sendIncidentReport (req, res, next) {
     const pdfBuffer = doc.output("arraybuffer")
     const buffer = Buffer.from(pdfBuffer)
 
-    const transporter = await nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
             user: "boothpaperwork@hotmail.com",
