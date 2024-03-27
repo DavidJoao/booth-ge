@@ -17,26 +17,26 @@ export const AuthProvider = ( { children } ) => {
     const [timesheetCount, setTimesheetCount] = useState(5)
     const [dailyCount, setDailyCount] = useState(5)
 
-    const loadAll = async () => {
-        await axios.get('/api/jobsite/all')
+    const loadAll = () => {
+        axios.get('/api/jobsite/all')
         .then(res => setJobsites(res.data))
 
-        await axios.get('/api/notification/all')
+        axios.get('/api/notification/all')
         .then(res => setNotifications(res.data))
         
-        await axios.get('/api/user/all')
+        axios.get('/api/user/all')
         .then(res => setUsers(res.data))
         
-        await axios.get('/api/accessory/all')
+        axios.get('/api/accessory/all')
         .then(res => setAccessories(res.data))
         
-        await axios.get('/api/equipment/all')
+        axios.get('/api/equipment/all')
         .then(res => setEquipment(res.data))
 
-        await axios.get(`/api/timesheet/all/${timesheetCount}`)
+        axios.get(`/api/timesheet/all/${timesheetCount}`)
         .then(res => setTimesheets(res.data))
 
-        await axios.get(`/api/daily/all/${dailyCount}`)
+        axios.get(`/api/daily/all/${dailyCount}`)
         .then(res => setDailies(res.data))
     }
     
