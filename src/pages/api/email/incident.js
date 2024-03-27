@@ -96,7 +96,7 @@ export default async function sendIncidentReport (req, res, next) {
     const buffer = await Buffer.from(pdfBuffer)
 
     const transporter = nodemailer.createTransport({
-        service: "hotmail",
+        service: "Outlook",
         auth: {
             user: "boothpaperwork@hotmail.com",
             pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
@@ -105,7 +105,7 @@ export default async function sendIncidentReport (req, res, next) {
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
-        to: "davidsandoval596@gmail.com",
+        to: "bgepayroll@gmail.com",
         subject: `Incident Report Form`,
         text: ``,
         attachments: [
