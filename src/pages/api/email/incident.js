@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer')
 import jsPDF from 'jspdf';
 
 export default async function sendIncidentReport (req, res, next) {
