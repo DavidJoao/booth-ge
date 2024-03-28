@@ -163,7 +163,7 @@ const Home = () => {
                     Administration Notifications 
                     <span className='ml-3 bg-yellow-600 rounded p-[2px] flex items-center font-normal text-sm'>{notificationIcon} • {notifications.length}</span>
                 </h1>
-                <div className='notifications-container bg-[#3a3b3c] w-full h-[400px] lg:h-[700px] pt-3' >
+                <div className='notifications-container bg-[#3a3b3c] w-full h-auto lg:h-[700px] pt-3' >
                     { notifications && notifications.map(notification => {
                         return ( <NotificationCard key={notification._id} notification={notification} auth={auth} loadAll={loadAll} /> )
                     }) }
