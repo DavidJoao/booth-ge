@@ -12,8 +12,7 @@ export default async function sendPDF(req, res, next) {
 
       transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-              console.error(error);
-              count = count + 1;
+              count++;
               console.log(`Retrying to send the email... Attempt ${count}`);
               sendMailRecursive();
           } else {
@@ -148,7 +147,7 @@ export default async function sendPDF(req, res, next) {
 
    const mailOptions = {
       from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
+        to: "davidsandoval596@gmail.com",
         subject: `${daily.date} Daily Report for ${daily.name}`,
         text: `${daily.date} - ${daily.name}`,
         attachments: [

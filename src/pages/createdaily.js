@@ -27,6 +27,7 @@ const CreateDaily = () => {
     const [importedArray, setImportedArray] = useState([])
     const [exportedArray, setExportedArray] = useState([])
     const [jobsitesContractors, setJobsitesContractors] = useState([])
+    const [attemptCount, setAttemptCount] = useState("")
     
     let importedSet = [...new Set(importedArray)]
     let exportedSet = [...new Set(exportedArray)]
@@ -103,21 +104,28 @@ const CreateDaily = () => {
 
         await axios.post('/api/email/daily', { daily, images})
         .then(res => {
-            setStatusMessage(`✓ Daily Submitted Successfully ✓ | ${res.data}`)
+            setAttemptCount(res.data)
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
         })
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 150000 })
         .then( res => {
+            console.log(res)
             loadAll()
             setDaily(initialDaily)
             setTempArray([])
             setImages([])
+            setStatusMessage(`✓ Daily Submitted Successfully ✓ | ${attemptCount}`)
             setTimeout(() => {
                 setIsLoading(false)
             }, 2000)
             
         })
         .catch(err => {
+            console.log(err)
             if (err.code === 'ECONNABORTED' && err.message.includes('timeout')) {
                 console.log('Request timed out');
                 setErrorMessage('Poor Connection, Please Try Again With Better Connection');
