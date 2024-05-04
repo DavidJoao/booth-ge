@@ -5,6 +5,25 @@ import bufferToDataUrl from "buffer-to-data-url"
 import jsPDF from "jspdf"
 
 export default async function sendPDF(req, res, next) {
+
+   const sendMailRecursive = () => {
+
+      let count = 1
+
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+              console.error(error);
+              count = count + 1;
+              console.log(`Retrying to send the email... Attempt ${count}`);
+              sendMailRecursive();
+          } else {
+              res.send(`Attempt ${count}`)
+              console.log("Email sent:", info.response);
+              res.status(200).end("Email sent successfully");
+          }
+      });
+  }
+
    const { daily, images } = req.body
 
    const dateArr = daily.date.split('-');
@@ -141,15 +160,8 @@ export default async function sendPDF(req, res, next) {
         ],
     }
 
-   transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-         console.error(error)
-         res.status(500).end("Failed to send the email")
-      } else {
-         console.log("Email sent:", info.response)
-         res.status(200).end("Email sent successfully")
-      }
-   })
+sendMailRecursive();
+
 }
 
 export const config = {

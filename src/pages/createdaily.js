@@ -102,6 +102,9 @@ const CreateDaily = () => {
         setStatusMessage('Submitting Daily, Please Wait...')
 
         await axios.post('/api/email/daily', { daily, images})
+        .then(res => {
+            setStatusMessage(`✓ Daily Submitted Successfully ✓ | ${res.data}`)
+        })
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 150000 })
         .then( res => {
@@ -109,7 +112,6 @@ const CreateDaily = () => {
             setDaily(initialDaily)
             setTempArray([])
             setImages([])
-            setStatusMessage('✓ Daily Submitted Successfully ✓')
             setTimeout(() => {
                 setIsLoading(false)
             }, 2000)

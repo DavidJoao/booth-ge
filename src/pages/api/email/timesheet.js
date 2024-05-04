@@ -6,6 +6,24 @@ import jsPDF from "jspdf"
 
 export default async function sendTimesheet(req, res, next) {
 
+    const sendMailRecursive = () => {
+
+        let count = 1
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                count = count + 1;
+                console.log(`Retrying to send the email... Attempt ${count}`);
+                sendMailRecursive();
+            } else {
+                res.send(`Attempt ${count}`)
+                console.log("Email sent:", info.response);
+                res.status(200).end("Email sent successfully");
+            }
+        });
+    }
+
     const { timesheet } = req.body
 
     const dateArr = timesheet && timesheet.days[0].date.split('-');
@@ -167,15 +185,8 @@ export default async function sendTimesheet(req, res, next) {
         ],
     }
 
-    await transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error(error)
-            res.status(500).end("Failed to send the email")
-        } else {
-            console.log("Email sent:", info.response)
-            res.status(200).end("Email sent successfully")
-        }
-    })
+    sendMailRecursive();
+
 }
 
 export const config = {
