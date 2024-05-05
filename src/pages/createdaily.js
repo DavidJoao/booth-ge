@@ -26,7 +26,6 @@ const CreateDaily = () => {
     const [importedArray, setImportedArray] = useState([])
     const [exportedArray, setExportedArray] = useState([])
     const [jobsitesContractors, setJobsitesContractors] = useState([])
-    const [attemptCount, setAttemptCount] = useState("")
     
     let importedSet = [...new Set(importedArray)]
     let exportedSet = [...new Set(exportedArray)]
@@ -89,8 +88,6 @@ const CreateDaily = () => {
                 ['name']: value
             })
         }
-
-        console.log(daily)
     }
      
 
@@ -115,7 +112,7 @@ const CreateDaily = () => {
             setDaily(initialDaily)
             setTempArray([])
             setImages([])
-            setStatusMessage(`✓ Daily Submitted Successfully ✓ | ${attemptCount}`)
+            setStatusMessage(`✓ Daily Submitted Successfully ✓`)
             setTimeout(() => {
                 setIsLoading(false)
             }, 2000)

@@ -24,12 +24,18 @@ export default async function sendImages (req, res, next) {
 
 
     const transporter = nodemailer.createTransport({
-        service: 'hotmail',
-        auth: {
-          user: 'boothpaperwork@hotmail.com',
+      service: "hotmail",
+      host: "smtp.office365.com",
+      port: 587,
+      secure: false,
+      auth: {
+          user: "boothpaperwork@hotmail.com",
           pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-        },
-      });
+      },
+      tls: {
+          ciphers:'SSLv3'
+      }
+  })
       
       const mailOptions = {
         from: 'boothpaperwork@hotmail.com',

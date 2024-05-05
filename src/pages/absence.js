@@ -49,7 +49,7 @@ const Absence = () => {
 
         axios.post('/api/email/absence', form, { headers: { 'Content-Type': 'application/json ' } })
             .then(res => {
-                setStatusMessage(`✓ Absence Request Submitted Successfully ✓ | ${res.data}`)
+                setStatusMessage(`✓ Absence Request Submitted Successfully ✓`)
                 console.log(res)
                 setForm(initialForm)
                 setTimeout(() => {
