@@ -3,24 +3,6 @@ import jsPDF from 'jspdf'
 
 export default async function emailMeeting(req, res, next){
 
-  const sendMailRecursive = () => {
-
-    let count = 1
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error(error);
-            count = count + 1;
-            console.log(`Retrying to send the email... Attempt ${count}`);
-            sendMailRecursive();
-        } else {
-            res.send(`Attempt ${count}`)
-            console.log("Email sent:", info.response);
-            res.status(200).end("Email sent successfully");
-        }
-    });
-}
-
     const signForm = req.body;
 
     const doc = new jsPDF();
@@ -85,12 +67,18 @@ export default async function emailMeeting(req, res, next){
     const buffer = Buffer.from(pdfBuffer)
 
     const transporter = nodemailer.createTransport({
-        service: "hotmail",
-        auth: {
-            user: "boothpaperwork@hotmail.com",
-            pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-        },
-    })
+      service: "hotmail",
+      host: "smtp.office365.com",
+      port: 587,
+      secure: false,
+      auth: {
+          user: "boothpaperwork@hotmail.com",
+          pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
+      },
+      tls: {
+          ciphers:'SSLv3'
+      }
+  })
 
     const mailOptions = {
         from: "boothpaperwork@hotmail.com",
@@ -106,6 +94,14 @@ export default async function emailMeeting(req, res, next){
         ],
     }
 
-    sendMailRecursive();
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.error(error)
+          res.status(500).end("Failed to send the email")
+      } else {
+          console.log("Email sent:", info.response)
+          res.status(200).end("Email sent successfully")
+      }
+  })
 
 }

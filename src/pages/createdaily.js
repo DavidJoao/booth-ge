@@ -5,7 +5,6 @@ import CheckSession from '@/custom/CheckSession'
 import { useRouter } from 'next/router'
 import { PuffLoader } from 'react-spinners'
 import imageCompression from 'browser-image-compression';
-import generatePDF from '@/custom/generatePDF'
 import CCSection from '@/components/CCSection'
 
 const CreateDaily = () => {
@@ -105,7 +104,6 @@ const CreateDaily = () => {
         await axios.post('/api/email/daily', { daily, images})
         .then(res => {
             setAttemptCount(res.data)
-            console.log(res)
         })
         .catch(err => {
             console.log(err)
@@ -113,7 +111,6 @@ const CreateDaily = () => {
 
         await axios.post(`/api/daily/post`, JSON.stringify(daily), { headers: { 'Content-Type': 'application/json '}, timeout: 150000 })
         .then( res => {
-            console.log(res)
             loadAll()
             setDaily(initialDaily)
             setTempArray([])
@@ -125,7 +122,6 @@ const CreateDaily = () => {
             
         })
         .catch(err => {
-            console.log(err)
             if (err.code === 'ECONNABORTED' && err.message.includes('timeout')) {
                 console.log('Request timed out');
                 setErrorMessage('Poor Connection, Please Try Again With Better Connection');

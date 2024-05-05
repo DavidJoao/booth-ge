@@ -6,22 +6,7 @@ import jsPDF from "jspdf"
 
 export default async function sendPDF(req, res, next) {
 
-   const sendMailRecursive = () => {
 
-      let count = 1
-
-      transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-              count++;
-              console.log(`Retrying to send the email... Attempt ${count}`);
-              sendMailRecursive();
-          } else {
-              res.send(`Attempt ${count}`)
-              console.log("Email sent:", info.response);
-              res.status(200).end("Email sent successfully");
-          }
-      });
-  }
 
    const { daily, images } = req.body
 
@@ -139,11 +124,17 @@ export default async function sendPDF(req, res, next) {
 
    const transporter = nodemailer.createTransport({
       service: "hotmail",
+      host: "smtp.office365.com",
+      port: 587,
+      secure: false,
       auth: {
-         user: "boothpaperwork@hotmail.com",
-         pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
+          user: "boothpaperwork@hotmail.com",
+          pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
       },
-   })
+      tls: {
+          ciphers:'SSLv3'
+      }
+  })
 
    const mailOptions = {
       from: "boothpaperwork@hotmail.com",
@@ -159,7 +150,16 @@ export default async function sendPDF(req, res, next) {
         ],
     }
 
-sendMailRecursive();
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.error(error)
+          res.status(500).end("Failed to send the email")
+      } else {
+          console.log("Email sent:", info.response)
+          res.status(200).end("Email sent successfully")
+      }
+  })
 
 }
 
