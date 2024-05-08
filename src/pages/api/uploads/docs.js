@@ -27,9 +27,24 @@ export default async function sendDocuments(req, res) {
         }
     })
       
-      const mailOptions = {
+      // const mailOptions = {
+      //   from: 'boothpaperwork@hotmail.com',
+      //   to: 'davidsandoval596@gmail.com',
+      //   subject: filename,
+      //   text: '',
+      //   attachments: [
+      //     {
+      //       filename: filename,
+      //       content: buffer,
+      //       contentType: 'application/pdf',
+      //       encoding: 'base64'
+      //     },
+      //   ],
+      // };
+      
+      transporter.sendMail( {
         from: 'boothpaperwork@hotmail.com',
-        to: 'bgepayroll@gmail.com',
+        to: 'davidsandoval596@gmail.com',
         subject: filename,
         text: '',
         attachments: [
@@ -40,9 +55,7 @@ export default async function sendDocuments(req, res) {
             encoding: 'base64'
           },
         ],
-      };
-      
-      transporter.sendMail(mailOptions, (error, info) => {
+      }, (error, info) => {
         if (error) {
           console.error(error);
           res.status(500).send('Failed to send the email');
