@@ -21,6 +21,8 @@ import CCSection from "@/components/CCSection"
         }
     }, [])
 
+    // FILE UPLOAD FUNCTIONS
+
     const handleFileUpload = event => {
         const file = event.target.files[0]
         setFile(file)
@@ -35,10 +37,7 @@ import CCSection from "@/components/CCSection"
         const formData = new FormData()
         formData.append("file", file, `${auth.name} - Document`)
 
-        axios
-            .post("/api/uploads/docs", formData, {
-                headers: { "Content-Type": "application/octet-stream" },
-            })
+        axios.post("/api/uploads/docs", formData, { headers: { "Content-Type": "application/octet-stream" }})
             .then(res => {
                 setFile(null)
                 setStatusMessage("✓ Successfully Submitted ✓")
@@ -46,8 +45,15 @@ import CCSection from "@/components/CCSection"
                 setIsLoading(false)
                 }, 2000)
             })
-            .catch(error => console.error("Error uploading PDF:", error))
+            .catch(error => {
+                console.error("Error uploading PDF:", error)
+                setIsLoading(false)
+                setErrorMessage(`${error?.response?.data}`)
+                setFile(null)
+            })
     }
+
+    // IMAGE SUBIMISSION FUNCTIONS
 
     const handleImageUpload = e => {
         const files = Array.from(e.target.files)
@@ -137,15 +143,14 @@ import CCSection from "@/components/CCSection"
                         {" "}
                         Submit{" "}
                     </button>
-                    <p className="text-red-600 mt-3">{errorMessage}</p>
                     {images.length > 0 ? (
                         <div
-                            id="navbar"
-                            className="w-[80%] rounded mt-2 flex flex-row items-center overflow-x-auto border p-2">
+                        id="navbar"
+                        className="w-[80%] rounded mt-2 flex flex-row items-center overflow-x-auto border p-2">
                             {images.length > 0 ? (
-                            images.map((image, index) => {
-                                return (
-                                    <>
+                                images.map((image, index) => {
+                                    return (
+                                        <>
                                         <img src={image} className="w-[150px] m-2" />
                                         <button className="mr-3 bg-red-600 rounded p-1" onClick={(e) => {
                                             e.preventDefault();
@@ -155,14 +160,15 @@ import CCSection from "@/components/CCSection"
                                     </>
                                 )
                             })
-                            ) : (
+                        ) : (
                             <></>
-                            )}
+                        )}
                         </div>
                     ) : (
                         <></>
                     )}
                 </form>
+                    <p className="text-red-600 mt-3 mx-auto col-span-2">{errorMessage}</p>
                 </>
             )}
             <div className="col-span-2">
