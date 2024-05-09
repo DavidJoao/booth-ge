@@ -15,7 +15,7 @@ export default async function sendDocuments(req, res) {
 
       const transporter = nodemailer.createTransport({
         service: "hotmail",
-        host: "smtp.office365.com",
+        host: "outlook.office365.com",
         port: 587,
         secure: false,
         auth: {
@@ -26,21 +26,6 @@ export default async function sendDocuments(req, res) {
             ciphers:'SSLv3'
         }
     })
-      
-      // const mailOptions = {
-      //   from: 'boothpaperwork@hotmail.com',
-      //   to: 'davidsandoval596@gmail.com',
-      //   subject: filename,
-      //   text: '',
-      //   attachments: [
-      //     {
-      //       filename: filename,
-      //       content: buffer,
-      //       contentType: 'application/pdf',
-      //       encoding: 'base64'
-      //     },
-      //   ],
-      // };
       
       transporter.sendMail( {
         from: 'boothpaperwork@hotmail.com',

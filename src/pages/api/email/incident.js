@@ -97,7 +97,7 @@ export default async function sendIncidentReport (req, res, next) {
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",
-        host: "smtp.office365.com",
+        host: "outlook.office365.com",
         port: 587,
         secure: false,
         auth: {
