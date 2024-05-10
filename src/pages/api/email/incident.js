@@ -100,8 +100,9 @@ export default async function sendIncidentReport (req, res, next) {
         host: "smtp.office365.com",
         port: 587,
         secure: false,
+        requireTLS: true,
         auth: {
-            user: "boothpaperwork@hotmail.com",
+            user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
             pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
         }
     })

@@ -28,8 +28,9 @@ export default async function sendImages (req, res, next) {
       host: "smtp.office365.com",
       port: 587,
       secure: false,
+      requireTLS: true,
       auth: {
-          user: "boothpaperwork@hotmail.com",
+          user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
           pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
       }
   })
@@ -45,7 +46,7 @@ export default async function sendImages (req, res, next) {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error(error);
-          res.status(500).send('Failed to send the email');
+          res.status(500).send(error);
         } else {
           console.log('Email sent:', info.response);
           res.status(200).send('Email sent successfully');

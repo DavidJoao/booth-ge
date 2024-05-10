@@ -109,6 +109,7 @@ import CCSection from "@/components/CCSection"
                 console.log(err)
                 setErrorMessage("Internal Error, Please Contact Office");
                 setIsLoading(false)
+                setImages([])
             })
     }
 
@@ -150,14 +151,14 @@ import CCSection from "@/components/CCSection"
                             {images.length > 0 ? (
                                 images.map((image, index) => {
                                     return (
-                                        <>
+                                        <div className="flex items-center" key={index}>
                                         <img src={image} className="w-[150px] m-2" />
                                         <button className="mr-3 bg-red-600 rounded p-1" onClick={(e) => {
                                             e.preventDefault();
                                             const updatedImages = images.filter((_, i) => i !== index);
                                             setImages(updatedImages);
                                         }}>x</button>
-                                    </>
+                                    </div>
                                 )
                             })
                         ) : (
