@@ -125,13 +125,15 @@ export default async function sendPDF(req, res, next) {
    const transporter = nodemailer.createTransport({
       service: "hotmail",
       host: "smtp.office365.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
+      port: 465,
+      secure: true,
       auth: {
           user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
           pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-      }
+      },
+      tls: {
+          rejectUnauthorized: false,
+        },
   })
 
    const mailOptions = {
