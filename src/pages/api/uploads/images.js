@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const Jimp = require('jimp');
+import { sendEmail } from '@/custom/sendEmail';
 
 export default async function sendImages (req, res, next) {
 
@@ -23,42 +24,44 @@ export default async function sendImages (req, res, next) {
     )
 
 
-    const transporter = nodemailer.createTransport({
-      service: "hotmail",
-      host: "smtp.office365.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-          user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-          pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-      }
-  })
+  //   const transporter = nodemailer.createTransport({
+  //     service: "hotmail",
+  //     host: "smtp.office365.com",
+  //     port: 587,
+  //     secure: false,
+  //     requireTLS: true,
+  //     auth: {
+  //       user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+  //       pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
+  //     }
+  // })
       
-      const mailOptions = {
-        from: 'boothpaperwork@hotmail.com',
-        to: 'bgepayroll@gmail.com',
-        subject: `${userObj.name} - Images`,
-        text: '',
-        attachments: jimpImages
-      };
+  //     const mailOptions = {
+  //       from: 'boothpaperwork@hotmail.com',
+  //       to: 'bgepayroll@gmail.com',
+  //       subject: `${userObj.name} - Images`,
+  //       text: '',
+  //       attachments: jimpImages
+  //     };
       
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error(error);
-          res.status(500).send(error);
-        } else {
-          console.log('Email sent:', info.response);
-          res.status(200).send('Email sent successfully');
-        }
-      })
-}
+  //     transporter.sendMail(mailOptions, (error, info) => {
+  //       if (error) {
+  //         console.error(error);
+  //         res.status(500).send(error);
+  //       } else {
+  //         console.log('Email sent:', info.response);
+  //         res.status(200).send('Email sent successfully');
+  //       }
+  //     })
 
+  sendEmail(`${userObj.name} - Images`, '', jimpImages, req, res, next)
+
+  }
 export const config = {
     api: {
        bodyParser: {
           sizeLimit: "100mb",
        },
-    },
+  },
  }
  

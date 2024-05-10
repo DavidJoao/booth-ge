@@ -3,6 +3,7 @@ const fs = require("fs")
 const bufferToDataURI = require("buffer-to-data-url")
 import bufferToDataUrl from "buffer-to-data-url"
 import jsPDF from "jspdf"
+import { sendEmail } from '@/custom/sendEmail';
 
 export default async function sendPDF(req, res, next) {
 
@@ -122,42 +123,52 @@ export default async function sendPDF(req, res, next) {
    // Convert the buffer to a data URL
    const dataURI = bufferToDataUrl(pdfBuffer, "application/pdf")
 
-   const transporter = nodemailer.createTransport({
-      service: "hotmail",
-      host: "smtp.office365.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-          user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-          pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-      }
-  })
+//    const transporter = nodemailer.createTransport({
+//       service: "hotmail",
+//       host: "smtp.office365.com",
+//       port: 587,
+//       secure: false,
+//       requireTLS: true,
+//       auth: {
+//           user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+//           pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
+//       }
+//   })
 
-   const mailOptions = {
-      from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
-        subject: `${daily.date} Daily Report for ${daily.name}`,
-        text: `${daily.date} - ${daily.name}`,
-        attachments: [
-          {
-              filename: `${daily.date}${daily.name}.pdf`,
-              content: buffer,
-              contentType: "application/pdf",
-          },
-        ],
-    }
+//    const mailOptions = {
+//       from: "boothpaperwork@hotmail.com",
+//         to: "bgepayroll@gmail.com",
+//         subject: `${daily.date} Daily Report for ${daily.name}`,
+//         text: `${daily.date} - ${daily.name}`,
+//         attachments: [
+//           {
+//               filename: `${daily.date}${daily.name}.pdf`,
+//               content: buffer,
+//               contentType: "application/pdf",
+//           },
+//         ],
+//     }
 
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          console.error(error)
-          res.status(500).end("Failed to send the email")
-      } else {
-          console.log("Email sent:", info.response)
-          res.status(200).end("Email sent successfully")
-      }
-  })
+//     transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//           console.error(error)
+//           res.status(500).end("Failed to send the email")
+//       } else {
+//           console.log("Email sent:", info.response)
+//           res.status(200).end("Email sent successfully")
+//       }
+//   })
+
+const attachments = [
+   {
+      filename: `${daily.date}${daily.name}.pdf`,
+      content: buffer,
+      contentType: "application/pdf",
+   },
+]
+
+sendEmail(`${daily.date} Daily Report for ${daily.name}`, '', attachments, req, res, next)
 
 }
 
