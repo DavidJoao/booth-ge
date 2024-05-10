@@ -27,7 +27,7 @@ export default async function sendDocuments(req, res) {
       
       transporter.sendMail( {
         from: 'boothpaperwork@hotmail.com',
-        to: 'bgepayroll@gmail.com',
+        to: 'davidsandoval596@gmail.com',
         subject: filename,
         text: '',
         attachments: [
