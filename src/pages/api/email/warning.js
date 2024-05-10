@@ -51,15 +51,12 @@ export default async function sendWarning (req, res, next) {
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",
-        host: "outlook.office365.com",
+        host: "smtp.office365.com",
         port: 587,
         secure: false,
         auth: {
             user: "boothpaperwork@hotmail.com",
             pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-        },
-        tls: {
-            ciphers:'SSLv3'
         }
     })
 
