@@ -16,15 +16,13 @@ export default async function sendDocuments(req, res) {
       const transporter = nodemailer.createTransport({
         service: "hotmail",
         host: "smtp.office365.com",
-        port: 465,
-        secure: true,
+        port: 587,
+        secure: false,
+        requireTLS: true,
         auth: {
             user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
             pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-        },
-        tls: {
-            rejectUnauthorized: false,
-          },
+        }
     })
       
       transporter.sendMail( {
