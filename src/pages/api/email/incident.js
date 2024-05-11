@@ -96,50 +96,20 @@ export default async function sendIncidentReport (req, res, next) {
     const pdfBuffer = doc.output("arraybuffer")
     const buffer = Buffer.from(pdfBuffer)
 
-    const attachments = [
-        {
-            filename: `Incident Report Form - ${form?.name}`,
-            content: buffer,
-            contentType: "application/pdf",
-        },
-    ]
-
-    sendEmail(`Incident Report Form - ${form?.name}`, '', attachments, req, res, next)
-
-    // const transporter = nodemailer.createTransport({
-    //     service: "hotmail",
-    //     host: "smtp.office365.com",
-    //     port: 587,
-    //     secure: false,
-    //     requireTLS: true,
-    //     auth: {
-    //         user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-    //         pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-    //     }
-    // })
-
-    // const mailOptions = {
-    //     from: "boothpaperwork@hotmail.com",
-    //     to: "bgepayroll@gmail.com",
-    //     subject: `Incident Report Form`,
-    //     text: ``,
-    //     attachments: [
-    //         {
-    //             filename: `Incident Report Form`,
-    //             content: buffer,
-    //             contentType: "application/pdf",
-    //         },
-    //     ],
-    // }
-
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //     if (error) {
-    //         console.error(error)
-    //         res.status(500).end("Failed to send the email")
-    //     } else {
-    //         console.log("Email sent:", info.response)
-    //         res.status(200).end("Email sent successfully")
-    //     }
-    // })
     
+    const mailOptions = {
+            from: "boothpaperwork@hotmail.com",
+            to: "bgepayroll@gmail.com",
+            subject: `Incident Report Form`,
+            text: ``,
+            attachments: [
+                    {
+                            filename: `Incident Report Form`,
+                            content: buffer,
+                            contentType: "application/pdf",
+                        },
+                    ],
+                }
+                
+    sendEmail(mailOptions, req, res, next)
 }

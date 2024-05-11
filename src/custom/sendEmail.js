@@ -1,7 +1,7 @@
 
 const nodemailer = require('nodemailer');
 
-export const sendEmail = ( subject, text, attachments, req, res, next ) => {
+export const sendEmail = ( mailOptions, req, res, next ) => {
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",
@@ -14,15 +14,6 @@ export const sendEmail = ( subject, text, attachments, req, res, next ) => {
             pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
         }
     })
-  
-     const mailOptions = {
-        from: "boothpaperwork@hotmail.com",
-          to: "bgepayroll@gmail.com",
-          subject: subject,
-          text: text,
-          attachments: attachments
-      }
-  
   
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

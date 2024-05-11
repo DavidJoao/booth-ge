@@ -50,49 +50,19 @@ export default async function sendWarning (req, res, next) {
     const pdfBuffer = doc.output("arraybuffer")
     const buffer = Buffer.from(pdfBuffer)
 
-    // const transporter = nodemailer.createTransport({
-    //     service: "hotmail",
-    //     host: "smtp.office365.com",
-    //     port: 587,
-    //     secure: false,
-    //     requireTLS: true,
-    //     auth: {
-    //         user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-    //         pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-    //     }
-    // })
-
-    // const mailOptions = {
-    //     from: "boothpaperwork@hotmail.com",
-    //     to: "bgepayroll@gmail.com",
-    //     subject: `Warning for ${form.employee} submitted by ${form.submittedBy}`,
-    //     text: ``,
-    //     attachments: [
-    //         {
-    //             filename: `Warning for ${form.employee} submitted by ${form.submittedBy}`,
-    //             content: buffer,
-    //             contentType: "application/pdf",
-    //         },
-    //     ],
-    // }
-
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //     if (error) {
-    //         console.error(error)
-    //         res.status(500).end("Failed to send the email")
-    //     } else {
-    //         console.log("Email sent:", info.response)
-    //         res.status(200).end("Email sent successfully")
-    //     }
-    // })
-
-    const attachments = [
-        {
-            filename: `Warning for ${form.employee} submitted by ${form.submittedBy}`,
-            content: buffer,
-            contentType: "application/pdf",
-        },
-    ]
+    const mailOptions = {
+        from: "boothpaperwork@hotmail.com",
+        to: "bgepayroll@gmail.com",
+        subject: `Warning for ${form.employee} submitted by ${form.submittedBy}`,
+        text: ``,
+        attachments: [
+            {
+                filename: `Warning for ${form.employee} submitted by ${form.submittedBy}`,
+                content: buffer,
+                contentType: "application/pdf",
+            },
+        ],
+    }
     
-    sendEmail(`Warning for ${form.employee} submitted by ${form.submittedBy}`, '', attachments, req, res, next)
+    sendEmail(mailOptions, req, res, next)
 }

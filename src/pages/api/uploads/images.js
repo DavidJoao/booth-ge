@@ -23,38 +23,15 @@ export default async function sendImages (req, res, next) {
         })
     )
 
+      const mailOptions = {
+        from: 'boothpaperwork@hotmail.com',
+        to: 'davidsandoval596@gmail.com',
+        subject: `${userObj.name} - Images`,
+        text: '',
+        attachments: jimpImages
+      };
 
-  //   const transporter = nodemailer.createTransport({
-  //     service: "hotmail",
-  //     host: "smtp.office365.com",
-  //     port: 587,
-  //     secure: false,
-  //     requireTLS: true,
-  //     auth: {
-  //       user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-  //       pass: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-  //     }
-  // })
-      
-  //     const mailOptions = {
-  //       from: 'boothpaperwork@hotmail.com',
-  //       to: 'bgepayroll@gmail.com',
-  //       subject: `${userObj.name} - Images`,
-  //       text: '',
-  //       attachments: jimpImages
-  //     };
-      
-  //     transporter.sendMail(mailOptions, (error, info) => {
-  //       if (error) {
-  //         console.error(error);
-  //         res.status(500).send(error);
-  //       } else {
-  //         console.log('Email sent:', info.response);
-  //         res.status(200).send('Email sent successfully');
-  //       }
-  //     })
-
-  sendEmail(`${userObj.name} - Images`, '', jimpImages, req, res, next)
+  sendEmail(mailOptions, req, res, next)
 
   }
 export const config = {
