@@ -56,6 +56,9 @@ const Calculator = () => {
                 <div className="flex grid grid-cols-2 items-center justify-center gap-3">
                     <p className="mt-3">Total Difference:</p>
                     <input className="input bg-slate-400" disabled value={difference}/>
+                    <p>Inches Difference: </p>
+                    <p className="font-extrabold">{ initialComparison.initial && initialComparison.desired ? difference.toString().slice(0, 2) : ''} Inches</p>
+                    <p>And </p>
                 </div>
                 <div className="relative w-[350px] mx-auto m-5">
                     <Image alt="inchimg" src={Inch} width={350}>
