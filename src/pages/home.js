@@ -8,6 +8,7 @@ import NotificationCard from '@/components/NotificationCard'
 import { PuffLoader } from 'react-spinners'
 import { Carousel, Modal } from 'react-bootstrap'
 import CCSection from '@/components/CCSection'
+import Calculator from '@/components/Calculator'
 
 const Home = () => {
 
@@ -130,7 +131,7 @@ const Home = () => {
         )}
 
         <div className='w-full flex items-center justify-around bg-[rgba(58,59,60,0.4)]'>
-            <h1 className='font-bold text-2xl m-2 text-white rounded p-1 flex'>Welcome {auth && auth.name} <button className='ml-5' onClick={() => setConfigurationModal(true)}>{settingsIcon}</button> </h1>
+            <h1 className='font-bold text-2xl m-2 text-white rounded p-1 flex'>Welcome {auth && auth.name} <button className='ml-5' onClick={() => setConfigurationModal(true)}>{settingsIcon}</button> <Calculator/> </h1>
             { auth.isAdmin || auth.isModerator ?  <input className='hidden lg:flex input w-[500px]' placeholder='Employee, Equipment, Address, Accessory' value={search} onChange={(e) => setSearch(e.target.value)}/> : <></> }
         </div>
 
