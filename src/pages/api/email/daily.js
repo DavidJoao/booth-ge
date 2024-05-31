@@ -4,7 +4,7 @@ const bufferToDataURI = require("buffer-to-data-url")
 import bufferToDataUrl from "buffer-to-data-url"
 import jsPDF from "jspdf"
 import { sendEmail } from '@/custom/sendEmail';
-import { SMTPClient } from "emailjs"
+import { sendMail } from '@/custom/sendMail';
 
 export default async function sendPDF(req, res, next) {
 
@@ -127,45 +127,39 @@ export default async function sendPDF(req, res, next) {
 
 // //////////////////////////////////////////////////////////////////////////
 
-const client = new SMTPClient({
-	user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-	password: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-	host: "smtp.office365.com",
-	tls: {
-		ciphers: "SSLv3",
+
+
+   const emailOptions = {
+	text: `${daily.date} - ${daily.name}`,
+	from: "boothpaperwork@hotmail.com",
+	to: "davidsandoval596@gmail.com",
+	subject: `${daily.date} Daily Report for ${daily.name}`,
+	attachment: {
+		name: `${daily.date}${daily.name}.pdf`,
+		data: buffer,
+		type: "application/pdf",
 	},
-})
-      client.send({
-			text: `${daily.date} - ${daily.name}`,
-			from: "boothpaperwork@hotmail.com",
-			to: "bgepayroll@gmail.com",
-			subject: `${daily.date} Daily Report for ${daily.name}`,
-			attachment: {
-				name: `${daily.date}${daily.name}.pdf`,
-				data: buffer,
-				type: "application/pdf",
-			},
-		})
-		console.log("Email sent")
-		res.status(200).end("Email sent successfully")
+}
+
+sendMail(emailOptions, req, res, next);
 
 //////////////////////////////////////////////////////////////////////////
 
-   const mailOptions = {
-      from: "boothpaperwork@hotmail.com",
-        to: "bgepayroll@gmail.com",
-        subject: `${daily.date} Daily Report for ${daily.name}`,
-        text: `${daily.date} - ${daily.name}`,
-        attachments: [
-          {
-              filename: `${daily.date}${daily.name}.pdf`,
-              content: buffer,
-              contentType: "application/pdf",
-          },
-        ],
-    }
+//    const mailOptions = {
+//       from: "boothpaperwork@hotmail.com",
+//         to: "bgepayroll@gmail.com",
+//         subject: `${daily.date} Daily Report for ${daily.name}`,
+//         text: `${daily.date} - ${daily.name}`,
+//         attachments: [
+//           {
+//               filename: `${daily.date}${daily.name}.pdf`,
+//               content: buffer,
+//               contentType: "application/pdf",
+//           },
+//         ],
+//     }
 
-sendEmail(mailOptions, req, res, next);
+// sendEmail(mailOptions, req, res, next);
 
 }
 
