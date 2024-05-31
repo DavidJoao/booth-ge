@@ -128,37 +128,26 @@ export default async function sendPDF(req, res, next) {
 // //////////////////////////////////////////////////////////////////////////
 
 const client = new SMTPClient({
-   user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
-   password: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
-   host: "smtp.office365.com",
-   tls: {
-		ciphers: 'SSLv3',
+	user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+	password: process.env.NEXT_PUBLIC_EMAIL_PASSWORD,
+	host: "smtp.office365.com",
+	tls: {
+		ciphers: "SSLv3",
 	},
 })
-
-const sendMail = () => {
-   try {
       client.send({
-         text:`${daily.date} - ${daily.name}`,
-         from: "boothpaperwork@hotmail.com",
-         to: "bgepayroll@gmail.com",
-         subject: `${daily.date} Daily Report for ${daily.name}`,
-         attachment: {
-            name: `${daily.date}${daily.name}.pdf`,
-            data: buffer,
-            type: "application/pdf"
-         }
-      })
-      console.log("Email sent")
-      res.status(200).end("Email sent successfully")
-
-   } catch (error) {
-      console.error(error)
-      res.status(500).end("Failed to send the email")
-   }
-}
-
-sendMail()
+			text: `${daily.date} - ${daily.name}`,
+			from: "boothpaperwork@hotmail.com",
+			to: "bgepayroll@gmail.com",
+			subject: `${daily.date} Daily Report for ${daily.name}`,
+			attachment: {
+				name: `${daily.date}${daily.name}.pdf`,
+				data: buffer,
+				type: "application/pdf",
+			},
+		})
+		console.log("Email sent")
+		res.status(200).end("Email sent successfully")
 
 // //////////////////////////////////////////////////////////////////////////
 
