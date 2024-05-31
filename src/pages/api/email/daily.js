@@ -149,23 +149,23 @@ const client = new SMTPClient({
 		console.log("Email sent")
 		res.status(200).end("Email sent successfully")
 
-// //////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
-   // const mailOptions = {
-   //    from: "boothpaperwork@hotmail.com",
-   //      to: "bgepayroll@gmail.com",
-   //      subject: `${daily.date} Daily Report for ${daily.name}`,
-   //      text: `${daily.date} - ${daily.name}`,
-   //      attachments: [
-   //        {
-   //            filename: `${daily.date}${daily.name}.pdf`,
-   //            content: buffer,
-   //            contentType: "application/pdf",
-   //        },
-   //      ],
-   //  }
+   const mailOptions = {
+      from: "boothpaperwork@hotmail.com",
+        to: "bgepayroll@gmail.com",
+        subject: `${daily.date} Daily Report for ${daily.name}`,
+        text: `${daily.date} - ${daily.name}`,
+        attachments: [
+          {
+              filename: `${daily.date}${daily.name}.pdf`,
+              content: buffer,
+              contentType: "application/pdf",
+          },
+        ],
+    }
 
-// sendEmail(mailOptions, req, res, next);
+sendEmail(mailOptions, req, res, next);
 
 }
 
