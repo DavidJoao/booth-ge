@@ -325,6 +325,7 @@ const CreateDaily = () => {
                             }}>
                                 <option>Choose Materials</option>
                                 <option>Dirt</option>
+                                <option>Top Soil</option>
                                 <option>Sand</option>
                                 <option>Gravel</option>
                                 <option>Base</option>

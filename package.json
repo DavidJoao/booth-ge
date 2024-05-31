@@ -17,6 +17,7 @@
     "buffer-to-data-url": "^1.0.0",
     "cloudinary": "^1.36.4",
     "cookies-next": "^2.1.1",
+    "emailjs": "^4.0.3",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "formidable": "^2.1.1",
