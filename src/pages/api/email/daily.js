@@ -132,7 +132,7 @@ export default async function sendPDF(req, res, next) {
    const emailOptions = {
 	text: `${daily.date} - ${daily.name}`,
 	from: "boothpaperwork@hotmail.com",
-	to: "davidsandoval596@gmail.com",
+	to: "bgepayroll@gmail.com",
 	subject: `${daily.date} Daily Report for ${daily.name}`,
 	attachment: {
 		name: `${daily.date}${daily.name}.pdf`,
