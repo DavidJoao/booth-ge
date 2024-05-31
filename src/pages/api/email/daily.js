@@ -152,7 +152,7 @@ const sendMail = () => {
       console.log("Email sent:", info.response)
       res.status(200).end("Email sent successfully")
 
-   } catch {
+   } catch (error) {
       console.error(error)
       res.status(500).end("Failed to send the email")
    }
