@@ -19,6 +19,7 @@ const generatePDF = (daily) => {
    doc.text(`Project: ${daily.name  || ''}`, 110, 30)
    doc.text(`Foreman: ${daily.foreman  || ''}`, 10, 45)
    doc.text(`Submitted ${daily.dateCreated  || ''}`, 110, 45)
+   doc.text(`Submitted By: ${daily.foreman}`, 110, 55)
    
    doc.text(`Description for contract work performed:`, 10, 55)
    const workLines = doc.splitTextToSize(`- ${daily.workDescription || ''}`, 190)
