@@ -149,7 +149,7 @@ const sendMail = () => {
             type: "application/pdf"
          }
       })
-      console.log("Email sent:", info.response)
+      console.log("Email sent")
       res.status(200).end("Email sent successfully")
 
    } catch (error) {
