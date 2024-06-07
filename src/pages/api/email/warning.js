@@ -35,7 +35,13 @@ export default async function sendWarning (req, res, next) {
     doc.text("Description of Violation(s): ", 10, 75)
     doc.setFontSize(10)
     doc.setFont(undefined, 'normal')
-    doc.text(`-${form?.description}`, 10, 80)
+    const descriptionLines = doc.splitTextToSize(`- ${form?.description || ""}`, 190)
+    let notesx = 10
+    let notesy = 80
+    descriptionLines.forEach(line => {
+       doc.text(line, notesx, notesy)
+       notesy += 5
+    })
 
     doc.text("Further misconduct or violation(s) will result in disciplinary action, up to and including immediate termination.", 10, 120)
     doc.text("I have read this Warning Notice and understand it.", 10, 125)
